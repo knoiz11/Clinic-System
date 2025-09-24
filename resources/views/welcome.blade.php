@@ -28,11 +28,10 @@
                             <div class="heroText d-flex flex-column justify-content-center">
 
                                 <h1 class="mt-auto mb-2">
-                                    Better
+                                    Doctor is 
                                     <div class="animated-info">
-                                        <span class="animated-item">health</span>
-                                        <span class="animated-item">days</span>
-                                        <span class="animated-item">lives</span>
+                                        <span class="animated-item">In</span>
+                                        <span class="animated-item">Out</span>
                                     </div>
                                 </h1>
 
@@ -103,3 +102,5 @@
                 </div>
             </section>
         @endsection
+
+        

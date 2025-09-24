@@ -1,0 +1,164 @@
+/* CCP Gold Theme for Login Page */
+
+/* Main background with CCP Gold gradient */
+.radial-gradient {
+    background: linear-gradient(135deg, #C28947 0%, #B3822B 25%, #D4A574 50%, #C28947 75%, #A67C2A 100%) !important;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Alternative radial gradient option */
+.radial-gradient::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 30% 20%, rgba(212, 165, 116, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 70% 80%, rgba(194, 137, 71, 0.4) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(179, 130, 43, 0.2) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+/* Card styling with subtle gold accent */
+.card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(194, 137, 71, 0.2);
+    box-shadow: 0 8px 32px rgba(194, 137, 71, 0.2);
+    border-radius: 15px;
+}
+
+/* Logo and branding */
+.logo-img img {
+    filter: drop-shadow(0 2px 4px rgba(194, 137, 71, 0.3));
+}
+
+.text-center p {
+    color: #8c612e;
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Form styling */
+.form-label {
+    color: #8c612e;
+    font-weight: 500;
+}
+
+.form-control {
+    border: 2px solid rgba(194, 137, 71, 0.3);
+    border-radius: 8px;
+    padding: 12px 15px;
+    transition: all 0.3s ease;
+    color: #5a3e1b !important;
+}
+
+.form-control:focus {
+    border-color: #C28947;
+    box-shadow: 0 0 0 0.2rem rgba(194, 137, 71, 0.25);
+}
+
+/* Primary button with CCP Gold theme */
+.btn-primary {
+    background: linear-gradient(135deg, #C28947 0%, #B3822B 100%);
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(194, 137, 71, 0.3);
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #B3822B 0%, #A67C2A 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(194, 137, 71, 0.4);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+/* Links styling */
+.text-primary {
+    color: #8c612e !important;
+}
+
+.text-primary:hover {
+    color: #B3822B !important;
+}
+
+/* Checkbox styling */
+.form-check-input:checked {
+    background-color: #C28947;
+    border-color: #C28947;
+}
+
+.form-check-input:focus {
+    box-shadow: 0 0 0 0.25rem rgba(194, 137, 71, 0.25);
+}
+
+/* Alert styling */
+.alert-success {
+    background-color: rgba(194, 137, 71, 0.1);
+    border-color: rgba(194, 137, 71, 0.3);
+    color: #8B6914;
+    border-radius: 8px;
+}
+
+.alert-danger {
+    background-color: rgba(220, 53, 69, 0.1);
+    border-color: rgba(220, 53, 69, 0.3);
+    color: #721c24;
+    border-radius: 8px;
+}
+
+/* Additional animations */
+@keyframes goldShimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+.card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(194, 137, 71, 0.1), transparent);
+    animation: goldShimmer 3s infinite;
+    pointer-events: none;
+    border-radius: 15px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .card {
+        margin: 20px;
+    }
+    
+    .radial-gradient {
+        min-height: 100vh;
+    }
+}
+
+/* Optional: Add subtle pattern overlay */
+.radial-gradient::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+        radial-gradient(circle at 75% 75%, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+    background-size: 50px 50px;
+    opacity: 0.3;
+    pointer-events: none;
+}
