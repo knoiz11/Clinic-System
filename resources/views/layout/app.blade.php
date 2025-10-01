@@ -39,7 +39,6 @@ https://templatemo.com/tm-566-medic-care
         <main>
             @yield('navbar')
             @yield('content')
-
             @yield('footer')
             
             

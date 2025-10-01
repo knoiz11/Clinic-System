@@ -1,4 +1,4 @@
 @extends('layout.admin')
 @section('dashboard')
-    @include('components.dashboard')
+    @include('components.admin.dashboard')
     @endsection

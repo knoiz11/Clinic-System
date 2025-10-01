@@ -1,0 +1,12 @@
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+.page-wrapper {
+  min-height: 100vh; /* full height */
+}
+
+.footer {
+  margin-top: auto; /* pushes footer to bottom */
+}

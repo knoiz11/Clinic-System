@@ -75,3 +75,29 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware('auth');
 
+route::get('/employee', function () {
+    return view('employee');
+})->middleware('auth');
+
+route::get('/appointment', function () {
+    return view('appointment');
+})->middleware('auth');
+
+route::get('/reports', function () {
+    return view('reports');
+})->middleware('auth');
+
+use App\Http\Controllers\AppointmentController;
+
+Route::get('/appointment', [AppointmentController::class, 'create'])->middleware('auth')->name('appointment.create');
+Route::post('/appointment', [AppointmentController::class, 'store'])->middleware('auth')->name('appointment.store');
+
+
+/*
+Route::view('/employees/view', 'admin.employees.view')->name('employees.view');
+Route::view('/employees/consultation', 'admin.employees.consultation')->name('employees.consultation');
+
+Route::view('/reports/employee', 'admin.reports.employees')->name('reports.employees');
+Route::view('/reports/illnesses', 'admin.reports.illnesses')->name('reports.illnesses');
+Route::view('/reports/visits', 'admin.reports.visits')->name('reports.visits');
+*/
