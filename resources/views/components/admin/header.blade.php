@@ -23,7 +23,7 @@
         <li class="nav-item dropdown">
           <!-- User Avatar -->
           <a class="nav-link nav-icon-hover" id="drop2" data-bs-toggle="dropdown">
-            <img src="../assets/images/profile/user-1.jpg" alt="User" width="35" height="35" class="rounded-circle">
+            <img src="../admin/images/profile/user.jpg" alt="User" width="35" height="35" class="rounded-circle">
           </a>
           <!-- Dropdown -->
           <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up">

@@ -1,12 +1,24 @@
-html, body {
+html, body { 
   height: 100%;
   margin: 0;
 }
 
 .page-wrapper {
   min-height: 100vh; /* full height */
+  display: flex;
+  flex-direction: column;
+}
+
+.body-wrapper {
+  flex: 1; /* makes content take the available space */
 }
 
 .footer {
   margin-top: auto; /* pushes footer to bottom */
+  padding: 15px 0;
+  text-align: center;
+  background: #fff;
+  border-top: 2px solid #dee2e6; /* 👈 add border on top */
+  color: #6c757d;
+  font-size: 0.9rem;
 }
