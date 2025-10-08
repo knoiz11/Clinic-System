@@ -20,6 +20,7 @@
     @yield('register')
     @yield('dashboard')
     @yield('employee')
+    @yield('create')
     @yield('appointment')
     @yield('reports')
     @yield('view')
