@@ -6,4 +6,42 @@
     background-color: #d1e7dd !important;
   }
 
-  
+  :root {
+  --ccp-white:                  #FFFFFF;
+  --primary-color:                #247cff;
+  --section-bg-color:             #F9F9F9;
+  --dark-color:                   #000000;
+  --title-color:                  #565758;
+  --p-color:                      #717275;
+  --border-color:                 #eaeaea;
+
+  --ccp-primary-color-gold: #B3822B;  
+  --ccp-primary-color-maroon: #7D1D37;
+  --ccp-m1: #660C21;
+  --ccp-m2: #9B0D3C;
+  --ccp-m3: #A83561;
+  --ccp-g1: #cd9e4a;
+  --ccp-g2: #e7c17d;
+  --ccp-g3: #f9ddab;
+  --ccp-light-grey: #cccc;
+  --ccp-dark-grey: #353535;
+  --ccp-light: #fffaea;
+
+
+
+  --body-font-family:             'Open Sans', sans-serif;
+
+  --h1-font-size:                 48px;
+  --h2-font-size:                 36px;
+  --h3-font-size:                 32px;
+  --h4-font-size:                 28px;
+  --h5-font-size:                 24px;
+  --h6-font-size:                 22px;
+  --p-font-size:                  18px;
+  --menu-font-size:               16px;
+
+  --font-weight-light:            300;
+  --font-weight-normal:           400;
+  --font-weight-semibold:         600;
+  --font-weight-bold:             700;
+}

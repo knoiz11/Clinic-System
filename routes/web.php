@@ -3,7 +3,15 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use App\Models\User; // 👈 add this
+use App\Models\User;
+use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\AppointmentController;
+
+/*
+|--------------------------------------------------------------------------
+| Public Routes
+|--------------------------------------------------------------------------
+*/
 
 Route::get('/', function () {
     return view('welcome');
@@ -13,14 +21,13 @@ Route::get('/login', function () {
     return view('login');
 })->name('login');
 
-// 👇 Handle login with specific error messages
+// Handle login with specific error messages
 Route::post('/login', function (Request $request) {
     $request->validate([
         'username' => 'required|string',
         'password' => 'required|string',
     ]);
 
-    // Check if username exists
     $user = User::where('username', $request->username)->first();
 
     if (!$user) {
@@ -29,27 +36,24 @@ Route::post('/login', function (Request $request) {
         ]);
     }
 
-    // Check if password is wrong
     if (!Auth::attempt(['username' => $request->username, 'password' => $request->password])) {
         return back()->withErrors([
             'password' => 'Wrong password.',
         ]);
     }
 
-    // Successful login
     $request->session()->regenerate();
     return redirect()->intended('/dashboard');
 })->name('login.post');
 
-    // 👇 Logout route
-    Route::post('/logout', function (Request $request) {
-        Auth::logout();
+Route::post('/logout', function (Request $request) {
+    Auth::logout();
 
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
 
-        return redirect()->route('login');
-    })->name('logout');
+    return redirect()->route('login');
+})->name('logout');
 
 Route::get('/register', function () {
     return view('register');
@@ -59,10 +63,10 @@ Route::post('/register', function (Request $request) {
     $validated = $request->validate([
         'username' => 'required|string|max:255|unique:users,username',
         'email' => 'required|email|unique:users,email',
-        'password' => 'required|string|min:8|confirmed', 
+        'password' => 'required|string|min:8|confirmed',
     ]);
 
-    $user = \App\Models\User::create([
+    User::create([
         'username' => $validated['username'],
         'email' => $validated['email'],
         'password' => bcrypt($validated['password']),
@@ -71,33 +75,50 @@ Route::post('/register', function (Request $request) {
     return redirect()->route('login')->with('success', 'Account created! Please log in.');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware('auth');
-
-route::get('/employee', function () {
-    return view('employee');
-})->middleware('auth');
-
-route::get('/appointment', function () {
-    return view('appointment');
-})->middleware('auth');
-
-route::get('/reports', function () {
-    return view('reports');
-})->middleware('auth');
-
-use App\Http\Controllers\AppointmentController;
-
-Route::get('/appointment', [AppointmentController::class, 'create'])->middleware('auth')->name('appointment.create');
-Route::post('/appointment', [AppointmentController::class, 'store'])->middleware('auth')->name('appointment.store');
-
-
 /*
-Route::view('/employees/view', 'admin.employees.view')->name('employees.view');
-Route::view('/employees/consultation', 'admin.employees.consultation')->name('employees.consultation');
-
-Route::view('/reports/employee', 'admin.reports.employees')->name('reports.employees');
-Route::view('/reports/illnesses', 'admin.reports.illnesses')->name('reports.illnesses');
-Route::view('/reports/visits', 'admin.reports.visits')->name('reports.visits');
+|--------------------------------------------------------------------------
+| Protected Routes
+|--------------------------------------------------------------------------
 */
+
+Route::middleware(['auth'])->group(function () {
+
+    Route::get('/dashboard', function () {
+        return view('admin.dashboard');
+    });
+
+    /*
+     * Employee Routes (CRUD)
+     */
+
+    Route::prefix('employee')->name('employee.')->group(function () {
+        Route::get('/', [EmployeeController::class, 'index'])->name('index');
+        Route::get('/create', [EmployeeController::class, 'create'])->name('create');
+        Route::post('/', [EmployeeController::class, 'store'])->name('store');
+        Route::get('/{employee}/edit', [EmployeeController::class, 'edit'])->name('edit');
+        Route::put('/{employee}', [EmployeeController::class, 'update'])->name('update');
+        Route::delete('/{employee}', [EmployeeController::class, 'destroy'])->name('destroy');
+        Route::get('/{employee}/view', [EmployeeController::class, 'show'])->name('show');
+    });
+
+
+    /*
+     * Appointment Routes
+     */
+
+
+    Route::get('/appointment', [AppointmentController::class, 'create'])->name('appointment.create');
+    Route::post('/appointment', [AppointmentController::class, 'store'])->name('appointment.store');
+    Route::delete('/appointment/{id}', [AppointmentController::class, 'destroy'])->name('appointment.destroy');
+
+
+    /*
+     * Reports Routes (placeholders)
+     */
+    Route::view('/reports', 'admin.reports')->name('reports');
+    Route::get('/reports', [App\Http\Controllers\ReportController::class, 'index'])->name('reports.index');
+
+});
+
+
+

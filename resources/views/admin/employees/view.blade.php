@@ -1,80 +1,73 @@
 @extends('layout.admin')
 
-@section('content')
-<!--  Body Wrapper -->
-<div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" 
-  data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
+<!-- Body Wrapper -->
+<div class="page-wrapper" id="main-wrapper" 
+     data-layout="vertical" 
+     data-navbarbg="skin6" 
+     data-sidebartype="full"
+     data-sidebar-position="fixed" 
+     data-header-position="fixed">
 
+  <!-- Sidebar -->
   @include('components.admin.sidebar')
 
-  <!--  Main wrapper -->
+  <!-- Main wrapper -->
   <div class="body-wrapper">
-    <!--  Header -->
+    
+    <!-- Header -->
     @include('components.admin.header')
 
-    <div class="container-fluid">
-      <div class="card shadow-sm rounded-3">
-        <div class="card-body">
-          <div class="d-flex justify-content-between align-items-center mb-3">
-            <h5 class="card-title fw-bold mb-0">Employee Details</h5>
-            <a href="{{ route('employees.index') }}" class="btn btn-sm btn-secondary">← Back</a>
-
-          </div>
-
-          <div class="row g-4">
-            <!-- Profile Info -->
-            <div class="col-md-4">
-              <div class="text-center">
-                <img src="https://via.placeholder.com/150" class="rounded-circle mb-3" alt="Employee Photo">
-                <h5 class="fw-bold mb-0">John Doe</h5>
-                <p class="text-muted">Software Engineer</p>
-                <span class="badge bg-success">Active</span>
-              </div>
-            </div>
-
-            <!-- Details -->
-            <div class="col-md-8">
-              <table class="table table-borderless">
-                <tbody>
-                  <tr>
-                    <th scope="row" style="width: 30%">Name:</th>
-                    <td>John Doe</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Department:</th>
-                    <td>IT</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Age:</th>
-                    <td>28</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Gender:</th>
-                    <td>Male</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Medical History:</th>
-                    <td>None</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Contact:</th>
-                    <td>09171234567</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Email:</th>
-                    <td>john@example.com</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-
+    <!-- Page Content -->
+    <div class="container mx-auto p-6">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="text-2xl font-bold">Employee Details</h2>
+            <a href="{{ route('employee.index') }}" class="btn btn-secondary">Back to List</a>
         </div>
-      </div>
+
+        <div class="bg-white shadow p-4 rounded">
+            <div class="mb-3">
+                <h5 class="fw-bold">Name:</h5>
+                <p>{{ $employee->name }}</p>
+            </div>
+
+            <div class="mb-3">
+                <h5 class="fw-bold">Designation:</h5>
+                <p>{{ $employee->designation ?? '-' }}</p>
+            </div>
+
+            <div class="mb-3">
+                <h5 class="fw-bold">Department:</h5>
+                <p>{{ $employee->department ?? '-' }}</p>
+            </div>
+
+            <div class="mb-3">
+                <h5 class="fw-bold">Status:</h5>
+                <p>{{ $employee->status ?? '-' }}</p>
+            </div>
+
+            <div class="mt-4 d-flex gap-2">
+                <!-- Edit Button -->
+                <a href="{{ route('employee.edit', $employee->id) }}" class="btn btn-warning btn-sm">Edit</a>
+
+                <!-- Delete Button -->
+                <form action="{{ route('employee.destroy', $employee->id) }}" method="POST" class="d-inline">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger btn-sm"
+                        onclick="return confirm('Are you sure you want to delete this employee?')">
+                        Delete
+                    </button>
+                </form>
+
+            </div>
+        </div>
     </div>
+    <!-- End Page Content -->
 
     <!-- Footer -->
     @include('components.admin.footer')
+
   </div>
+  <!-- End Main wrapper -->
 </div>
-@endsection
+<!-- End Body Wrapper -->
