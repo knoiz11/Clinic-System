@@ -10,13 +10,27 @@ https://templatemo.com/tm-566-medic-care
   CUSTOM PROPERTIES ( VARIABLES )             
 -----------------------------------------*/
 :root {
-  --white-color:                  #FFFFFF;
+  --ccp-white:                  #FFFFFF;
   --primary-color:                #247cff;
   --section-bg-color:             #F9F9F9;
   --dark-color:                   #000000;
   --title-color:                  #565758;
   --p-color:                      #717275;
   --border-color:                 #eaeaea;
+
+  --ccp-primary-color-gold: #B3822B;  
+  --ccp-primary-color-maroon: #7D1D37;
+  --ccp-m1: #660C21;
+  --ccp-m2: #9B0D3C;
+  --ccp-m3: #A83561;
+  --ccp-g1: #cd9e4a;
+  --ccp-g2: #e7c17d;
+  --ccp-g3: #f9ddab;
+  --ccp-light-grey: #cccc;
+  --ccp-dark-grey: #353535;
+  --ccp-light: #fffaea;
+
+
 
   --body-font-family:             'Open Sans', sans-serif;
 
@@ -36,7 +50,7 @@ https://templatemo.com/tm-566-medic-care
 }
 
 body {
-    background: var(--white-color);
+    background: var( --ccp-m1);
     font-family: var(--body-font-family);    
     position: relative;
     padding-top: 94px;
@@ -51,7 +65,7 @@ h3,
 h4,
 h5,
 h6 {
-  color: var(--dark-color);
+  color: var(--ccp-light);
   line-height: inherit;
 }
 
@@ -62,6 +76,8 @@ h4,
 h5,
 h6 {
   font-weight: var(--font-weight-semibold);
+    color: var(--ccp-light);
+
 }
 
 h1,
@@ -95,7 +111,7 @@ h6 {
 }
 
 p {
-  color: var(--p-color);
+  color: var(--ccp-light);
   font-size: var(--p-font-size);
   font-weight: var(--font-weight-light);
   letter-spacing: 0.5px;
@@ -108,12 +124,12 @@ button {
 }
 
 a {
-  color: var(--p-color);
+  color: var(--ccp-g3);
   text-decoration: none;
 }
 
 a:hover {
-  color: var(--primary-color);
+  color: var(--ccp-primary-color-gold);
 }
 
 .section-padding {
@@ -127,8 +143,8 @@ a:hover {
 .custom-link {
   display: inline-block;
   text-decoration: none;
-  border: 1px solid var(--border-color);
-  color: var(--primary-color);
+  border: 1px solid var(--ccp-primary-color-gold);
+  color: var(--ccp-light);
   pointer-events: auto;
   font-weight: var(--font-weight-semibold);
   line-height: 40px;
@@ -147,8 +163,8 @@ a:hover {
 
 .custom-link::before {
   content: attr(data-hover);
-  background-color: var(--border-color);
-  color: var(--primary-color);
+  background-color: var(--ccp-primary-color-gold);
+  color: var(--ccp-light);
   position: absolute;
   top: 100%;
   bottom: 0;
@@ -201,7 +217,7 @@ strong {
 }
 
 .animated-item {
-  color: var(--primary-color);
+  color: var(--ccp-g1);
 }
 
 .animated-item {
@@ -265,7 +281,7 @@ strong {
 }
 
 .heroText {
-  background: var(--white-color);
+  background: var(--ccp-m1);
   position: absolute;
   z-index: 2;
   bottom: 0;
@@ -309,6 +325,7 @@ strong {
 .navbar {
   padding-top: 20px;
   padding-bottom: 20px;
+  background-color: var(--ccp-light);
 }
 
 .navbar-brand {
@@ -333,7 +350,7 @@ strong {
 }
 
 .navbar-nav .nav-link {
-  color: var(--p-color);
+  color: var(--ccp-m1);
   font-weight: var(--font-weight-semibold);
   font-size: var(--menu-font-size);
   padding-top: 15px;
@@ -343,7 +360,7 @@ strong {
 .navbar-nav .nav-item.active .nav-link, 
 .nav-link:focus, 
 .nav-link:hover {
-  color: var(--dark-color);
+  color: var(--ccp-primary-color-gold);
 }
 
 .nav-link:focus {
@@ -732,7 +749,7 @@ strong {
   FOOTER              
 -----------------------------------------*/
 .site-footer {
-  background: var(--section-bg-color);
+  background: var(--ccp-light);
 }
 
 .copyright-text {
@@ -760,6 +777,7 @@ strong {
 
 .social-icon-link {
   font-size: var(--p-font-size);
+  color: var(--ccp-m3);
   display: inline-block;
   vertical-align: top;
   margin-top: 4px;
@@ -768,7 +786,7 @@ strong {
 }
 
 .social-icon-link:hover {
-  color: var(--primary-color);
+  color: var(--ccp-m1);
 }
 
 /*---------------------------------------
@@ -913,4 +931,12 @@ strong {
   .timeline::before {
     left: 42px;
   }
+}
+
+.footer-text, .footer-link {
+  color: var(--ccp-primary-color-maroon);
+}
+
+.footer-link:hover{
+color: var(--ccp-m3);
 }

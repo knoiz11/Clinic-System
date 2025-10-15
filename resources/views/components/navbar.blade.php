@@ -1,8 +1,7 @@
-<nav class="navbar navbar-expand-lg bg-light fixed-top shadow-lg">
+<nav class="navbar navbar-expand-lg fixed-top shadow-lg">
                 <div class="container">
                     <a class="navbar-brand mx-auto d-lg-none" href="index.html">
-                        Medic Care
-                        <strong class="d-block">Health Specialist</strong>
+                        <img src="{{ asset('admin/images/logos/ccp.svg') }}" style="max-width: 120px;" alt="CCP logo">
                     </a>
 
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -13,8 +12,7 @@
                         <ul class="navbar-nav mx-auto">
 
                             <a class="navbar-brand d-none d-lg-block" href="#">
-                                Clinic Care
-                                <strong class="d-block">Keeps You Healthy</strong>
+                                <img src="{{ asset('admin/images/logos/ccp.svg') }}" style="max-width: 120px;" alt="CCP logo">
                             </a>
                             <li class="nav-item active">
                                 <a class="nav-link" href="#hero">Home</a>
