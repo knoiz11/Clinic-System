@@ -19,6 +19,8 @@
 
     <!-- Page Content -->
     <div class="container mx-auto p-6">
+
+
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2 class="text-2xl font-bold">Employee Details</h2>
             <a href="{{ route('employee.index') }}" class="btn btn-secondary">Back to List</a>
@@ -58,7 +60,6 @@
                         Delete
                     </button>
                 </form>
-
             </div>
         </div>
     </div>
@@ -71,3 +72,4 @@
   <!-- End Main wrapper -->
 </div>
 <!-- End Body Wrapper -->
+@extends('layout.admin')
