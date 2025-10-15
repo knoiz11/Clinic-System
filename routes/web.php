@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\ConsultationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -100,6 +101,13 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/{employee}', [EmployeeController::class, 'destroy'])->name('destroy');
         Route::get('/{employee}/view', [EmployeeController::class, 'show'])->name('show');
     });
+
+    /*
+     * Consultation Routes
+     */
+        Route::get('/consultation/{employee}', [ConsultationController::class, 'show'])
+        ->name('consultation.show');
+    
 
 
     /*

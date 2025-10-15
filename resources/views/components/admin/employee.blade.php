@@ -49,7 +49,10 @@
                             <div class="p-3 bg-light border">
                                 <div class="d-flex gap-2">
                                     <a href="{{ route('employee.show', $employee->id) }}" class="btn btn-info btn-sm">View</a>
-                                    <a href="#" class="btn btn-secondary btn-sm">Consultation</a>
+                                    <a href="{{ route('consultation.show', $employee->id) }}" class="btn btn-secondary btn-sm">
+                                            Consultation
+                                        </a>
+
                                 </div>
                             </div>
                         </div>
