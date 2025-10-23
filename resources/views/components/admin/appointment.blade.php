@@ -70,6 +70,16 @@
                                                 <i class="bi bi-trash"></i>
                                             </button>
                                         </form>
+                                        <form action="{{ route('appointment.updateStatus', $appointment->id) }}" method="POST" class="mt-2">
+                                            @csrf
+                                            @method('PATCH')
+                                            <select name="status" class="form-select form-select-sm" onchange="this.form.submit()">
+                                                <option value="Scheduled" {{ $appointment->status == 'Scheduled' ? 'selected' : '' }}>Scheduled</option>
+                                                <option value="Completed" {{ $appointment->status == 'Completed' ? 'selected' : '' }}>Completed</option>
+                                                <option value="Cancelled" {{ $appointment->status == 'Cancelled' ? 'selected' : '' }}>Cancelled</option>
+                                            </select>
+                                        </form>
+
                                     </div>
 
                                     <div class="d-flex align-items-center mb-3">

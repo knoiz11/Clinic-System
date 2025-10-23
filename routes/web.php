@@ -118,6 +118,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/appointment', [AppointmentController::class, 'create'])->name('appointment.create');
     Route::post('/appointment', [AppointmentController::class, 'store'])->name('appointment.store');
     Route::delete('/appointment/{id}', [AppointmentController::class, 'destroy'])->name('appointment.destroy');
+    Route::patch('/appointment/{id}/status', [AppointmentController::class, 'updateStatus'])->name('appointment.updateStatus');
+
 
 
     /*
