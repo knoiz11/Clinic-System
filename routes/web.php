@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\ConsultationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -101,6 +102,13 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/{employee}/view', [EmployeeController::class, 'show'])->name('show');
     });
 
+    /*
+     * Consultation Routes
+     */
+        Route::get('/consultation/{employee}', [ConsultationController::class, 'show'])
+        ->name('consultation.show');
+    
+
 
     /*
      * Appointment Routes
@@ -119,6 +127,5 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/reports', [App\Http\Controllers\ReportController::class, 'index'])->name('reports.index');
 
 });
-
 
 

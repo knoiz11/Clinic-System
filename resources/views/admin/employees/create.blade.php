@@ -50,7 +50,12 @@
 
         <div class="mb-4">
             <label for="status" class="block font-medium">Status <span class="text-red-500">*</span></label>
-            <input type="text" name="status" id="status" class="w-full border p-2 rounded" required>
+            <select name="status" id="status" class="w-full border p-2 rounded" required>
+                <option value="" disabled selected>Select status</option>
+                <option value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
+                <option value="On Leave">On Leave</option>
+            </select>
         </div>
 
         <div class="mb-4">

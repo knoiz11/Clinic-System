@@ -1,74 +1,134 @@
 <!--  Body Wrapper -->
-<div class="page-wrapper" id="main-wrapper" 
-     data-layout="vertical" 
-     data-navbarbg="skin6" 
+<div class="page-wrapper" id="main-wrapper"
+     data-layout="vertical"
+     data-navbarbg="skin6"
      data-sidebartype="full"
-     data-sidebar-position="fixed" 
+     data-sidebar-position="fixed"
      data-header-position="fixed">
 
     <!-- Sidebar -->
     @include('components.admin.sidebar')
 
-    <!--  Main wrapper -->
+    <!-- Main Wrapper -->
     <div class="body-wrapper">
 
-        <!--  Header -->
+        <!-- Header -->
         @include('components.admin.header')
 
         <div class="container-fluid">
-            <div class="row justify-content-center">
-                <div class="col-md-6 col-lg-5">
+            <div class="card shadow-sm rounded-4 p-4 mb-4">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div>
+                        <h4 class="fw-bold mb-1">
+                            <i class="bi bi-calendar-check me-2"></i> Clinic Appointments
+                        </h4>
+                        <p class="text-muted mb-0">Manage and view employee appointment schedules</p>
+                    </div>
+                    <button class="btn btn-success fw-bold px-4" data-bs-toggle="modal" data-bs-target="#addAppointmentModal">
+                        <i class="bi bi-plus-circle me-2"></i>New Appointment
+                    </button>
+                </div>
 
-                    <!-- Appointment Card -->
-                    <div class="card shadow rounded-4 p-4 text-center mb-4" style="background:#f7fdf7;">
+                <!-- Status Filters -->
+                <div class="d-flex flex-wrap gap-3 mb-3">
+                    <button class="btn btn-outline-success active filter-btn" data-status="all">All</button>
+                    <button class="btn btn-outline-warning filter-btn" data-status="scheduled">Scheduled</button>
+                    <button class="btn btn-outline-primary filter-btn" data-status="completed">Completed</button>
+                    <button class="btn btn-outline-danger filter-btn" data-status="cancelled">Cancelled</button>
+                </div>
 
-                        <!-- Header -->
-                        <div class="d-flex align-items-center justify-content-center mb-3">
-                            <i class="bi bi-clock-history fs-2 me-2"></i>
-                            <h4 class="mb-0 fw-bold">Book an Appointment</h4>
-                        </div>
+                <!-- Success Message -->
+                @if(session('success'))
+                    <div class="alert alert-success">{{ session('success') }}</div>
+                @endif
 
-                        <!-- Success message -->
-                        @if(session('success'))
-                            <div class="alert alert-success">{{ session('success') }}</div>
-                        @endif
+                <!-- Appointment List -->
+                @if($appointments->isEmpty())
+                    <p class="text-muted text-center my-4">No appointments scheduled yet.</p>
+                @else
+                    <div class="row gy-3" id="appointmentList">
+                        @foreach($appointments as $appointment)
+                            <div class="col-md-6 col-lg-4 appointment-card" data-status="{{ strtolower($appointment->status ?? 'scheduled') }}">
+                                <div class="card border-0 shadow-sm rounded-4 p-3"
+                                     style="background-color:#f9fafc;">
 
-                        <!-- Error messages -->
-                        @if ($errors->any())
-                            <div class="alert alert-danger text-start">
-                                <ul class="mb-0">
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <span class="badge px-3 py-2
+                                            @if(($appointment->status ?? 'Scheduled') == 'Completed') bg-primary
+                                            @elseif(($appointment->status ?? 'Scheduled') == 'Cancelled') bg-danger
+                                            @elseif(($appointment->status ?? 'Scheduled') == 'Scheduled') bg-warning text-dark
+                                            @else bg-success @endif">
+                                            {{ ucfirst($appointment->status ?? 'Scheduled') }}
+                                        </span>
+
+                                        <form action="{{ route('appointment.destroy', $appointment->id) }}"
+                                              method="POST"
+                                              onsubmit="return confirm('Are you sure you want to delete this appointment?');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-sm btn-outline-danger">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+
+                                    <div class="d-flex align-items-center mb-3">
+                                        <i class="bi bi-person-circle fs-3 text-success me-2"></i>
+                                        <h5 class="mb-0 fw-bold">
+                                            {{ $appointment->employee->name ?? 'Unassigned' }}
+                                        </h5>
+                                    </div>
+
+                                    <div class="text-muted small mb-2">
+                                        <i class="bi bi-calendar-event me-2"></i>
+                                        <span>{{ \Carbon\Carbon::parse($appointment->date)->format('F d, Y') }}</span>
+                                    </div>
+                                    <div class="text-muted small mb-2">
+                                        <i class="bi bi-clock me-2"></i>
+                                        <span>{{ \Carbon\Carbon::parse($appointment->time)->format('h:i A') }}</span>
+                                    </div>
+
+                                    @if(!empty($appointment->reason))
+                                        <div class="mt-2 p-2 rounded"
+                                             style="background:#e8f5e9;">
+                                            <small class="fw-bold d-block mb-1">Reason for Visit:</small>
+                                            <p class="mb-0">{{ $appointment->reason }}</p>
+                                        </div>
+                                    @endif
+                                </div>
                             </div>
-                        @endif
+                        @endforeach
+                    </div>
+                @endif
+            </div>
+        </div>
 
-                        <!-- Appointment Form -->
+        <!-- Add Appointment Modal -->
+        <div class="modal fade" id="addAppointmentModal" tabindex="-1" aria-labelledby="addAppointmentModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content rounded-4 shadow-lg">
+                    <div class="modal-header bg-success text-white rounded-top-4">
+                        <h5 class="modal-title fw-bold" id="addAppointmentModalLabel">
+                            <i class="bi bi-plus-circle me-2"></i> New Appointment
+                        </h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body p-4">
                         <form action="{{ route('appointment.store') }}" method="POST">
                             @csrf
 
-                            <!-- Date & Time Pickers -->
-                            <div class="p-3 mb-3 rounded" style="background:#d7f7d7;">
-                                <div class="mb-3 text-start">
-                                    <label for="date" class="form-label fw-bold">
-                                        <i class="bi bi-calendar-date me-2"></i>Date
-                                    </label>
-                                    <input type="date" name="date" id="date" class="form-control" required>
-                                </div>
-
-                                <div class="mb-3 text-start">
-                                    <label for="time" class="form-label fw-bold">
-                                        <i class="bi bi-clock me-2"></i>Time
-                                    </label>
-                                    <input type="time" name="time" id="time" class="form-control" required>
-                                </div>
+                            <div class="mb-3">
+                                <label for="date" class="form-label fw-bold">Date</label>
+                                <input type="date" name="date" id="date" class="form-control" min="{{ date('Y-m-d') }}" required>
                             </div>
 
-                            <div class="mb-3 text-start">
-                                <label for="employee_id" class="form-label fw-bold">
-                                    <i class="bi bi-person-fill me-2"></i>Employee
-                                </label>
+                            <div class="mb-3">
+                                <label for="time" class="form-label fw-bold">Time</label>
+                                <input type="time" name="time" id="time" class="form-control" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="employee_id" class="form-label fw-bold">Employee</label>
                                 <select name="employee_id" id="employee_id" class="form-control" required>
                                     <option value="">Select Employee</option>
                                     @foreach($employees as $employee)
@@ -78,67 +138,39 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="reason" class="form-label">Reason for Visit</label>
-                                <textarea name="reason" id="reason" class="form-control" rows="3" placeholder="Enter the reason for visit..."></textarea>
+                                <label for="reason" class="form-label fw-bold">Reason for Visit</label>
+                                <textarea name="reason" id="reason" class="form-control" rows="3" placeholder="Enter the reason for visit..." required></textarea>
                             </div>
 
-
-
-                            <!-- Book button -->
                             <button type="submit" class="btn btn-success w-100 fw-bold py-2">
-                                Book
+                                Save Appointment
                             </button>
                         </form>
                     </div>
-
-                    <!-- Appointment List -->
-                    <div class="card shadow rounded-4 p-4 text-center" style="background:#f9fafc;">
-                        <div class="d-flex align-items-center justify-content-center mb-3">
-                            <i class="bi bi-list-task fs-2 me-2"></i>
-                            <h4 class="mb-0 fw-bold">List of Appointments</h4>
-                        </div>
-
-                        @if($appointments->isEmpty())
-                            <p class="text-muted mb-0">No appointments yet.</p>
-                        @else
-                            <div class="table-responsive">
-                                <table class="table table-bordered align-middle">
-                                    <thead class="table-light">
-                                        <tr>
-                                            <th>Date</th>
-                                            <th>Time</th>
-                                            <th>Employee</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach($appointments as $appointment)
-                                            <tr>
-                                                <td>{{ $appointment->date }}</td>
-                                                <td>{{ $appointment->time }}</td>
-                                                <td>{{ $appointment->employee->name ?? 'N/A' }}</td>
-
-                                                <td>
-                                                    <form action="{{ route('appointment.destroy', $appointment->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this appointment?');">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                                                    </form>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        @endif
-                    </div>
-
                 </div>
             </div>
         </div>
 
         <!-- Footer -->
         @include('components.admin.footer')
-
     </div>
 </div>
+
+<!-- JS: Filter Function -->
+<script>
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+
+            const status = this.dataset.status;
+            document.querySelectorAll('.appointment-card').forEach(card => {
+                if (status === 'all' || card.dataset.status === status) {
+                    card.style.display = '';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    });
+</script>
