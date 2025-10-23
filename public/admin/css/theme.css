@@ -1,0 +1,59 @@
+/* --- Dashboard Theme Colors --- */
+:root {
+  --primary-maroon: #660000;
+  --cream: #FFF7E6;
+  --maroon-dark: #4d0000;
+}
+
+/* Sidebar (adjust class selector to match your sidebar) */
+.sidebar, .page-wrapper .sidebar {
+  background-color: var(--primary-maroon);
+  color: var(--cream);
+}
+.sidebar a, .page-wrapper .sidebar a {
+  color: var(--cream);
+}
+.sidebar a:hover, .page-wrapper .sidebar a:hover {
+  background-color: var(--maroon-dark);
+  color: #ffffff;
+}
+
+/* Header (adjust .header to match your header include) */
+.header, .navbar {
+  background-color: var(--cream);
+  color: var(--primary-maroon);
+  border-bottom: 2px solid var(--primary-maroon);
+}
+
+/* Buttons */
+.btn-primary {
+  background-color: var(--primary-maroon);
+  color: #fff;
+  border: none;
+}
+.btn-primary:hover {
+  background-color: var(--maroon-dark);
+}
+
+/* Cards / Containers */
+.card, .content-box {
+  background-color: #ffffff;
+  border: 1px solid var(--primary-maroon);
+  border-radius: 8px;
+  padding: 1rem;
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(102,0,0,0.06);
+}
+
+/* Tables */
+.table thead {
+  background-color: var(--primary-maroon);
+  color: #fff;
+}
+
+/* Small helpers */
+.text-maroon { color: var(--primary-maroon) !important; }
+.bg-cream { background-color: var(--cream) !important; }

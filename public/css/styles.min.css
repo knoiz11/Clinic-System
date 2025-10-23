@@ -1,0 +1,35 @@
+:root {
+  --primary-color: #6A0D1A; /* Maroon */
+  --secondary-color: #C9A33C; /* Gold */
+  --text-light: #fff;
+  --text-dark: #333;
+}
+
+main {
+  background-color: var(--primary-color);
+  min-height: 100vh;
+  padding: 40px;
+}
+
+.card, .table {
+  background-color: #fff;
+  color: #333;
+}
+
+.footer {
+  background-color: var(--primary-color);
+  color: var(--text-light);
+  text-align: center;
+  padding: 15px 0;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+.footer a {
+  color: var(--secondary-color);
+}
+
+.footer a:hover {
+  color: var(--text-light);
+}

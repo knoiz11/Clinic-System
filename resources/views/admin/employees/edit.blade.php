@@ -20,9 +20,10 @@
     <!-- Page Content -->
     <div class="container mx-auto p-6">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2 class="text-2xl font-bold">Edit Employee</h2>
-            <a href="{{ route('employee.index') }}" class="btn btn-secondary">Back to List</a>
-        </div>
+        <h2 class="text-2xl font-bold">Edit Employee</h2>
+        <a href="{{ route('employee.index') }}" class="btn btn-secondary">Back to List</a>
+    </div>
+
 
         <div class="bg-white shadow p-4 rounded">
             <form action="{{ route('employee.update', $employee->id) }}" method="POST">

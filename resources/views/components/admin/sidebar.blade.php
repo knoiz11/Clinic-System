@@ -4,7 +4,7 @@
     <!-- Logo Section -->
     <div class="brand-logo d-flex align-items-center justify-content-between">
       <a href="{{ url('/dashboard') }}" class="text-nowrap logo-img">
-        <img src="../admin/images/logos/ccp.png" alt="Logo" class="img-fluid" width="40"/>
+        <img src="{{ asset('/../admin/images/logos/ccp.png') }}" alt="Logo" class="img-fluid" width="40"/>
       </a>
       <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
         <i class="ti ti-x fs-8"></i>

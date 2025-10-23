@@ -1,0 +1,28 @@
+[33mb35bf4f[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32madmin[m[33m, [m[1;31morigin/admin[m[33m)[m HEAD@{0}: reset: moving to HEAD
+[33mb35bf4f[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32madmin[m[33m, [m[1;31morigin/admin[m[33m)[m HEAD@{1}: checkout: moving from added-design-front-end to admin
+[33macd6dd8[m[33m ([m[1;31morigin/added-design-front-end[m[33m, [m[1;32madded-design-front-end[m[33m)[m HEAD@{2}: checkout: moving from admin to added-design-front-end
+[33mb35bf4f[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32madmin[m[33m, [m[1;31morigin/admin[m[33m)[m HEAD@{3}: checkout: moving from added-design-front-end to admin
+[33macd6dd8[m[33m ([m[1;31morigin/added-design-front-end[m[33m, [m[1;32madded-design-front-end[m[33m)[m HEAD@{4}: commit: Appointment
+[33mc8fb185[m HEAD@{5}: checkout: moving from admin to added-design-front-end
+[33mb35bf4f[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32madmin[m[33m, [m[1;31morigin/admin[m[33m)[m HEAD@{6}: checkout: moving from added-design-front-end to admin
+[33mc8fb185[m HEAD@{7}: pull: Fast-forward
+[33m20d93bd[m HEAD@{8}: checkout: moving from admin to added-design-front-end
+[33mb35bf4f[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32madmin[m[33m, [m[1;31morigin/admin[m[33m)[m HEAD@{9}: commit: Modified View and added Consultation page
+[33m55b7e35[m HEAD@{10}: checkout: moving from added-design-front-end to admin
+[33m20d93bd[m HEAD@{11}: pull: Fast-forward
+[33m9c36faf[m HEAD@{12}: checkout: moving from admin to added-design-front-end
+[33m55b7e35[m HEAD@{13}: commit (merge): Merge branch 'added-design-front-end' into admin
+[33md1352ec[m HEAD@{14}: checkout: moving from admin to admin
+[33md1352ec[m HEAD@{15}: commit: Save current changes before merge
+[33m13f3c96[m HEAD@{16}: merge added-design-front-end: updating HEAD
+[33m13f3c96[m HEAD@{17}: checkout: moving from admin to admin
+[33m13f3c96[m HEAD@{18}: commit: admin
+[33m1822a0f[m HEAD@{19}: checkout: moving from admin to admin
+[33m1822a0f[m HEAD@{20}: checkout: moving from added-design-front-end to admin
+[33m9c36faf[m HEAD@{21}: checkout: moving from admin to added-design-front-end
+[33m1822a0f[m HEAD@{22}: reset: moving to HEAD
+[33m1822a0f[m HEAD@{23}: commit: UI Admin Modules
+[33md8648e7[m HEAD@{24}: checkout: moving from main to admin
+[33mb5478d6[m[33m ([m[1;32mmain[m[33m)[m HEAD@{25}: pull https://github.com/knoiz11/Clinic-System.git: Fast-forward
+[33m9102060[m HEAD@{26}: Branch: renamed refs/heads/master to refs/heads/main
+[33m9102060[m HEAD@{28}: commit (initial): First commit

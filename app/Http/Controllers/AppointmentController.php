@@ -23,10 +23,14 @@ class AppointmentController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'date' => 'required|date',
-            'time' => 'required|date_format:H:i',
+            'date' => 'required|date|after_or_equal:today',
+            'time' => 'required',
+            'employee_id' => 'required|exists:employees,id',
             'reason' => 'nullable|string|max:255',
+        ], [
+            'date.after_or_equal' => 'You cannot book an appointment in the past.',
         ]);
+
 
         Appointment::create([
             'user_id' => Auth::id(),

@@ -6,7 +6,7 @@ use App\Models\Employee;
 use Illuminate\Http\Request;
 
 class ConsultationController extends Controller
-{
+{   
     public function show($id)
     {
         $employee = Employee::findOrFail($id);
