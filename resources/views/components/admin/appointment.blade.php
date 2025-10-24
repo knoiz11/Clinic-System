@@ -62,13 +62,23 @@
                                         </span>
 
                                         <form action="{{ route('appointment.destroy', $appointment->id) }}"
-                                              method="POST"
-                                              onsubmit="return confirm('Are you sure you want to delete this appointment?');">
+                                             method="POST"
+                                             onsubmit="return confirm('Are you sure you want to delete this appointment?');"
+                                             class="ms-2">
                                             @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-outline-danger">
-                                                <i class="bi bi-trash"></i>
+                                             @method('DELETE')
+                                            <button type="submit"
+                                                class="btn fw-bold py-2 px-3 shadow-sm d-flex align-items-center justify-content-center"
+                                                style="background: url('{{ asset('images/gallery/delete.png') }}') center/contain no-repeat; 
+                                                   
+                                                height: 30px; 
+                                                width: 60px;" 
+                                            title="Delete Appointment">
                                             </button>
+
+
+                                        </form>
+
                                         </form>
                                         <form action="{{ route('appointment.updateStatus', $appointment->id) }}" method="POST" class="mt-2">
                                             @csrf
@@ -126,7 +136,7 @@
                     <div class="modal-body p-4">
                         <form action="{{ route('appointment.store') }}" method="POST">
                             @csrf
-
+                            
                             <div class="mb-3">
                                 <label for="date" class="form-label fw-bold">Date</label>
                                 <input type="date" name="date" id="date" class="form-control" min="{{ date('Y-m-d') }}" required>

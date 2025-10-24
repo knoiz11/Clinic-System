@@ -9,18 +9,17 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-public function up(): void
-{
-    Schema::create('appointments', function (Blueprint $table) {
-    $table->id();
-    $table->string('patient_name');   // 👈 Who the appointment is for
-    $table->date('date');
-    $table->time('time');
-    $table->unsignedBigInteger('created_by')->nullable(); // which admin made it
-    $table->timestamps();
-});
-
-}
+    public function up(): void
+    {
+        Schema::create('appointments', function (Blueprint $table) {
+            $table->id();
+            $table->string('patient_name');   // 👈 Who the appointment is for
+            $table->date('date');
+            $table->time('time');
+            $table->unsignedBigInteger('created_by')->nullable(); // which admin made it
+            $table->timestamps();
+        });
+    }
 
 
     /**

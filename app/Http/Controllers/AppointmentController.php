@@ -36,6 +36,9 @@ class AppointmentController extends Controller
             'time' => $request->time,
             'reason' => $request->reason,
             'status' => 'Scheduled',
+            'patient_name' => $request->patient_name,
+
+
         ]);
 
         return redirect()->route('appointment.create')->with('success', 'Appointment booked successfully!');
