@@ -1,5 +1,4 @@
 <?php
-
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -7,6 +6,7 @@ use App\Models\User;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\ConsultationController;
+use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\ReportController;
 
 /*
@@ -77,6 +77,9 @@ Route::post('/register', function (Request $request) {
     return redirect()->route('login')->with('success', 'Account created! Please log in.');
 });
 
+// ✅ Inventory route (accessible to everyone)
+Route::get('/inventory', [InventoryController::class, 'index'])->name('inventory.index');
+
 /*
 |--------------------------------------------------------------------------
 | Protected Routes
@@ -89,10 +92,7 @@ Route::middleware(['auth'])->group(function () {
         return view('admin.dashboard');
     });
 
-    /*
-     * Employee Routes (CRUD)
-     */
-
+    // Employee Routes (CRUD)
     Route::prefix('employee')->name('employee.')->group(function () {
         Route::get('/', [EmployeeController::class, 'index'])->name('index');
         Route::get('/create', [EmployeeController::class, 'create'])->name('create');
@@ -103,34 +103,17 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/{employee}/view', [EmployeeController::class, 'show'])->name('show');
     });
 
-    /*
-     * Consultation Routes
-     */
-        Route::get('/consultation/{employee}', [ConsultationController::class, 'show'])
-        ->name('consultation.show');
-    
+    // Consultation Routes
+    Route::get('/consultation/{employee}', [ConsultationController::class, 'show'])->name('consultation.show');
 
-
-    /*
-     * Appointment Routes
-     */
-
-
+    // Appointment Routes
     Route::get('/appointment', [AppointmentController::class, 'create'])->name('appointment.create');
     Route::post('/appointment', [AppointmentController::class, 'store'])->name('appointment.store');
     Route::delete('/appointment/{id}', [AppointmentController::class, 'destroy'])->name('appointment.destroy');
     Route::patch('/appointment/{id}/status', [AppointmentController::class, 'updateStatus'])->name('appointment.updateStatus');
 
-
-
-    /*
-     * Reports Routes (placeholders)
-     */
+    // Reports Routes
     Route::view('/reports', 'admin.reports')->name('reports');
-    Route::get('/reports', [App\Http\Controllers\ReportController::class, 'index'])->name('reports.index');
-    Route::get('/reports/pdf/{type}/{mode?}', [App\Http\Controllers\ReportController::class, 'generatePDF'])
-    ->name('reports.pdf');
-
+    Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
+    Route::get('/reports/pdf/{type}/{mode?}', [ReportController::class, 'generatePDF'])->name('reports.pdf');
 });
-
-
