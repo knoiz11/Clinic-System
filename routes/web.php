@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\ConsultationController;
+use App\Http\Controllers\ReportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -127,6 +128,8 @@ Route::middleware(['auth'])->group(function () {
      */
     Route::view('/reports', 'admin.reports')->name('reports');
     Route::get('/reports', [App\Http\Controllers\ReportController::class, 'index'])->name('reports.index');
+    Route::get('/reports/pdf/{type}/{mode?}', [App\Http\Controllers\ReportController::class, 'generatePDF'])
+    ->name('reports.pdf');
 
 });
 

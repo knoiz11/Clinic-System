@@ -32,7 +32,16 @@
 
                                 <!-- Employee Reports -->
                                 <div class="tab-pane fade show active" id="employee-reports">
-                                    <h5 class="fw-bold mb-3">Employee Reports</h5>
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <h5 class="fw-bold mb-0">Employee Reports</h5>
+                                        <button class="btn btn-danger btn-sm" 
+                                                data-bs-toggle="modal" 
+                                                data-bs-target="#pdfPreviewModal" 
+                                                data-type="employees">
+                                            <i class="ti ti-file-type-pdf me-1"></i> Generate PDF
+                                        </button>
+                                    </div>
+
                                     <div class="table-responsive">
                                         <table class="table table-hover align-middle mb-0">
                                             <thead class="table-light">
@@ -67,7 +76,16 @@
 
                                 <!-- Visit Reports -->
                                 <div class="tab-pane fade" id="visit-reports">
-                                    <h5 class="fw-bold mb-3">Visit Reports</h5>
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <h5 class="fw-bold mb-0">Visit Reports</h5>
+                                        <button class="btn btn-danger btn-sm" 
+                                                data-bs-toggle="modal" 
+                                                data-bs-target="#pdfPreviewModal" 
+                                                data-type="visits">
+                                            <i class="ti ti-file-type-pdf me-1"></i> Generate PDF
+                                        </button>
+                                    </div>
+
                                     <div class="table-responsive">
                                         <table class="table table-hover align-middle mb-0">
                                             <thead class="table-light">
@@ -96,8 +114,6 @@
                                     </div>
                                 </div>
 
-
-
                             </div> <!-- end tab-content -->
                         </div>
                     </div>
@@ -105,6 +121,51 @@
             </div>
         </div>
 
+        <!-- PDF Preview Modal -->
+        <div class="modal fade" id="pdfPreviewModal" tabindex="-1" aria-labelledby="pdfPreviewLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="pdfPreviewLabel">PDF Preview</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body p-0" style="height: 80vh;">
+                        <iframe id="pdfFrame" src="" width="100%" height="100%" style="border: none;"></iframe>
+                    </div>
+                    <div class="modal-footer">
+                        <a id="downloadPdfBtn" href="#" class="btn btn-primary" target="_blank">
+                            <i class="ti ti-download me-1"></i> Download PDF
+                        </a>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         @include('components.admin.footer')
+
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const modal = document.getElementById('pdfPreviewModal');
+    const iframe = document.getElementById('pdfFrame');
+    const downloadBtn = document.getElementById('downloadPdfBtn');
+
+    modal.addEventListener('show.bs.modal', event => {
+    const button = event.relatedTarget;
+    const type = button.getAttribute('data-type');
+    const previewUrl = `{{ url('reports/pdf') }}/${type}/preview`;
+    const downloadUrl = `{{ url('reports/pdf') }}/${type}/download`;
+    
+    iframe.src = previewUrl; // load preview in modal
+    downloadBtn.href = downloadUrl; // this now triggers actual download
+    });
+
+
+    modal.addEventListener('hidden.bs.modal', () => {
+        iframe.src = ''; // clear frame when closed
+    });
+});
+</script>
