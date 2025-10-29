@@ -1,3 +1,4 @@
+
 <!--  Body Wrapper -->
 <div class="page-wrapper" id="main-wrapper"
      data-layout="vertical"
@@ -170,6 +171,7 @@
                 </div>
             </div>
         </div>
+        
 
         <!-- Footer -->
         @include('components.admin.footer')
