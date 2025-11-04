@@ -71,7 +71,7 @@
         </div>
     </div>
     <!-- End Page Content -->
-
+    
     <!-- Footer -->
     @include('components.admin.footer')
 

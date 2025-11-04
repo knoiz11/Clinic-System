@@ -1,24 +1,31 @@
-html, body { 
-  height: 100%;
-  margin: 0;
+/* Make sure the whole page takes up full height */
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
 }
 
+/* The main wrapper holds everything */
 .page-wrapper {
-  min-height: 100vh; /* full height */
-  display: flex;
-  flex-direction: column;
+    min-height: 100vh; /* full height */
+    display: flex;
+    flex-direction: column;
+    background-color: #f8f9fa; /* optional background */
 }
 
+/* This makes the middle section expand and push the footer down */
 .body-wrapper {
-  flex: 1; /* makes content take the available space */
+    flex: 1;
 }
 
+/* Footer styling */
 .footer {
-  margin-top: auto; /* pushes footer to bottom */
-  padding: 15px 0;
-  text-align: center;
-  background: #fff;
-  border-top: 2px solid #dee2e6; /* 👈 add border on top */
-  color: #6c757d;
-  font-size: 0.9rem;
+    margin-top: auto;
+    padding: 15px 0;
+    text-align: center;
+    background: #fff;
+    border-top: 2px solid var(--primary-maroon); /* matches your theme */
+    color: var(--primary-maroon);
+    font-size: 0.9rem;
 }

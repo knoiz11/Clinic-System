@@ -68,9 +68,11 @@
             <input type="email" name="email" id="email" class="w-full border p-2 rounded">
         </div>
 
-        <button type="submit" class="bg-[#600000] text-black font-bold px-8 py-2 rounded-full shadow-md hover:bg-[#800000] hover:shadow-lg transition-all duration-200">
+        <button type="submit" class="btn btn-primary rounded-pill px-4 py-2 fw-semibold shadow-sm">
     Add Employee
 </button>
+
+
 
 
         <a href="{{ route('employee.index') }}" class="ml-4 text-blue-500 hover:underline">Cancel</a>
