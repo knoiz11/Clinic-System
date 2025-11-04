@@ -8,9 +8,9 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::table('appointments', function (Blueprint $table) {
+        /*Schema::table('appointments', function (Blueprint $table) {
             $table->string('patient_name')->nullable()->change();
-        });
+        });*/
     }
 
     public function down(): void

@@ -8,32 +8,36 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
-    // 👇 Add this method
     protected function username()
     {
-        return 'username'; // use "username" column instead of email
+        return 'username';
     }
 
     public function showLoginForm()
     {
-        return view('auth.login'); // make sure you have this blade
+        return view('auth.login');
     }
 
     public function login(Request $request)
     {
-    $credentials = $request->validate([
-        'name' => ['required', 'string'],
-        'password' => ['required', 'string'],
-    ]);
+        $credentials = $request->validate([
+            'name' => ['required', 'string'],
+            'password' => ['required', 'string'],
+        ]);
 
-    if (Auth::attempt(['name' => $request->name, 'password' => $request->password])) {
-        $request->session()->regenerate();
-        return redirect()->intended('dashboard');
-    }
+        if (Auth::attempt(['name' => $request->name, 'password' => $request->password])) {
+            $request->session()->regenerate();
 
+            // ✅ Redirect based on user role
+            if (Auth::user()->role === 'admin') {
+                return redirect()->intended('/admin/dashboard');
+            } else {
+                return redirect()->intended('/landing');
+            }
+        }
 
         return back()->withErrors([
-            'username' => 'The provided credentials do not match our records.',
+            'name' => 'The provided credentials do not match our records.',
         ]);
     }
 
