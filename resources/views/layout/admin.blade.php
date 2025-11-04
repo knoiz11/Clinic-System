@@ -37,6 +37,7 @@
     @yield('reports')
     @yield('view')
     @yield('consultation')
+    @yield('inventory')
   </main>
   
 

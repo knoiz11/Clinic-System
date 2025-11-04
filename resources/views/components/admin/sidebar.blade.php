@@ -43,6 +43,15 @@
             <span class="hide-menu">Appointments</span>
           </a>
         </li>
+
+        <!-- Inventory Added -->
+        <li class="sidebar-item">
+          <a class="sidebar-link" href="{{ url('/inventory') }}">
+            <span><iconify-icon icon="solar:box-bold-duotone" class="fs-6"></iconify-icon></span>
+            <span class="hide-menu">Inventory</span>
+          </a>
+        </li>
+
         <li class="sidebar-item">
           <a class="sidebar-link" href="{{ url('/reports') }}">
             <span><iconify-icon icon="solar:file-text-bold-duotone" class="fs-6"></iconify-icon></span>
