@@ -1,11 +1,19 @@
-<!--  Body Wrapper -->
-<div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
-    data-sidebar-position="fixed" data-header-position="fixed">
 
+<!--  Body Wrapper -->
+<div class="page-wrapper" id="main-wrapper"
+     data-layout="vertical"
+     data-navbarbg="skin6"
+     data-sidebartype="full"
+     data-sidebar-position="fixed"
+     data-header-position="fixed">
+
+    <!-- Sidebar -->
     @include('components.admin.sidebar')
 
+    <!-- Main Wrapper -->
     <div class="body-wrapper">
 
+        <!-- Header -->
         @include('components.admin.header')
 
         <div class="container-fluid mt-4">

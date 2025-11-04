@@ -91,3 +91,25 @@
     transform: none !important;
     transition: none !important;
 }
+
+/* Make header span full width even with sidebar */
+.app-header {
+    position: fixed;
+    top: 0;
+    left: 250px; /* width of your sidebar */
+    right: 0;
+    z-index: 1030;
+    background-color: #fff7e6;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: left 0.3s ease; /* smooth animation when sidebar collapses */
+}
+
+/* When sidebar is collapsed, header adjusts */
+.page-wrapper[data-sidebartype="mini-sidebar"] .app-header {
+    left: 80px; /* match collapsed sidebar width */
+}
+
+/* Push content down to make room for fixed header */
+.body-wrapper {
+    padding-top: 70px;
+}

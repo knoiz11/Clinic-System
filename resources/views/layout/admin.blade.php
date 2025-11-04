@@ -8,7 +8,7 @@
     <title>Clinic Management System - Admin Panel</title>
 
     <!-- Favicon -->
-    <link rel="shortcut icon" type="image/png" href="{{ asset('admin/images/logos/seodashlogo.png') }}" />
+    <link rel="shortcut icon" type="image/png" href="{{ asset('admin/images/logos/ccp.png') }}" />
 
     <!-- Main CSS -->
     <link rel="stylesheet" href="{{ asset('admin/css/styles.min.css') }}" />

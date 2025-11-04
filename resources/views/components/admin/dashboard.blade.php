@@ -219,9 +219,7 @@
             </div>
             <div class="card-body p-4">
               <span class="badge text-bg-light fs-2 py-1 px-2 lh-sm  mt-3">Social</span>
-              <a class="d-block my-4 fs-5 text-dark fw-semibold link-primary" href="">As yen tumbles, gadget-loving
-                Japan goes
-                for secondhand iPhones</a>
+              <a class="d-block my-4 fs-5 text-dark fw-semibold link-primary" href="">Conversely, social isolation and loneliness can lead to increased stress, depression, and a higher risk for chronic diseases like heart disease and type 2 diabetes.</a>
               <div class="d-flex align-items-center gap-4">
                 <div class="d-flex align-items-center gap-2">
                   <i class="ti ti-eye text-dark fs-5"></i>9,125
@@ -245,9 +243,7 @@
             </div>
             <div class="card-body p-4">
               <span class="badge text-bg-light fs-2 py-1 px-2 lh-sm  mt-3">Gadget</span>
-              <a class="d-block my-4 fs-5 text-dark fw-semibold link-primary" href="">Intel loses bid to revive
-                antitrust case
-                against patent foe Fortress</a>
+              <a class="d-block my-4 fs-5 text-dark fw-semibold link-primary" href="">Excessive gadget use can negatively impact physical and mental health, leading to issues like eye strain, poor posture, and musculoskeletal pain from poor ergonomics.</a>
               <div class="d-flex align-items-center gap-4">
                 <div class="d-flex align-items-center gap-2">
                   <i class="ti ti-eye text-dark fs-5"></i>4,150
@@ -271,9 +267,7 @@
             </div>
             <div class="card-body p-4">
               <span class="badge text-bg-light fs-2 py-1 px-2 lh-sm  mt-3">Health</span>
-              <a class="d-block my-4 fs-5 text-dark fw-semibold link-primary" href="">COVID outbreak deepens as more
-                lockdowns
-                loom in China</a>
+              <a class="d-block my-4 fs-5 text-dark fw-semibold link-primary" href="">Influenza outbreak deepens as more lockdowns loom in Philippines</a>
               <div class="d-flex align-items-center gap-4">
                 <div class="d-flex align-items-center gap-2">
                   <i class="ti ti-eye text-dark fs-5"></i>9,480
