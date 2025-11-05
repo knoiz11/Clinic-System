@@ -20,29 +20,40 @@ class AppointmentController extends Controller
         return view('admin.appointment', compact('appointments', 'employees'));
     }
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'date' => 'required|date',
-            'time' => 'required|date_format:H:i',
-            'employee_id' => 'required|exists:employees,id',
-            'reason' => 'required|string|max:255',
-        ]);
+public function store(Request $request)
+{
+    $request->validate([
+        'employee_id' => 'required|exists:employees,id',
+        'date'        => 'required|date',
+        'time'        => 'required|date_format:H:i',
+        'reason'      => 'nullable|string|max:255',
+    ]);
 
-        Appointment::create([
-            'user_id' => Auth::id(),
-            'employee_id' => $request->employee_id,
-            'date' => $request->date,
-            'time' => $request->time,
-            'reason' => $request->reason,
-            'status' => 'Scheduled',
-            'patient_name' => $request->patient_name,
+    // find employee (will exist because of the validation rule)
+    $employee = Employee::find($request->employee_id);
 
-
-        ]);
-
-        return redirect()->route('appointment.create')->with('success', 'Appointment booked successfully!');
+    if (! $employee) {
+        return redirect()->route('appointment.create')
+            ->withErrors(['employee_id' => 'Selected employee not found.']);
     }
+
+    Appointment::create([
+        'employee_id'   => $employee->id,        // <-- property access, NOT a method
+        'employee_name' => $employee->name,      // save the employee name
+        'date'          => $request->date,
+        'time'          => $request->time,
+        'reason'        => $request->reason,
+        'status'        => 'Scheduled',
+        'created_by'    => Auth::id()
+    ]);
+
+    return redirect()->route('appointment.create')->with('success', 'Appointment booked successfully!');
+}
+
+
+
+
+                       
 
     public function updateStatus(Request $request, $id)
     {

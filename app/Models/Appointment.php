@@ -10,14 +10,14 @@ class Appointment extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
+        'created_by',
         'employee_id',
         'date',
         'time',
         'reason',
         'status',
-        'patient_name',
-    ];
+        'employee_name',
+    ];      
 
     public function employee()
     {

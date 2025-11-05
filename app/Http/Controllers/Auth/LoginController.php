@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
+    // Use 'username' instead of 'email'
     protected function username()
     {
         return 'username';
@@ -20,24 +21,28 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
+        // Validate credentials
         $credentials = $request->validate([
-            'name' => ['required', 'string'],
+            'username' => ['required', 'string'],
             'password' => ['required', 'string'],
         ]);
 
-        if (Auth::attempt(['name' => $request->name, 'password' => $request->password])) {
+        // Attempt login
+        if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            // ✅ Redirect based on user role
-            if (Auth::user()->role === 'admin') {
+            // ✅ Redirect based on role
+            $user = Auth::user();
+            if ($user->role === 'admin') {
                 return redirect()->intended('/admin/dashboard');
             } else {
-                return redirect()->intended('/landing');
+                return redirect()->intended('/');
             }
         }
 
+        // Invalid credentials
         return back()->withErrors([
-            'name' => 'The provided credentials do not match our records.',
+            'username' => 'The provided credentials do not match our records.',
         ]);
     }
 

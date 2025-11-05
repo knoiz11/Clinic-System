@@ -19,15 +19,6 @@ Route::get('/', function () {
 })->middleware('web');
 
 
-
-
-// 👇 Admin-only routes (protected by auth + admin middleware)
-Route::middleware(['auth', 'admin'])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('admin.dashboard');
-    });
-});
-
 // Login page
 Route::get('/login', function () {
     return view('login');
