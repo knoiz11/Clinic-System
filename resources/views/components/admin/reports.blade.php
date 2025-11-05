@@ -156,8 +156,9 @@ document.addEventListener('DOMContentLoaded', () => {
     modal.addEventListener('show.bs.modal', event => {
     const button = event.relatedTarget;
     const type = button.getAttribute('data-type');
-    const previewUrl = `{{ url('reports/pdf') }}/${type}/preview`;
-    const downloadUrl = `{{ url('reports/pdf') }}/${type}/download`;
+    const previewUrl = `{{ url('admin/reports/pdf') }}/${type}/preview`;
+    const downloadUrl = `{{ url('admin/reports/pdf') }}/${type}/download`;
+
     
     iframe.src = previewUrl; // load preview in modal
     downloadBtn.href = downloadUrl; // this now triggers actual download
