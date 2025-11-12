@@ -8,12 +8,49 @@
           <i class="ti ti-menu-2"></i>
         </a>
       </li>
+
       <!-- Notifications -->
-      <li class="nav-item">
-        <a class="nav-link nav-icon-hover" href="javascript:void(0)">
+      <li class="nav-item dropdown">
+        <a class="nav-link nav-icon-hover" id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false" href="#">
           <i class="ti ti-bell-ringing"></i>
-          <div class="notification bg-primary rounded-circle"></div>
+          @php
+            $unreadCount = \App\Models\Notification::where('user_id', Auth::id())
+                            ->where('is_read', false)
+                            ->count();
+          @endphp
+          @if($unreadCount > 0)
+            <div class="notification bg-primary rounded-circle"></div>
+          @endif
         </a>
+
+        <!-- Notification Dropdown -->
+        <div class="dropdown-menu dropdown-menu-animate-up notifications-dropdown" aria-labelledby="notificationDropdown" style="width: 300px;">
+          <div class="p-3 border-bottom d-flex justify-content-between align-items-center">
+            <h6 class="mb-0">Notifications</h6>
+            <a href="{{ route('notifications.markAllRead') }}" class="small text-primary text-decoration-none">Mark all as read</a>
+          </div>
+
+          <div class="list-group" style="max-height: 300px; overflow-y: auto;">
+            @php
+              $notifications = \App\Models\Notification::where('user_id', Auth::id())
+                              ->orderBy('created_at', 'desc')
+                              ->take(10)
+                              ->get();
+            @endphp
+
+            @forelse ($notifications as $notification)
+              <a href="javascript:void(0)" 
+                 class="list-group-item list-group-item-action {{ $notification->is_read ? '' : 'bg-light' }}">
+                <div class="d-flex justify-content-between align-items-center">
+                  <p class="mb-1">{{ $notification->message }}</p>
+                  <small class="text-muted">{{ $notification->created_at->diffForHumans() }}</small>
+                </div>
+              </a>
+            @empty
+              <p class="text-center m-2 text-muted">No notifications</p>
+            @endforelse
+          </div>
+        </div>
       </li>
     </ul>
 
@@ -52,3 +89,4 @@
     </div>
   </nav>
 </header>
+<!-- =================== END HEADER =================== -->

@@ -9,6 +9,7 @@ use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\ConsultationController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\NotificationController;
 
 // -------------------------------------------------------
 // PUBLIC ROUTES
@@ -127,3 +128,18 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
 Route::middleware(['auth'])->group(function () {
     Route::get('/inventory', [InventoryController::class, 'index'])->name('inventory.index');
 });
+
+// -------------------------------------------------------
+// NOTIFICATION ROUTES
+Route::middleware(['auth'])->group(function () {
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+    Route::get('/notifications/mark-all-read', [NotificationController::class, 'markAllRead'])->name('notifications.markAllRead');
+});
+
+
+// -------------------------------------------------------
+
+
+
+
+
