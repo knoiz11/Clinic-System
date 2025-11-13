@@ -14,13 +14,13 @@
       <div class="container-fluid">
         <div class="row mb-4">
       <div class="col-md-4">
-        <div class="card shadow-sm text-center">
-          <div class="card-body">
-            <h2 class="fw-bold mb-0">150</h2>
-            <p class="mb-0">CCP Employees</p>
-          </div>
+      <div class="card shadow-sm text-center">
+        <div class="card-body">
+          <h2 class="fw-bold mb-0">{{ $employeeCount }}</h2>
+          <p class="mb-0">CCP Employees</p>
         </div>
       </div>
+    </div>
       <div class="col-md-4">
         <div class="card shadow-sm text-center">
           <div class="card-body">
@@ -32,38 +32,13 @@
       <div class="col-md-4">
         <div class="card shadow-sm text-center">
           <div class="card-body">
-            <h2 class="fw-bold mb-0">10</h2>
+            <h2 class="fw-bold mb-0">{{ $upcomingAppointmentsCount }}</h2>
             <p class="mb-0">Upcoming Checkups</p>
           </div>
         </div>
       </div>
-    </div>
 
-        <div class="row">
-            <div class="col-lg-8">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title d-flex align-items-center gap-2 mb-4">
-                            Quick Stats
-                            <span>
-                                <iconify-icon icon="solar:question-circle-bold" class="fs-7 d-flex text-muted" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="tooltip-success" data-bs-title="Traffic Overview"></iconify-icon>
-                            </span>
-                        </h5>
-                        <div id="traffic-overview" >
-                        </div>
-                    </div>
-                </div>
-            </div>
-        <div class="col-lg-4">
-          <div class="card">
-            <div class="card-body text-center">
-              <img src="../admin/images/backgrounds/bulb.png" alt="image" class="img-fluid" width="40">
-              <h4 class="mt-7">Productivity Tips!</h4>
-              <p class="card-subtitle mt-2 mb-3">Stay alive</p>
-                <button class="btn btn-primary mb-3">View All Tips</button>
-            </div>
-          </div>
-        </div>
+
 <div class="row">
   <!-- Employee Table -->
   <div class="col-lg-8">

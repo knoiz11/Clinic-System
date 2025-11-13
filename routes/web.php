@@ -10,6 +10,8 @@ use App\Http\Controllers\ConsultationController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\DashboardController;
+
 
 // -------------------------------------------------------
 // PUBLIC ROUTES
@@ -88,9 +90,8 @@ Route::post('/register', function (Request $request) {
 
 Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
 
-    Route::get('/dashboard', function () {
-        return view('admin.dashboard');
-    })->name('admin.dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+
 
     // Employee Routes
     Route::prefix('employee')->name('employee.')->group(function () {
