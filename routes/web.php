@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -8,22 +9,23 @@ use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\ConsultationController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\NotificationController;
 
-/*
-|--------------------------------------------------------------------------
-| Public Routes
-|--------------------------------------------------------------------------
-*/
+// -------------------------------------------------------
+// PUBLIC ROUTES
+// -------------------------------------------------------
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->middleware('web');
 
+
+// Login page
 Route::get('/login', function () {
     return view('login');
 })->name('login');
 
-// Handle login with specific error messages
+// Handle login
 Route::post('/login', function (Request $request) {
     $request->validate([
         'username' => 'required|string',
@@ -33,30 +35,32 @@ Route::post('/login', function (Request $request) {
     $user = User::where('username', $request->username)->first();
 
     if (!$user) {
-        return back()->withErrors([
-            'username' => 'Username not found.',
-        ]);
+        return back()->withErrors(['username' => 'Username not found.']);
     }
 
     if (!Auth::attempt(['username' => $request->username, 'password' => $request->password])) {
-        return back()->withErrors([
-            'password' => 'Wrong password.',
-        ]);
+        return back()->withErrors(['password' => 'Wrong password.']);
     }
 
     $request->session()->regenerate();
-    return redirect()->intended('/dashboard');
+
+    // ✅ Redirect based on role
+    if (Auth::user()->role === 'admin') {
+        return redirect()->intended('/admin/dashboard');
+    } else {
+        return redirect()->intended('/');
+    }
 })->name('login.post');
 
+// Logout route
 Route::post('/logout', function (Request $request) {
     Auth::logout();
-
     $request->session()->invalidate();
     $request->session()->regenerateToken();
-
     return redirect()->route('login');
 })->name('logout');
 
+// Register routes
 Route::get('/register', function () {
     return view('register');
 })->name('register');
@@ -72,27 +76,23 @@ Route::post('/register', function (Request $request) {
         'username' => $validated['username'],
         'email' => $validated['email'],
         'password' => bcrypt($validated['password']),
+        'role' => 'user', // default role
     ]);
 
     return redirect()->route('login')->with('success', 'Account created! Please log in.');
 });
 
-// ✅ Inventory route (accessible to everyone)
-Route::get('/inventory', [InventoryController::class, 'index'])->name('inventory.index');
+// -------------------------------------------------------
+// ADMIN ROUTES (Protected by Auth + Admin Middleware)
+// -------------------------------------------------------
 
-/*
-|--------------------------------------------------------------------------
-| Protected Routes
-|--------------------------------------------------------------------------
-*/
-
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
 
     Route::get('/dashboard', function () {
         return view('admin.dashboard');
-    });
+    })->name('admin.dashboard');
 
-    // Employee Routes (CRUD)
+    // Employee Routes
     Route::prefix('employee')->name('employee.')->group(function () {
         Route::get('/', [EmployeeController::class, 'index'])->name('index');
         Route::get('/create', [EmployeeController::class, 'create'])->name('create');
@@ -103,17 +103,43 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/{employee}/view', [EmployeeController::class, 'show'])->name('show');
     });
 
-    // Consultation Routes
-    Route::get('/consultation/{employee}', [ConsultationController::class, 'show'])->name('consultation.show');
+    // Consultation
+    Route::get('/consultation/{employee}', [ConsultationController::class, 'show'])
+        ->name('consultation.show');
 
-    // Appointment Routes
+    // Appointment
     Route::get('/appointment', [AppointmentController::class, 'create'])->name('appointment.create');
     Route::post('/appointment', [AppointmentController::class, 'store'])->name('appointment.store');
     Route::delete('/appointment/{id}', [AppointmentController::class, 'destroy'])->name('appointment.destroy');
     Route::patch('/appointment/{id}/status', [AppointmentController::class, 'updateStatus'])->name('appointment.updateStatus');
 
-    // Reports Routes
-    Route::view('/reports', 'admin.reports')->name('reports');
-    Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
+    // Reports
+    Route::get('/reports', [ReportController::class, 'index'])->name('admin.reports');
     Route::get('/reports/pdf/{type}/{mode?}', [ReportController::class, 'generatePDF'])->name('reports.pdf');
+
+    // Inventory (admin access)
+    Route::get('/inventory', [InventoryController::class, 'index'])->name('admin.inventory');
 });
+
+// -------------------------------------------------------
+// AUTHENTICATED USER ROUTES (Non-admin)
+// -------------------------------------------------------
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/inventory', [InventoryController::class, 'index'])->name('inventory.index');
+});
+
+// -------------------------------------------------------
+// NOTIFICATION ROUTES
+Route::middleware(['auth'])->group(function () {
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+    Route::get('/notifications/mark-all-read', [NotificationController::class, 'markAllRead'])->name('notifications.markAllRead');
+});
+
+
+// -------------------------------------------------------
+
+
+
+
+

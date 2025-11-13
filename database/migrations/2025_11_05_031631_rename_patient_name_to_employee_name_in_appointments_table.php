@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-           /* Schema::table('appointments', function (Blueprint $table) {
-            // Add the user_id column and foreign key
-            $table->unsignedBigInteger('user_id')->after('id');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-        }); */
+        Schema::table('appointments', function (Blueprint $table) {
+            // Rename the column from patient_name to employee_name
+            $table->renameColumn('patient_name', 'employee_name');
+        });
     }
 
     /**
@@ -24,8 +23,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('appointments', function (Blueprint $table) {
-            $table->dropForeign(['user_id']);
-            $table->dropColumn('user_id');
+            // Revert the name change if the migration is rolled back
+            $table->renameColumn('employee_name', 'patient_name');
         });
     }
 };

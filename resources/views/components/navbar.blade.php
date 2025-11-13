@@ -1,3 +1,9 @@
+@php
+    use Illuminate\Support\Facades\Auth;
+    Auth::shouldUse('web');
+@endphp
+
+
 <nav class="navbar navbar-expand-lg fixed-top shadow-lg">
     <div class="container">
         <!-- Logo for small screens -->
@@ -20,25 +26,42 @@
                 <li class="nav-item active">
                     <a class="nav-link" href="#hero">Home</a>
                 </li>
-
                 <li class="nav-item">
                     <a class="nav-link" href="#about">About</a>
                 </li>
-
                 <li class="nav-item">
                     <a class="nav-link" href="#contact">Contact</a>
                 </li>
             </ul>
 
-            <!-- Account button on the right side -->
+            <!-- Account / User Info -->
             <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a href="{{ route('login') }}" 
-                       class="btn btn-outline-light" 
-                       style="background-color: maroon; border-color: maroon;">
-                        <i class="bi bi-person-circle"></i> Account
-                    </a>
-                </li>
+                @if (Auth::check())
+                    <li class="nav-item d-flex align-items-center me-3 text-white">
+                        {{ Auth::user()->username }}
+                        <small class="text-light ms-1">
+                            ({{ ucfirst(Auth::user()->role) }})
+                        </small>
+                    </li>
+                    <li class="nav-item">
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit" 
+                                class="btn btn-outline-light"
+                                style="background-color: maroon; border-color: maroon;">
+                                <i class="bi bi-box-arrow-right"></i> Logout
+                            </button>
+                        </form>
+                    </li>
+                @else
+                    <li class="nav-item">
+                        <a href="{{ route('login') }}" 
+                           class="btn btn-outline-light" 
+                           style="background-color: maroon; border-color: maroon;">
+                            <i class="bi bi-person-circle"></i> Account
+                        </a>
+                    </li>
+                @endif
             </ul>
         </div>
     </div>
