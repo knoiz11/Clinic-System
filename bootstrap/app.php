@@ -33,3 +33,11 @@ return Application::configure(basePath: dirname(__DIR__))
         //
     })
     ->create();
+
+    $app->booted(function () use ($app) {
+    // Only run in local/testing environment
+    if (env('APP_ENV') === 'local') {
+        // Run the appointment reminder command every time the app boots
+        \App\Console\Commands\AppointmentReminder::handle();
+    }
+});

@@ -21,14 +21,15 @@
         </div>
       </div>
     </div>
-      <div class="col-md-4">
+    <div class="col-md-4">
         <div class="card shadow-sm text-center">
-          <div class="card-body">
-            <h2 class="fw-bold mb-0">45</h2>
-            <p class="mb-0">Recent Visits</p>
-          </div>
+            <div class="card-body">
+                <h2 class="fw-bold mb-0">{{ $recentVisitsCount }}</h2>
+                <p class="mb-0">Recent Visits</p>
+            </div>
         </div>
-      </div>
+    </div>
+    
       <div class="col-md-4">
         <div class="card shadow-sm text-center">
           <div class="card-body">
@@ -60,48 +61,24 @@
               </tr>
             </thead>
             <tbody class="table-group-divider">
-              <tr class="employee-row" 
-                  data-name="John Doe" 
-                  data-department="IT" 
-                  data-age="28" 
-                  data-gender="Male" 
-                  data-history="None" 
-                  data-contact="09171234567" 
-                  data-email="john@example.com">
-                <td class="ps-0 fw-medium">John Doe</td>
-                <td>Software Engineer</td>
-                <td class="text-center fw-medium">IT</td>
-                <td class="text-center fw-medium">Active</td>
+            @foreach ($employees as $emp)
+              <tr class="employee-row"
+                  data-name="{{ $emp->name }}"
+                  data-department="{{ $emp->department }}"
+                  data-age="{{ $emp->age ?? 'N/A' }}"
+                  data-gender="{{ $emp->gender ?? 'N/A' }}"
+                  data-history="{{ $emp->medical_history ?? 'N/A' }}"
+                  data-contact="{{ $emp->contact ?? 'N/A' }}"
+                  data-email="{{ $emp->email ?? 'N/A' }}"
+              >
+                <td class="ps-0 fw-medium">{{ $emp->name }}</td>
+                <td>{{ $emp->designation ?? 'N/A' }}</td>
+                <td class="text-center fw-medium">{{ $emp->department }}</td>
+                <td class="text-center fw-medium">{{ $emp->status ?? 'Active' }}</td>
               </tr>
-
-              <tr class="employee-row" 
-                  data-name="Jane Smith" 
-                  data-department="Human Resources" 
-                  data-age="32" 
-                  data-gender="Female" 
-                  data-history="Asthma" 
-                  data-contact="09987654321" 
-                  data-email="jane@example.com">
-                <td class="ps-0 fw-medium">Jane Smith</td>
-                <td>HR Officer</td>
-                <td class="text-center fw-medium">Human Resources</td>
-                <td class="text-center fw-medium">Active</td>
-              </tr>
-
-              <tr class="employee-row" 
-                  data-name="Michael Johnson" 
-                  data-department="Finance" 
-                  data-age="30" 
-                  data-gender="Male" 
-                  data-history="None" 
-                  data-contact="09179874512" 
-                  data-email="michael@example.com">
-                <td class="ps-0 fw-medium">Michael Johnson</td>
-                <td>Accountant</td>
-                <td class="text-center fw-medium">Finance</td>
-                <td class="text-center fw-medium">On Leave</td>
-              </tr>
+            @endforeach
             </tbody>
+
           </table>
         </div>
 
@@ -126,137 +103,46 @@
   </div>
 </div>
 
-        <div class="col-lg-4">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title d-flex align-items-center gap-2 mb-5 pb-3">Sessions by
-                device<span><iconify-icon icon="solar:question-circle-bold" class="fs-7 d-flex text-muted" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="tooltip-success" data-bs-title="Locations"></iconify-icon></span>
-              </h5>
-              <div class="row">
-                <div class="col-4">
-                  <iconify-icon icon="solar:laptop-minimalistic-line-duotone" class="fs-7 d-flex text-primary"></iconify-icon>
-                  <span class="fs-11 mt-2 d-block text-nowrap">Computers</span>
-                  <h4 class="mb-0 mt-1">87%</h4>
-                </div>
-                <div class="col-4">
-                  <iconify-icon icon="solar:smartphone-line-duotone" class="fs-7 d-flex text-secondary"></iconify-icon>
-                  <span class="fs-11 mt-2 d-block text-nowrap">Smartphone</span>
-                  <h4 class="mb-0 mt-1">9.2%</h4>
-                </div>
-                <div class="col-4">
-                  <iconify-icon icon="solar:tablet-line-duotone" class="fs-7 d-flex text-success"></iconify-icon>
-                  <span class="fs-11 mt-2 d-block text-nowrap">Tablets</span>
-                  <h4 class="mb-0 mt-1">3.1%</h4>
-                </div>
-              </div>
+<!-- Upcoming Appointments -->
+<div class="col-lg-8 mt-4">
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title mb-3">Upcoming Appointments</h5>
 
-              <div class="vstack gap-4 mt-7 pt-2">
-                <div>
-                  <div class="hstack justify-content-between">
-                    <span class="fs-3 fw-medium">Computers</span>
-                    <h6 class="fs-3 fw-medium text-dark lh-base mb-0">87%</h6>
-                  </div>
-                  <div class="progress mt-6" role="progressbar" aria-label="Warning example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
-                    <div class="progress-bar bg-primary" style="width: 100%"></div>
-                  </div>
-                </div>
+      <div class="table-responsive">
+        <table class="table text-nowrap align-middle mb-0">
+          <thead>
+            <tr class="border-2 border-bottom border-primary border-0">
+              <th>Employee</th>
+              <th>Date</th>
+              <th>Time</th>
+              <th>Reason</th>
+            </tr>
+          </thead>
+          <tbody class="table-group-divider">
+            @forelse ($upcomingAppointments as $appt)
+              <tr>
+                <td class="fw-medium">
+                    {{ $appt->employee ? $appt->employee->name : $appt->employee_name }}
+                </td>
+                <td>{{ \Carbon\Carbon::parse($appt->date)->format('M d, Y') }}</td>
+                <td>{{ \Carbon\Carbon::parse($appt->time)->format('h:i A') }}</td>
+                <td>{{ $appt->reason ?? '-' }}</td>
+              </tr>
+            @empty
+              <tr>
+                <td colspan="4" class="text-center text-muted">No upcoming appointments.</td>
+              </tr>
+            @endforelse
+          </tbody>
+        </table>
+      </div>
 
-                <div>
-                  <div class="hstack justify-content-between">
-                    <span class="fs-3 fw-medium">Smartphones</span>
-                    <h6 class="fs-3 fw-medium text-dark lh-base mb-0">9.2%</h6>
-                  </div>
-                  <div class="progress mt-6" role="progressbar" aria-label="Warning example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
-                    <div class="progress-bar bg-secondary" style="width: 50%"></div>
-                  </div>
-                </div>
+    </div>
+  </div>
+</div>
 
-                <div>
-                  <div class="hstack justify-content-between">
-                    <span class="fs-3 fw-medium">Tablets</span>
-                    <h6 class="fs-3 fw-medium text-dark lh-base mb-0">3.1%</h6>
-                  </div>
-                  <div class="progress mt-6" role="progressbar" aria-label="Warning example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
-                    <div class="progress-bar bg-success" style="width: 35%"></div>
-                  </div>
-                </div>
 
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-4">
-          <div class="card overflow-hidden hover-img">
-            <div class="position-relative">
-              <span class="badge text-bg-light text-dark fs-2 lh-sm mb-9 me-9 py-1 px-2 fw-semibold position-absolute bottom-0 end-0">2
-                min Read</span>
-              <img src="../admin/images/profile/world.png" alt="matdash-img" class="img-fluid rounded-circle position-absolute bottom-0 start-0 mb-n9 ms-9" width="30" height="20" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Georgeanna Ramero">
-            </div>
-            <div class="card-body p-4">
-              <span class="badge text-bg-light fs-2 py-1 px-2 lh-sm  mt-3">Social</span>
-              <a class="d-block my-4 fs-5 text-dark fw-semibold link-primary" href="">Conversely, social isolation and loneliness can lead to increased stress, depression, and a higher risk for chronic diseases like heart disease and type 2 diabetes.</a>
-              <div class="d-flex align-items-center gap-4">
-                <div class="d-flex align-items-center gap-2">
-                  <i class="ti ti-eye text-dark fs-5"></i>9,125
-                </div>
-                <div class="d-flex align-items-center gap-2">
-                  <i class="ti ti-message-2 text-dark fs-5"></i>3
-                </div>
-                <div class="d-flex align-items-center fs-2 ms-auto">
-                  <i class="ti ti-point text-dark"></i>Mon, Dec 19
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-4">
-          <div class="card overflow-hidden hover-img">
-            <div class="position-relative">
-              <span class="badge text-bg-light text-dark fs-2 lh-sm mb-9 me-9 py-1 px-2 fw-semibold position-absolute bottom-0 end-0">2
-                min Read</span>
-              <img src="../admin/images/profile/electronics.png" alt="matdash-img" class="img-fluid rounded-circle position-absolute bottom-0 start-0 mb-n9 ms-9" width="30" height="20" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Georgeanna Ramero">
-            </div>
-            <div class="card-body p-4">
-              <span class="badge text-bg-light fs-2 py-1 px-2 lh-sm  mt-3">Gadget</span>
-              <a class="d-block my-4 fs-5 text-dark fw-semibold link-primary" href="">Excessive gadget use can negatively impact physical and mental health, leading to issues like eye strain, poor posture, and musculoskeletal pain from poor ergonomics.</a>
-              <div class="d-flex align-items-center gap-4">
-                <div class="d-flex align-items-center gap-2">
-                  <i class="ti ti-eye text-dark fs-5"></i>4,150
-                </div>
-                <div class="d-flex align-items-center gap-2">
-                  <i class="ti ti-message-2 text-dark fs-5"></i>38
-                </div>
-                <div class="d-flex align-items-center fs-2 ms-auto">
-                  <i class="ti ti-point text-dark"></i>Sun, Dec 18
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-4">
-          <div class="card overflow-hidden hover-img">
-            <div class="position-relative"> 
-              <span class="badge text-bg-light text-dark fs-2 lh-sm mb-9 me-9 py-1 px-2 fw-semibold position-absolute bottom-0 end-0">2
-                min Read</span>
-              <img src="../admin/images/profile/health-care.png" alt="matdash-img" class="img-fluid rounded-circle position-absolute bottom-0 start-0 mb-n9 ms-9" width="30" height="20" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Georgeanna Ramero">
-            </div>
-            <div class="card-body p-4">
-              <span class="badge text-bg-light fs-2 py-1 px-2 lh-sm  mt-3">Health</span>
-              <a class="d-block my-4 fs-5 text-dark fw-semibold link-primary" href="">Influenza outbreak deepens as more lockdowns loom in Philippines</a>
-              <div class="d-flex align-items-center gap-4">
-                <div class="d-flex align-items-center gap-2">
-                  <i class="ti ti-eye text-dark fs-5"></i>9,480
-                </div>
-                <div class="d-flex align-items-center gap-2">
-                  <i class="ti ti-message-2 text-dark fs-5"></i>12
-                </div>
-                <div class="d-flex align-items-center fs-2 ms-auto">
-                  <i class="ti ti-point text-dark"></i>Sat, Dec 17
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
       <!-- Footer -->
       @include('components.admin.footer')
         </div>
