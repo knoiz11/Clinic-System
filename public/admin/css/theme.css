@@ -1,14 +1,34 @@
 /* --- Dashboard Theme Colors --- */
 :root {
-    --primary-maroon: #660000;
-    --cream: #fff7e6;
-    --maroon-dark: #4d0000;
+  --ccp-white:                  #FFFFFF;
+  --section-bg-color:             #F9F9F9;
+  --dark-color:                   #000000;
+  --title-color:                  #565758;
+  --p-color:                      #717275;
+  --border-color:                 #eaeaea;
+
+  --ccp-primary-color-gold: #B3822B;  
+  --ccp-primary-color-maroon: #7D1D37;
+  --ccp-m1: #660C21;
+  --ccp-m2: #9B0D3C;
+  --ccp-m3: #A83561;
+  --ccp-g1: #cd9e4a;
+  --ccp-g2: #e7c17d;
+  --ccp-g3: #f9ddab;
+  --ccp-light-grey: #cccc;
+  --ccp-dark-grey: #353535;
+  --ccp-light: #fffaea;
+
+    /* new variables to control header/sidebar shifts */
+    --sidebar-width: 250px;
+    --sidebar-collapsed-width: 80px;
+    --header-height: 70px;
 }
 
 /* Sidebar (adjust class selector to match your sidebar) */
 .sidebar,
 .page-wrapper .sidebar {
-    background-color: var(--primary-maroon);
+    background-color: var(--ccp-primary-color-maroon);
     color: var(--cream);
 }
 .sidebar a,
@@ -22,28 +42,60 @@
 }
 
 /* Header (adjust .header to match your header include) */
+/* NAVBAR: use maroon background + light text for contrast */
 .header,
-.navbar {
-    background-color: var(--cream);
-    color: var(--primary-maroon);
-    border-bottom: 2px solid var(--primary-maroon);
+.navbar,
+.app-header {
+    background-color: var(--ccp-primary-color-maroon) !important;
+    color: #ffffff !important;
+    /* use a very subtle top divider (optional) or remove if unwanted */
+}
+/* ensure links/icons in the navbar are readable on maroon */
+.navbar a,
+.navbar .nav-link,
+.app-header a,
+.app-header .nav-link,
+.app-header .icon-button,
+.navbar .icon-button {
+    color: #efefef !important;
+    fill: currentColor !important;
+    stroke: currentColor !important;
+}
+
+.navbar a:hover,
+.navbar .nav-link:hover,
+.app-header a:hover,
+.app-header .nav-link:hover,
+.app-header .icon-button:hover,
+.navbar .icon-button:hover {
+    color: #343434 !important;
+    fill: #A83561 !important;
+    stroke: #A83561 !important;
+}
+/* keep toggler / icons using the white color when active on maroon background */
+.app-navbar .navbar-toggler[aria-expanded="true"],
+.app-navbar .navbar-toggler.active,
+.app-navbar .icon-button.active {
+    background-color: rgba(255,255,255,0.08) !important;
+    color: #efefef !important;
 }
 
 /* Buttons */
 .btn-primary {
-    background-color: var(--primary-maroon);
+    background-color: var(--ccp-primary-color-maroon);
     color: #fff;
     border: none;
+    
 }
 .btn-primary:hover {
-    background-color: var(--maroon-dark);
+    background-color: var(--ccp-m1);
 }
 
 /* Cards / Containers */
 .card,
 .content-box {
     background-color: #ffffff;
-    border: 1px solid var(--primary-maroon);
+    border: 1px solid var(--ccp-primary-color-maroon);
     border-radius: 8px;
     padding: 1rem;
     transition: transform 0.25s ease, box-shadow 0.25s ease;
@@ -51,16 +103,16 @@
 
 /* Tables */
 .table thead {
-    background-color: var(--primary-maroon);
+    background-color: var(--ccp-primary-color-maroon);
     color: #fff;
 }
 
 /* Small helpers */
 .text-maroon {
-    color: var(--primary-maroon) !important;
+    color: var(--ccp-primary-color-maroon) !important;
 }
 .bg-cream {
-    background-color: var(--cream) !important;
+    background-color: var(--ccp-light) !important;
 }
 
 /* Disable card hover movement globally */
@@ -92,24 +144,219 @@
     transition: none !important;
 }
 
-/* Make header span full width even with sidebar */
 .app-header {
     position: fixed;
     top: 0;
-    left: 250px; /* width of your sidebar */
+    left: 0;
     right: 0;
-    z-index: 1030;
-    background-color: #fff7e6;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-    transition: left 0.3s ease; /* smooth animation when sidebar collapses */
+    height: var(--header-height);
+    background-color: var(--cream);
+    z-index: 1100;
+    transform: translateX(0);
+    transition: transform .28s cubic-bezier(.2,.9,.3,1), box-shadow .18s ease;
+    will-change: transform;
+    box-shadow: 0 6px 18px rgba(20,20,20,0.04);
 }
 
-/* When sidebar is collapsed, header adjusts */
-.page-wrapper[data-sidebartype="mini-sidebar"] .app-header {
-    left: 80px; /* match collapsed sidebar width */
+@media (min-width: 992px) {
+  .app-header { transform: translateX(var(--sidebar-width)); }
+  .page-wrapper[data-sidebartype="mini-sidebar"] .app-header { transform: translateX(var(--sidebar-collapsed-width)); }
 }
 
-/* Push content down to make room for fixed header */
+@media (max-width: 991.98px) {
+  .app-header { transform: translateX(0); }
+  body.sidebar-open .app-header { transform: translateX(var(--sidebar-width)); }
+}
+
+.navbar .container,
+.app-header .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
 .body-wrapper {
-    padding-top: 70px;
+  padding-top: var(--header-height);
+}
+
+.left-sidebar,
+.page-wrapper .left-sidebar {
+  transition: transform .28s cubic-bezier(.2,.9,.3,1), width .18s ease;
+}
+
+@media (min-width: 1400px) {
+  .app-header { transform: translateX(var(--sidebar-width)); }
+}
+
+.app-header .dropdown-menu,
+.navbar .dropdown-menu {
+  background: #ffffff !important;
+  color: #24323a !important;               /* dark readable text */
+  border: 1px solid rgba(0,0,0,0.06) !important;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.08) !important;
+  padding: .5rem !important;
+  min-width: 220px !important;
+  border-radius: 14px !important;
+  z-index: 2200 !important;
+}
+
+.app-header .dropdown-menu .dropdown-item,
+.navbar .dropdown-menu .dropdown-item {
+  color: #24323a !important;
+  padding: .6rem .9rem !important;
+  font-weight: 600 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: .6rem !important;
+}
+
+.app-header .dropdown-menu .dropdown-item .bi,
+.navbar .dropdown-menu .dropdown-item .bi,
+.app-header .dropdown-menu .dropdown-item .iconify-icon,
+.navbar .dropdown-menu .dropdown-item .iconify-icon {
+  color: #6b6f76 !important;
+  font-size: 1.05rem !important;
+}
+
+.app-header .dropdown-menu .dropdown-item:hover,
+.navbar .dropdown-menu .dropdown-item:hover {
+  background-color: var(--ccp-m3, #A83561) !important;
+  color: var(--ccp-light, #fffaea) !important;
+}
+.app-header .dropdown-menu .dropdown-item:hover .bi,
+.navbar .dropdown-menu .dropdown-item:hover .bi {
+  color: var(--ccp-light, #fffaea) !important;
+}
+
+/* Header / separators in dropdown */
+.app-header .dropdown-menu .dropdown-header,
+.navbar .dropdown-menu .dropdown-header {
+  color: #6b6f76 !important;
+  font-weight: 700 !important;
+  padding: .5rem .9rem !important;
+}
+
+.app-header .dropdown-menu .text-muted,
+.navbar .dropdown-menu .text-muted {
+  color: #9aa1a6 !important;
+}
+
+.app-header .dropdown-menu,
+.navbar .dropdown-menu {
+  background-image: none !important;
+}
+
+.service-btn {
+             background-color: var(--ccp-primary-color-maroon);
+             color: var(--ccp-light);
+             padding: 12px;
+             min-width: 100px;
+             border-radius: 10px;
+             border: none;
+             display: inline-flex;
+             align-items: center;
+             justify-content: center;
+             font-weight: 600;
+             box-shadow: 0 2px 0 rgba(0,0,0,0.06);
+             transition: transform .08s ease, box-shadow .08s ease, opacity .08s ease;
+           }
+           .service-btn:active { transform: translateY(1px); box-shadow: none; }
+           .service-btn:focus { outline: none; box-shadow: 0 0 0 4px rgba(128,0,0,0.08); }
+           @media (max-width: 576px) {
+             .service-btn { min-width: 140px; padding: 10px 14px; font-size: 14px; }
+           }
+
+.btn-doc {
+    background-color: var(--ccp-primary-color-maroon);
+    color: var(--ccp-light);
+    border: none;
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-weight: 600;
+    box-shadow: 0 2px 0 rgba(0,0,0,0.06);
+    transition: transform .08s ease, box-shadow .08s ease, opacity .08s ease;
+  }
+  .btn-doc:active { transform: translateY(1px); box-shadow: none; }
+  .btn-doc:focus { outline: none; box-shadow: 0 0 0 4px rgba(128,0,0,0.08); }
+  @media (max-width: 576px) {
+    .btn-doc { min-width: 140px; padding: 10px 14px; font-size: 14px; }
+  }
+
+#icd11_codes {
+  border-radius: 10px;
+  border: 1px solid rgba(0,0,0,0.08);
+  background: #fff;
+  box-shadow: none;
+  font-size: 0.95rem;
+  color: #222;
+  min-width: 440px;
+  transition: box-shadow .12s ease, transform .06s ease;
+}
+
+#icd11_codes:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(91,10,30,0.06);
+  border-color: rgb(0, 106, 255);
+}
+
+div[id^="icd11_codes"],
+table[id^="icd11_codes"],
+.autocompleter,
+.Autocompleter,
+.def-autocompleter,
+.ui-autocomplete {
+  background: #fff !important;
+  border: 1px solid rgba(91,10,30,0.08) !important;
+  border-radius: 10px !important;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08) !important;
+  max-height: 360px;
+  overflow: auto;
+  padding: 0.25rem;
+  z-index: 9999;
+  font-size: 0.92rem;
+  color: #222;
+}
+
+/* Table & row styling inside the dropdown */
+table[id^="icd11_codes"] td,
+table[id^="icd11_codes"] th,
+.autocompleter table td,
+.autocompleter table th {
+  padding: 0.55rem 0.6rem;
+  border-bottom: 1px solid rgba(0,0,0,0.04);
+  vertical-align: middle;
+}
+
+table[id^="icd11_codes"] tr:hover td,
+.autocompleter table tr:hover td {
+  background: var(--ccp-primary-color-gold, #d6a82b);
+  color: var(--ccp-contrast-on-gold, #111);
+}
+
+table[id^="icd11_codes"] td:first-child,
+table[id^="icd11_codes"] th:first-child {
+  width: 90px;
+  white-space: nowrap;
+  font-weight: 600;
+  color: #333;
+}
+
+/* Slightly dim the type column so it doesn't compete visually */
+table[id^="icd11_codes"] td:nth-child(3),
+table[id^="icd11_codes"] th:nth-child(3) {
+  opacity: 0.7;
+  font-size: 0.85rem;
+}
+
+/* Responsive: reduce dropdown max-height on small screens */
+@media (max-width: 767.98px) {
+  div[id^="icd11_codes"],
+  table[id^="icd11_codes"],
+  .autocompleter {
+    max-height: 260px;
+    font-size: 0.9rem;
+  }
 }

@@ -2,32 +2,24 @@
 <html lang="en">
 
 <head>
-    <!-- Meta & Title -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, initial-scale=1">
-    <title>Clinic Management System - Admin Panel</title>
-
-    <!-- Favicon -->
+    <title>Clinic Information System - Admin Panel</title>
     <link rel="shortcut icon" type="image/png" href="{{ asset('admin/images/logos/ccp.png') }}" />
 
-    <!-- Main CSS -->
     <link rel="stylesheet" href="{{ asset('admin/css/styles.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('admin/css/employee.css') }}" />
     <link rel="stylesheet" href="{{ asset('admin/css/dashboard-theme.css') }}" />
-
-    <!-- Fonts or Icons -->
+    <link href='https://clinicaltables.nlm.nih.gov/autocomplete-lhc-versions/19.2.4/autocomplete-lhc.min.css' rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
-    <!-- bootstrap -->
-<link href="{{ asset('admin/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
-<!-- your theme override (load after bootstrap) -->
-<link href="{{ asset('admin/css/theme.css') }}" rel="stylesheet">
+    <link href="{{ asset('admin/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('admin/css/theme.css') }}" rel="stylesheet">
 
 </head>
 
 
 <body>
   <main>
-    {{-- Laravel Section Yields for Dynamic Pages --}}
     @yield('login')
     @yield('register')
     @yield('dashboard')
@@ -54,6 +46,9 @@
   <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
   <script src="{{ asset('admin/js/searchemployee.js') }}"></script>
   <script src="{{ asset('admin/js/viewemployee.js') }}"></script>
+  <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>
+  <script src='https://clinicaltables.nlm.nih.gov/autocomplete-lhc-versions/19.2.4/autocomplete-lhc.min.js'></script>
+  <script src="{{ asset('admin/js/icdcode.js') }}"></script>
 </body>
 
 </html>

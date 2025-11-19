@@ -4,10 +4,10 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <meta name="description" content="">
-        <meta name="author" content="">
+        <meta name="description" content="Clinic Information System">
+        <meta name="author" content="Cultural Center of the Philippines">
 
-        <title>Medic Care Bootstrap 5 CSS Template</title>
+        <title>Clinic Information System</title>
 
         <!-- CSS FILES -->        
         <link rel="preconnect" href="https://fonts.googleapis.com">
