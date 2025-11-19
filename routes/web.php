@@ -12,7 +12,6 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\DashboardController;
 
-
 // -------------------------------------------------------
 // PUBLIC ROUTES
 // -------------------------------------------------------
@@ -21,13 +20,11 @@ Route::get('/', function () {
     return view('welcome');
 })->middleware('web');
 
-
-// Login page
+// Login
 Route::get('/login', function () {
     return view('login');
 })->name('login');
 
-// Handle login
 Route::post('/login', function (Request $request) {
     $request->validate([
         'username' => 'required|string',
@@ -35,7 +32,6 @@ Route::post('/login', function (Request $request) {
     ]);
 
     $user = User::where('username', $request->username)->first();
-
     if (!$user) {
         return back()->withErrors(['username' => 'Username not found.']);
     }
@@ -46,15 +42,10 @@ Route::post('/login', function (Request $request) {
 
     $request->session()->regenerate();
 
-    // ✅ Redirect based on role
-    if (Auth::user()->role === 'admin') {
-        return redirect()->intended('/admin/dashboard');
-    } else {
-        return redirect()->intended('/');
-    }
+    return redirect()->intended(Auth::user()->role === 'admin' ? '/admin/dashboard' : '/');
 })->name('login.post');
 
-// Logout route
+// Logout
 Route::post('/logout', function (Request $request) {
     Auth::logout();
     $request->session()->invalidate();
@@ -62,7 +53,7 @@ Route::post('/logout', function (Request $request) {
     return redirect()->route('login');
 })->name('logout');
 
-// Register routes
+// Register
 Route::get('/register', function () {
     return view('register');
 })->name('register');
@@ -78,20 +69,19 @@ Route::post('/register', function (Request $request) {
         'username' => $validated['username'],
         'email' => $validated['email'],
         'password' => bcrypt($validated['password']),
-        'role' => 'user', // default role
+        'role' => 'user',
     ]);
 
     return redirect()->route('login')->with('success', 'Account created! Please log in.');
 });
 
 // -------------------------------------------------------
-// ADMIN ROUTES (Protected by Auth + Admin Middleware)
+// ADMIN ROUTES
 // -------------------------------------------------------
 
 Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
-
 
     // Employee Routes
     Route::prefix('employee')->name('employee.')->group(function () {
@@ -118,29 +108,20 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::get('/reports', [ReportController::class, 'index'])->name('admin.reports');
     Route::get('/reports/pdf/{type}/{mode?}', [ReportController::class, 'generatePDF'])->name('reports.pdf');
 
-    // Inventory (admin access)
+    // Inventory (Admin)
     Route::get('/inventory', [InventoryController::class, 'index'])->name('admin.inventory');
+    Route::post('/inventory', [InventoryController::class, 'store'])->name('admin.inventory.store');
+    Route::get('/inventory/{inventory}/edit', [InventoryController::class, 'edit'])->name('admin.inventory.edit');
+    Route::patch('/inventory/{inventory}', [InventoryController::class, 'update'])->name('admin.inventory.update');
+    Route::delete('/inventory/{inventory}', [InventoryController::class, 'destroy'])->name('admin.inventory.destroy');
 });
 
-// -------------------------------------------------------
-// AUTHENTICATED USER ROUTES (Non-admin)
-// -------------------------------------------------------
-
-Route::middleware(['auth'])->group(function () {
-    Route::get('/inventory', [InventoryController::class, 'index'])->name('inventory.index');
-});
 
 // -------------------------------------------------------
-// NOTIFICATION ROUTES
+// Notifications
+// -------------------------------------------------------
+
 Route::middleware(['auth'])->group(function () {
     Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
     Route::get('/notifications/mark-all-read', [NotificationController::class, 'markAllRead'])->name('notifications.markAllRead');
 });
-
-
-// -------------------------------------------------------
-
-
-
-
-

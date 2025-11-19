@@ -360,3 +360,14 @@ table[id^="icd11_codes"] th:nth-child(3) {
     font-size: 0.9rem;
   }
 }
+
+.notifications-dropdown .list-group-item {
+    opacity: 1 !important;
+    color: #24323a !important; /* dark text */
+}
+
+.notifications-dropdown .list-group-item p,
+.notifications-dropdown .list-group-item small {
+    opacity: 1 !important;
+    color: #24323a !important;
+}
