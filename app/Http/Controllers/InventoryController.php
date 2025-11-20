@@ -32,6 +32,28 @@ class InventoryController extends Controller
     }
 
     /**
+     * AJAX endpoint returning filtered inventory rows (partial view)
+     */
+    public function ajax(Request $request)
+    {
+        $query = Inventory::query();
+
+        if ($request->filled('q')) {
+            $q = $request->input('q');
+            $query->where('item_name', 'like', "%{$q}%")
+                  ->orWhere('object_id', 'like', "%{$q}%");
+        }
+
+        if ($request->filled('supply_type')) {
+            $query->where('supply_type', $request->input('supply_type'));
+        }
+
+        $items = $query->orderBy('object_id')->get();
+
+        return view('components.admin.partials.inventory-table', compact('items'));
+    }
+
+    /**
      * Store a new inventory item
      */
     public function store(Request $request)
@@ -58,6 +80,14 @@ class InventoryController extends Controller
     public function edit(Inventory $inventory)
     {
         return response()->json($inventory);
+    }
+
+    /**
+     * Show edit page for a single inventory item (page-based editing)
+     */
+    public function editPage(Inventory $inventory)
+    {
+        return view('admin.inventory.edit', compact('inventory'));
     }
 
     /**

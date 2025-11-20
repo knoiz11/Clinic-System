@@ -10,6 +10,7 @@
       </li>
 
       <!-- Notifications -->
+      @auth
       <li class="nav-item dropdown">
         <a class="nav-link nav-icon-hover" id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false" href="#">
           <i class="ti ti-bell-ringing"></i>
@@ -52,11 +53,13 @@
           </div>
         </div>
       </li>
+      @endauth
     </ul>
 
     <!-- Right User Menu -->
     <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
       <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
+        @auth
         <li class="nav-item dropdown">
           <!-- User Avatar -->
           <a class="nav-link nav-icon-hover" id="drop2" data-bs-toggle="dropdown">
@@ -85,6 +88,11 @@
             </div>
           </div>
         </li>
+        @else
+        <li class="nav-item">
+          <a class="nav-link" href="{{ route('login') }}">Login</a>
+        </li>
+        @endauth
       </ul>
     </div>
   </nav>

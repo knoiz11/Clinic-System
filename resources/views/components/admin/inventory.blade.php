@@ -8,22 +8,22 @@
 
         <!-- Search + Filter + Add -->
         <div class="d-flex align-items-center justify-content-between mb-3">
-            <div class="d-flex gap-2 flex-grow-1">
+            <form id="inventoryFilterForm" method="GET" action="{{ route('admin.inventory') }}" class="d-flex gap-2 flex-grow-1">
                 <div class="input-group" style="max-width: 270px;">
                     <span class="input-group-text bg-white border-end-0">
                         <i class="ti ti-search"></i>
                     </span>
-                    <input type="text" id="searchInput" class="form-control border-start-0" placeholder="Search...">
+                    <input type="search" name="q" id="searchInput" value="{{ request('q') }}" class="form-control border-start-0" placeholder="Search item name or object id...">
                 </div>
 
-                <select id="filterSupplyType" class="form-select" style="max-width: 180px;">
+                <select id="filterSupplyType" name="supply_type" class="form-select" style="max-width: 180px;">
                     <option value="">Filter...</option>
-                    <option value="Clinic">Clinic</option>
-                    <option value="Office">Office</option>
+                    <option value="Clinic" {{ request('supply_type') == 'Clinic' ? 'selected' : '' }}>Clinic</option>
+                    <option value="Office" {{ request('supply_type') == 'Office' ? 'selected' : '' }}>Office</option>
                 </select>
 
-                <button class="btn btn-outline-secondary" id="clearFilterBtn">Clear Filter</button>
-            </div>
+                <button type="button" class="btn btn-outline-secondary" id="clearFilterBtn">Clear Filter</button>
+            </form>
 
             @if(Auth::user()->role === 'admin')
             <button class="btn btn-warning fw-bold" data-bs-toggle="modal" data-bs-target="#addItemModal" id="addNewItemBtn">
@@ -55,10 +55,14 @@
                         <td>{{ $item->item_name }}</td>
                         <td>{{ $item->quantity }} {{ $item->unit }}</td>
                         <td>{{ $item->remarks }}</td>
-                        <td class="text-center">
-                            <button class="btn btn-sm btn-primary editItemBtn">Edit</button>
-                            <button class="btn btn-sm btn-danger deleteItemBtn">Delete</button>
-                        </td>
+                            <td class="text-center">
+                                <a href="{{ route('admin.inventory.editPage', $item->id) }}" class="btn btn-sm btn-primary">Edit</a>
+                                <form action="{{ route('admin.inventory.destroy', $item->id) }}" method="POST" class="d-inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this item?')">Delete</button>
+                                </form>
+                            </td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -83,7 +87,7 @@
                 <input type="hidden" name="item_id" id="item_id">
 
                 <div class="modal-header" style="background:#7c0020; color:white;">
-                    <h5 class="modal-title" id="addItemModalLabel">Add/Edit Inventory Item</h5>
+                    <h5 class="modal-title" id="addItemModalLabel">Add Inventory Item</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
@@ -162,51 +166,48 @@
 
 <!-- JavaScript -->
 <script>
-    const addItemModal = new bootstrap.Modal(document.getElementById('addItemModal'));
-    const deleteItemModal = new bootstrap.Modal(document.getElementById('deleteItemModal'));
+document.addEventListener("DOMContentLoaded", () => {
+    const searchInput = document.getElementById('searchInput');
+    const supplyFilter = document.getElementById('filterSupplyType');
+    const tableBody = document.querySelector('table.table tbody');
+    const clearBtn = document.getElementById('clearFilterBtn');
+    const ajaxUrl = "{{ route('admin.inventory.ajax') }}";
 
-    // Add New Item button
-    document.getElementById('addNewItemBtn').addEventListener('click', () => {
-        document.getElementById('inventoryForm').reset();
-        document.getElementById('inventoryForm').action = "{{ route('admin.inventory.store') }}";
-        document.getElementById('inventoryForm').querySelector('input[name="_method"]').value = 'POST';
-        document.getElementById('item_id').value = '';
+    if (!tableBody) return;
+
+    let controller = null;
+
+    async function fetchData() {
+        if (controller) controller.abort();
+        controller = new AbortController();
+
+        const q = searchInput ? encodeURIComponent(searchInput.value) : '';
+        const type = supplyFilter ? encodeURIComponent(supplyFilter.value) : '';
+        const url = `${ajaxUrl}?q=${q}&supply_type=${type}`;
+
+        try {
+            const res = await fetch(url, { signal: controller.signal });
+            if (!res.ok) throw new Error('Network error');
+            const html = await res.text();
+            tableBody.innerHTML = html;
+        } catch (err) {
+            if (err.name === 'AbortError') return; // ignored
+            console.error('Inventory AJAX error', err);
+        }
+    }
+
+    // Wire inputs
+    if (searchInput) searchInput.addEventListener('input', () => fetchData());
+    if (supplyFilter) supplyFilter.addEventListener('change', () => fetchData());
+    if (clearBtn) clearBtn.addEventListener('click', () => {
+        if (searchInput) searchInput.value = '';
+        if (supplyFilter) supplyFilter.value = '';
+        fetchData();
     });
 
-    // Edit Item button
-    document.querySelectorAll('.editItemBtn').forEach(button => {
-        button.addEventListener('click', function() {
-            const row = this.closest('tr');
-            const cells = row.children;
-            const itemId = row.dataset.id;
-
-            document.getElementById('item_id').value = itemId;
-            document.getElementById('object_id').value = cells[0].innerText;
-            const dateParts = cells[1].innerText.split('/');
-            document.getElementById('date_purchased').value = `${dateParts[2]}-${dateParts[0]}-${dateParts[1]}`;
-            document.getElementById('supply_type').value = cells[2].innerText;
-            document.getElementById('item_name').value = cells[3].innerText;
-            document.getElementById('quantity').value = parseInt(cells[4].innerText);
-            document.getElementById('unit').value = cells[4].innerText.replace(/\d+/g,'').trim();
-            document.getElementById('remarks').value = cells[5].innerText;
-
-            // Change form action and method for update
-            document.getElementById('inventoryForm').action = `/admin/inventory/${itemId}`;
-            document.getElementById('inventoryForm').querySelector('input[name="_method"]').value = 'PATCH';
-
-            addItemModal.show();
-        });
-    });
-
-    // Delete Item button
-    document.querySelectorAll('.deleteItemBtn').forEach(button => {
-        button.addEventListener('click', function() {
-            const row = this.closest('tr');
-            const itemId = row.dataset.id;
-            document.getElementById('deleteForm').action = `/admin/inventory/${itemId}`;
-            deleteItemModal.show();
-        });
-    });
-
+    // Initial load (in case user landed with query params)
+    fetchData();
+});
 </script>
+
 @endsection

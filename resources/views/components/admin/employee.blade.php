@@ -8,7 +8,7 @@
         <h3>Employees</h3>
         <a href="{{ route('employee.create') }}" class="btn btn-primary">Add Employee</a>
     </div>
-
+    
     <!-- Employee Table -->
     <div class="table-responsive">
         <table class="table table-bordered align-middle mb-0">

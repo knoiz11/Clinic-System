@@ -1,5 +1,5 @@
-@extends('layout.admin')
+@extends('layout.app')
 
-@section('login')
+@section('content')
     @include('components.login')
-    @endsection
+@endsection

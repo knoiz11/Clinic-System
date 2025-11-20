@@ -109,9 +109,12 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::get('/reports/pdf/{type}/{mode?}', [ReportController::class, 'generatePDF'])->name('reports.pdf');
 
     // Inventory (Admin)
+    Route::get('/inventory/ajax', [InventoryController::class, 'ajax'])->name('admin.inventory.ajax');
     Route::get('/inventory', [InventoryController::class, 'index'])->name('admin.inventory');
     Route::post('/inventory', [InventoryController::class, 'store'])->name('admin.inventory.store');
     Route::get('/inventory/{inventory}/edit', [InventoryController::class, 'edit'])->name('admin.inventory.edit');
+    // Page-based edit view
+    Route::get('/inventory/{inventory}/edit-page', [InventoryController::class, 'editPage'])->name('admin.inventory.editPage');
     Route::patch('/inventory/{inventory}', [InventoryController::class, 'update'])->name('admin.inventory.update');
     Route::delete('/inventory/{inventory}', [InventoryController::class, 'destroy'])->name('admin.inventory.destroy');
 });
