@@ -11,7 +11,7 @@
                <!-- Logo + Clinic System Title -->
               <div class="text-center mb-4">
                 <a href="{{ url('/') }}" class="logo-img d-block mb-3">
-               <img src="{{ asset('admin/images/logos/ccp.svg') }}" alt="CCP Logo" width="80">
+               <img src="{{ asset('admin/images/logos/ccp.svg') }}" alt="CCP Logo" width="100">
                 </a>
                 <h2 style="color:#8d4925;">Clinic System</h2>
               </div>
@@ -48,14 +48,15 @@
                     <div class="form-check">
                       <input class="form-check-input primary" type="checkbox" value="" id="flexCheckChecked" checked>
                       <label class="form-check-label text-dark" for="flexCheckChecked">
-                        Remember this Device
+                        Remember passowrd 
                       </label>
+
                     </div>
-                    <a class="text-primary fw-bold" href="./index.html">Forgot Password ?</a>
+                    <a class="text-primary fw-bold" href="./index.html">Forgot Password?</a>
                   </div>
                   <button type="submit" class="btn btn-primary w-100 py-8 fs-4 mb-4">Sign In</button>
                   <div class="d-flex align-items-center justify-content-center">
-                    <p class="fs-4 mb-0 fw-bold" style="color: #a89f92">New to Site?</p>
+                    <p class="fs-5 mb-0 fw-bold" style="color: #a89f92">New to Site?</p>
                     <a class="text-primary fw-bold ms-2" style="text-decoration: underline" href="{{ route('register') }}">Create an account</a>
                   </div>
                 </form>

@@ -1,6 +1,6 @@
 /* CCP Gold Theme for Login Page */
 
-/* Main background with CCP Gold gradient */
+/* Main background with CCP Gold gradient — now covers entire page */
 .radial-gradient {
     background: linear-gradient(
         135deg,
@@ -12,6 +12,23 @@
     ) !important;
     position: relative;
     overflow: hidden;
+    min-height: 100vh; /* Ensures gradient covers whole page */
+}
+
+/* REMOVE the maroon header/navbar completely */
+header,
+.navbar,
+.top-bar,
+.topbar,
+.site-header,
+.header-area {
+    background: transparent !important;
+    height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    overflow: hidden !important;
 }
 
 /* Alternative radial gradient option */
@@ -47,6 +64,7 @@
     border: 1px solid rgba(194, 137, 71, 0.2);
     box-shadow: 0 8px 32px rgba(194, 137, 71, 0.2);
     border-radius: 15px;
+    position: relative;
 }
 
 /* Logo and branding */
@@ -56,12 +74,11 @@
 
 .text-center h2,
 .text-center h3 {
-    color: #8d4925 !important; /* Force override */
+    color: #8d4925 !important;
     font-weight: 700;
     font-size: 1.5rem;
     margin-bottom: 1.5rem;
 }
-
 
 /* Form styling */
 .form-label {
@@ -82,7 +99,7 @@
     box-shadow: 0 0 0 0.2rem rgba(194, 137, 71, 0.25);
 }
 
-/* Primary button with CCP Gold theme */
+/* Primary button */
 .btn-primary {
     background: linear-gradient(135deg, #c28947 0%, #b3822b 100%);
     border: none;
@@ -123,7 +140,7 @@
     box-shadow: 0 0 0 0.25rem rgba(194, 137, 71, 0.25);
 }
 
-/* Alert styling */
+/* Alerts */
 .alert-success {
     background-color: rgba(194, 137, 71, 0.1);
     border-color: rgba(194, 137, 71, 0.3);
@@ -138,7 +155,7 @@
     border-radius: 8px;
 }
 
-/* Additional animations */
+/* Gold shimmer animation */
 @keyframes goldShimmer {
     0% {
         background-position: -200% 0;
@@ -166,18 +183,17 @@
     border-radius: 15px;
 }
 
-/* Responsive adjustments */
+/* Responsive */
 @media (max-width: 768px) {
     .card {
         margin: 20px;
     }
-
     .radial-gradient {
         min-height: 100vh;
     }
 }
 
-/* Optional: Add subtle pattern overlay */
+/* Subtle pattern overlay */
 .radial-gradient::after {
     content: "";
     position: absolute;
@@ -199,3 +215,17 @@
     opacity: 0.3;
     pointer-events: none;
 }
+
+body#top {
+    background: linear-gradient(
+        135deg,
+        #c28947 0%,
+        #b3822b 25%,
+        #d4a574 50%,
+        #c28947 75%,
+        #a67c2a 100%
+    ) !important;
+
+    padding-top: 0 !important;
+}
+
