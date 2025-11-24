@@ -40,7 +40,6 @@
       </div>
 
 
-<<<<<<< Updated upstream
 <div class="row">
   <!-- Employee Table -->
   <div class="col-lg-8">
@@ -81,79 +80,12 @@
             </tbody>
 
           </table>
-=======
-                    <div class="table-responsive">
-                        <table class="table text-nowrap align-middle mb-0 py-2">
-                            <thead>
-                                <tr class="border-bottom border-primary">
-                                    <th class="ps-0">Name</th>
-                                    <th>Designation</th>
-                                    <th class="text-center">Department</th>
-                                    <th class="text-center">Status</th>
-                                </tr>
-                            </thead>
-                            <tbody class="table-group-divider">
-                                @foreach ($employees as $emp)
-                                <tr class="employee-row"
-                                    data-name="{{ $emp->name }}"
-                                    data-department="{{ $emp->department }}"
-                                    data-age="{{ $emp->age ?? 'N/A' }}"
-                                    data-gender="{{ $emp->gender ?? 'N/A' }}"
-                                    data-history="{{ $emp->medical_history ?? 'N/A' }}"
-                                    data-contact="{{ $emp->contact ?? 'N/A' }}"
-                                    data-email="{{ $emp->email ?? 'N/A' }}">
-                                    <td class="ps-0 fw-medium">{{ $emp->name }}</td>
-                                    <td>{{ $emp->designation ?? 'N/A' }}</td>
-                                    <td class="text-center fw-medium">{{ $emp->department }}</td>
-                                    <td class="text-center fw-medium">{{ $emp->status ?? 'Active' }}</td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-
-        <!-- Employee Details Panel -->
-        <div class="col-lg-4">
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title">Employee Details</h5>
-                    <div class="py-1">
-                    <p><strong>Name:</strong> <span id="empName">N/A</span></p>
-                    <p><strong>Department:</strong> <span id="empDept">N/A</span></p>
-                    <p><strong>Age:</strong> <span id="empAge">N/A</span></p>
-                    <p><strong>Gender:</strong> <span id="empGender">N/A</span></p>
-                    <p><strong>Medical History:</strong> <span id="empHistory">N/A</span></p>
-                    <p><strong>Contact No.:</strong> <span id="empContact">N/A</span></p>
-                    <p><strong>Email:</strong> <span id="empEmail">N/A</span></p>
-                    </div>
-                </div>
-            </div>
->>>>>>> Stashed changes
         </div>
 
       </div>
     </div>
   </div>
 
-<<<<<<< Updated upstream
-  <!-- Employee Details Panel -->
-  <div class="col-lg-4">
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title">Employee Details</h5>
-        <p><strong>Name:</strong> <span id="empName">-</span></p>
-        <p><strong>Department:</strong> <span id="empDept">-</span></p>
-        <p><strong>Age:</strong> <span id="empAge">-</span></p>
-        <p><strong>Gender:</strong> <span id="empGender">-</span></p>
-        <p><strong>Medical History:</strong> <span id="empHistory">-</span></p>
-        <p><strong>Contact No.:</strong> <span id="empContact">-</span></p>
-        <p><strong>Email:</strong> <span id="empEmail">-</span></p>
-      </div>
-=======
     <!-- Upcoming Appointments -->
     <div class="row mt-4">
         <div class="col-lg-12 mx-auto">
@@ -189,7 +121,6 @@
                 </div>
             </div>
         </div>
->>>>>>> Stashed changes
     </div>
   </div>
 </div>
