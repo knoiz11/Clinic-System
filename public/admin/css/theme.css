@@ -1,23 +1,22 @@
-/* --- Dashboard Theme Colors --- */
 :root {
-  --ccp-white:                  #FFFFFF;
+  --ccp-white:                    #FFFFFF;
   --section-bg-color:             #F9F9F9;
   --dark-color:                   #000000;
   --title-color:                  #565758;
   --p-color:                      #717275;
   --border-color:                 #eaeaea;
 
-  --ccp-primary-color-gold: #B3822B;  
-  --ccp-primary-color-maroon: #7D1D37;
-  --ccp-m1: #660C21;
-  --ccp-m2: #9B0D3C;
-  --ccp-m3: #A83561;
-  --ccp-g1: #cd9e4a;
-  --ccp-g2: #e7c17d;
-  --ccp-g3: #f9ddab;
-  --ccp-light-grey: #cccc;
-  --ccp-dark-grey: #353535;
-  --ccp-light: #fffaea;
+  --ccp-primary-color-gold:       #B3822B;  
+  --ccp-primary-color-maroon:     #7D1D37;
+  --ccp-m1:                       #660C21;
+  --ccp-m2:                       #9B0D3C;
+  --ccp-m3:                       #A83561;
+  --ccp-g1:                       #cd9e4a;
+  --ccp-g2:                       #e7c17d;
+  --ccp-g3:                       #f9ddab;
+  --ccp-light-grey:               #cccccc;
+  --ccp-dark-grey:                #353535;
+  --ccp-light:                    #fffaea;
 
     /* new variables to control header/sidebar shifts */
     --sidebar-width: 250px;
@@ -41,16 +40,13 @@
     color: #ffffff;
 }
 
-/* Header (adjust .header to match your header include) */
-/* NAVBAR: use maroon background + light text for contrast */
 .header,
 .navbar,
 .app-header {
     background-color: var(--ccp-primary-color-maroon) !important;
     color: #ffffff !important;
-    /* use a very subtle top divider (optional) or remove if unwanted */
 }
-/* ensure links/icons in the navbar are readable on maroon */
+
 .navbar a,
 .navbar .nav-link,
 .app-header a,
@@ -166,6 +162,12 @@
 @media (max-width: 991.98px) {
   .app-header { transform: translateX(0); }
   body.sidebar-open .app-header { transform: translateX(var(--sidebar-width)); }
+}
+
+.body-wrapper,
+.main-content,
+.container-fluid {
+    padding-bottom: 80px; 
 }
 
 .navbar .container,
@@ -320,7 +322,6 @@ table[id^="icd11_codes"],
   color: #222;
 }
 
-/* Table & row styling inside the dropdown */
 table[id^="icd11_codes"] td,
 table[id^="icd11_codes"] th,
 .autocompleter table td,
@@ -344,14 +345,12 @@ table[id^="icd11_codes"] th:first-child {
   color: #333;
 }
 
-/* Slightly dim the type column so it doesn't compete visually */
 table[id^="icd11_codes"] td:nth-child(3),
 table[id^="icd11_codes"] th:nth-child(3) {
   opacity: 0.7;
   font-size: 0.85rem;
 }
 
-/* Responsive: reduce dropdown max-height on small screens */
 @media (max-width: 767.98px) {
   div[id^="icd11_codes"],
   table[id^="icd11_codes"],
@@ -359,4 +358,129 @@ table[id^="icd11_codes"] th:nth-child(3) {
     max-height: 260px;
     font-size: 0.9rem;
   }
+}
+
+.notifications-dropdown .list-group-item {
+    opacity: 1 !important;
+    color: #24323a !important; 
+}
+
+.notifications-dropdown .list-group-item p,
+.notifications-dropdown .list-group-item small {
+    opacity: 1 !important;
+    color: #24323a !important;
+}
+
+/******* reports tab styling ********/
+.reports-tab {
+    font-weight: 600;
+    color: var(--ccp-primary-color-maroon);
+}
+
+.reports-tab.active {
+    color: var(--ccp-primary-color-gold);
+}
+.reports-tab:hover {
+    color: var(--ccp-m3);
+}
+
+.appointment-modal .modal-header {
+    background-color: var(--ccp-primary-color-gold);
+    color: var(--ccp-light);
+}
+.modal-title .bi {
+    font-size: 1.3rem;
+    color: var(--ccp-white) !important;
+}
+
+.footer {
+    background-color: var(--ccp-primary-color-maroon);
+    color: var(--ccp-white);
+    text-align: center;
+    padding: 15px 0;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+  }
+
+  /***** Prescription Modal Style *****/
+  .otc-badge {
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+}
+
+.otc-badge.yes {
+    background-color: #28a745;
+    color: var(--ccp-white);
+}
+
+.otc-badge.no {
+    background-color: #dc3545;
+    color: var(--ccp-white);
+}
+
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.qty-btn {
+    background-color: var(--ccp-primary-color-maroon);
+    color: white;
+    border: none;
+    width: 30px;
+    height: 30px;
+    display: inline-block;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-outline-gold {
+    color: var(--ccp-primary-color-gold);
+    border-color: var(--ccp-primary-color-gold);
+}
+.btn-outline-gold:hover {
+    background-color: var(--ccp-primary-color-gold);
+    color: var(--ccp-white);
+}
+
+.qty-btn:hover:not(:disabled) {
+    opacity: 0.8;
+}
+
+.qty-btn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.qty-display {
+    font-weight: bold;
+    min-width: 30px;
+    text-align: center;
+}
+
+.selected-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.selected-item:last-child {
+    border-bottom: none;
+}
+
+.alert-maroon {
+    background-color: rgba(168, 53, 97, 0.5);
+    border-color: var(--ccp-m3);
+    color: rgb(82, 26, 48);
+    border-radius: 8px;
+    padding: 12px 16px;
 }

@@ -25,9 +25,25 @@
                         </h4>
                         <p class="text-muted mb-0">Manage and view employee appointment schedules</p>
                     </div>
+<<<<<<< Updated upstream
                     <button class="btn btn-success fw-bold px-4" data-bs-toggle="modal" data-bs-target="#addAppointmentModal">
                         <i class="bi bi-plus-circle me-2"></i>New Appointment
                     </button>
+=======
+                @endforeach
+            </div>
+        @endif
+    </div>
+
+    <!-- Add Appointment Modal -->
+    <div class="modal fade" id="addAppointmentModal" tabindex="-1" aria-labelledby="addAppointmentModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-4 shadow-lg appointment-modal">
+                <div class="modal-header text-white rounded-top-4">
+                    <h5 class="modal-title fw-bold" style="color: var(--ccp-white)" id="addAppointmentModalLabel">
+                        <i class="bi bi-calendar-plus me-2"></i> Add Appointment</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+>>>>>>> Stashed changes
                 </div>
 
                 <!-- Status Filters -->
@@ -38,10 +54,20 @@
                     <button class="btn btn-outline-danger filter-btn" data-status="cancelled">Cancelled</button>
                 </div>
 
+<<<<<<< Updated upstream
                 <!-- Success Message -->
                 @if(session('success'))
                     <div class="alert alert-success">{{ session('success') }}</div>
                 @endif
+=======
+                        <div class="mb-3">
+                            <label for="employee_search" class="form-label fw-bold">Employee</label>
+                            <input type="text" id="employee_search" class="form-control" required placeholder="Search Employee" autocomplete="off">
+                            <input type="hidden" name="employee_id" id="employee_id">
+                            
+                            <div id="employee_results" style="display: none; position: absolute; z-index: 1000; background: white; border: 1px solid #ddd; border-radius: 8px; max-height: 300px; overflow-y: auto; width: 100%; box-shadow: 0 4px 8px rgba(0,0,0,0.1);"></div>
+                        </div>
+>>>>>>> Stashed changes
 
                 <!-- Appointment List -->
                 @if($appointments->isEmpty())
@@ -53,6 +79,7 @@
                                 <div class="card border-0 shadow-sm rounded-4 p-3"
                                      style="background-color:#f9fafc;">
 
+<<<<<<< Updated upstream
                                     <div class="d-flex justify-content-between align-items-center mb-2">
                                         <span class="badge px-3 py-2
                                             @if(($appointment->status ?? 'Scheduled') == 'Completed') bg-primary
@@ -168,6 +195,12 @@
                             </button>
                         </form>
                     </div>
+=======
+                        <button type="submit" class="btn w-100 fw-bold py-2" style="background-color: var(--ccp-primary-color-gold); color: var(--ccp-white);">
+                            Book Appointment
+                        </button>
+                    </form>
+>>>>>>> Stashed changes
                 </div>
             </div>
         </div>
@@ -178,6 +211,11 @@
     </div>
 </div>
 
+<script id="employeesData" type="application/json">
+    @json($employees)
+</script>
+
+<script src="{{ asset('admin/js/AppointmentEmployeeName.js') }}"></script>
 <!-- JS: Filter Function -->
 <script>
     document.querySelectorAll('.filter-btn').forEach(btn => {

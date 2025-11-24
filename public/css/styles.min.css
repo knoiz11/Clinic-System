@@ -1,8 +1,16 @@
+/*** for reg page ***/
 :root {
-  --primary-color: #6A0D1A; /* Maroon */
-  --secondary-color: #C9A33C; /* Gold */
-  --text-light: #fff;
-  --text-dark: #333;
+  --ccp-primary-color-gold: #B3822B;  
+  --ccp-primary-color-maroon: #7D1D37;
+  --ccp-m1: #660C21;
+  --ccp-m2: #9B0D3C;
+  --ccp-m3: #A83561;
+  --ccp-g1: #cd9e4a;
+  --ccp-g2: #e7c17d;
+  --ccp-g3: #f9ddab;
+  --ccp-light-grey: #cccc;
+  --ccp-dark-grey: #353535;
+  --ccp-light: #fffaea;
 }
 
 main {
@@ -12,13 +20,13 @@ main {
 }
 
 .card, .table {
-  background-color: #fff;
-  color: #333;
+  background-color: var(--ccp-light);
+  color: var(--ccp-dark-grey);
 }
 
 .footer {
   background-color: var(--primary-color);
-  color: var(--text-light);
+  color: var(--ccp-light);
   text-align: center;
   padding: 15px 0;
   position: fixed;

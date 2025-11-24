@@ -1,6 +1,57 @@
-/* CCP Gold Theme for Login Page */
+:root{
+  --ccp-primary-color-gold: #B3822B;  
+  --ccp-primary-color-maroon: #7D1D37;
+  --ccp-m1: #660C21;
+  --ccp-m2: #9B0D3C;
+  --ccp-m3: #A83561;
+  --ccp-g1: #cd9e4a;
+  --ccp-g2: #e7c17d;
+  --ccp-g3: #f9ddab;
+  --ccp-light-grey: #cccc;
+  --ccp-dark-grey: #353535;
+  --ccp-light: #fffaea;
+}
 
-/* Main background with CCP Gold gradient */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+}
+
+.radial-gradient {
+  position: fixed;
+  inset: 0;              
+  width: 100vw;
+  height: 100vh;
+  z-index: -999;         
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  overflow: visible;     
+}
+
+.radial-gradient::before,
+.radial-gradient::after {
+  position: absolute;
+  inset: 0;
+}
+
+#main-wrapper,
+.page-wrapper,
+.container-fluid,
+.card,
+.login-box {
+  position: relative;
+  z-index: 1;
+}
+
+.header,
+.topbar,
+.navbar {
+  background: transparent !important;
+}
+
 .radial-gradient {
     background: linear-gradient(
         135deg,
@@ -47,6 +98,50 @@
     border: 1px solid rgba(194, 137, 71, 0.2);
     box-shadow: 0 8px 32px rgba(194, 137, 71, 0.2);
     border-radius: 15px;
+    padding: 2rem;
+}
+
+/* Force login / register card to be solid white and above the background */
+.page-wrapper .card,
+.login-box .card,
+.card.mb-0 {
+  background: #f4f4f4 !important;
+  background-image: none !important;
+  opacity: 1 !important;
+  border: none !important;
+  box-shadow: 0 18px 50px rgba(0,0,0,0.12) !important;
+  z-index: 2; /* ensure card sits above decorative background */
+}
+
+/* Make card primary buttons match the register button size */
+.card .btn-primary,
+.card button[type="submit"],
+.card .btn-primary.w-100 {
+  font-size: 0.88rem !important; /* same small size as Sign Up (fs-6 ≈ .875rem) */
+  padding: 0.65rem 1rem !important; /* tighter vertical padding */
+  line-height: 1 !important;
+  min-height: 44px; /* consistent clickable area */
+  letter-spacing: 0.6px;
+  text-transform: none; /* remove forced uppercase if you want exact match */
+}
+
+/* If you prefer uppercase but smaller: uncomment the next line instead of the above text-transform change */
+/* .card .btn-primary { text-transform: uppercase; } */
+
+/* Make sure card body is transparent so styling is consistent */
+.page-wrapper .card .card-body {
+  background: transparent !important;
+}
+
+/* Prevent radial gradient pseudos from overlaying content */
+.radial-gradient {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+}
+.radial-gradient::before,
+.radial-gradient::after {
+  z-index: -1;
 }
 
 /* Logo and branding */
@@ -82,29 +177,39 @@
     box-shadow: 0 0 0 0.2rem rgba(194, 137, 71, 0.25);
 }
 
-/* Primary button with CCP Gold theme */
 .btn-primary {
     background: linear-gradient(135deg, #c28947 0%, #b3822b 100%);
     border: none;
     border-radius: 8px;
-    font-weight: 600;
+    font-weight: 700;
+    font-size: 16px;               
+    line-height: 1;               
     text-transform: uppercase;
-    letter-spacing: 0.5px;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(194, 137, 71, 0.3);
+    letter-spacing: 0.6px;
+    transition: all 0.18s ease;
+    box-shadow: 0 6px 18px rgba(194, 137, 71, 0.18);
+    padding: 0.65rem 1.25rem;      
+    display: inline-block;
+    min-width: 140px;
 }
 
-.btn-primary:hover {
-    background: linear-gradient(135deg, #b3822b 0%, #a67c2a 100%);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(194, 137, 71, 0.4);
+.card .btn-primary,
+.card button[type="submit"] {
+    font-size: 15.5px;
+    padding: 0.7rem 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 10px 24px rgba(194,137,71,0.12);
+    text-transform: uppercase !important;
 }
 
-.btn-primary:active {
-    transform: translateY(0);
+@media (max-width: 576px) {
+  .btn-primary {
+    font-size: 15px;
+    padding: 0.6rem 1rem;
+    min-width: 100%;
+  }
 }
 
-/* Links styling */
 .text-primary {
     color: #8c612e !important;
 }
@@ -123,7 +228,6 @@
     box-shadow: 0 0 0 0.25rem rgba(194, 137, 71, 0.25);
 }
 
-/* Alert styling */
 .alert-success {
     background-color: rgba(194, 137, 71, 0.1);
     border-color: rgba(194, 137, 71, 0.3);
@@ -138,7 +242,6 @@
     border-radius: 8px;
 }
 
-/* Additional animations */
 @keyframes goldShimmer {
     0% {
         background-position: -200% 0;
@@ -177,7 +280,6 @@
     }
 }
 
-/* Optional: Add subtle pattern overlay */
 .radial-gradient::after {
     content: "";
     position: absolute;
@@ -198,4 +300,18 @@
     background-size: 50px 50px;
     opacity: 0.3;
     pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  .radial-gradient { background-attachment: fixed; }
+}
+
+.page-wrapper .card,
+.login-box .card {
+  max-width: 540px;   
+  min-width: 320px;   
+  margin: 0 auto;
+}
+@media (min-width: 1600px) {
+  .page-wrapper .col-xxl-4 { max-width: 480px; }
 }

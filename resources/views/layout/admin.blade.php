@@ -39,6 +39,7 @@
   <script src="{{ asset('admin/libs/apexcharts/dist/apexcharts.min.js') }}"></script>
   <script src="{{ asset('admin/libs/simplebar/dist/simplebar.js') }}"></script>
 
+<<<<<<< Updated upstream
   <!-- Custom Scripts -->
   <script src="{{ asset('admin/js/sidebarmenu.js') }}"></script>
   <script src="{{ asset('admin/js/app.min.js') }}"></script>
@@ -49,6 +50,47 @@
   <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>
   <script src='https://clinicaltables.nlm.nih.gov/autocomplete-lhc-versions/19.2.4/autocomplete-lhc.min.js'></script>
   <script src="{{ asset('admin/js/icdcode.js') }}"></script>
+=======
+            <div class="body-wrapper">
+                <!-- Header -->
+                @include('components.admin.header')
+
+                <!-- Main Content -->
+                <div class="container-fluid mt-4">
+                    @yield('dashboard')
+                    @yield('employee')
+                    @yield('create')
+                    @yield('appointment')
+                    @yield('reports')
+                    @yield('view')
+                    @yield('consultation')
+                    @yield('inventory')
+                    @yield('prescription-modal')
+                </div>
+
+                <!-- Footer -->
+                @include('components.admin.footer')
+            </div>
+        </div>
+    </main>
+
+    <!-- JS Libraries -->
+    <script src="{{ asset('admin/libs/jquery/dist/jquery.min.js') }}"></script>
+    <script src="{{ asset('admin/libs/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('admin/libs/apexcharts/dist/apexcharts.min.js') }}"></script>
+    <script src="{{ asset('admin/libs/simplebar/dist/simplebar.js') }}"></script>
+
+    <!-- Custom Scripts -->
+    <script src="{{ asset('admin/js/sidebarmenu.js') }}"></script>
+    <script src="{{ asset('admin/js/app.min.js') }}"></script>
+    <script src="{{ asset('admin/js/dashboard.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
+    <script src="{{ asset('admin/js/searchemployee.js') }}"></script>
+    <script src="{{ asset('admin/js/viewemployee.js') }}"></script>
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>
+    <script src='https://clinicaltables.nlm.nih.gov/autocomplete-lhc-versions/19.2.4/autocomplete-lhc.min.js'></script>
+    <script src="{{ asset('admin/js/icdcode.js') }}"></script>
+>>>>>>> Stashed changes
 </body>
 
 </html>

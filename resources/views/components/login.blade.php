@@ -1,19 +1,17 @@
 <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
     data-sidebar-position="fixed" data-header-position="fixed">
-    <div
-      class="position-relative overflow-hidden radial-gradient min-vh-100 d-flex align-items-center justify-content-center">
+    <div class="position-relative overflow-hidden radial-gradient min-vh-100 d-flex align-items-center justify-content-center">
       <div class="d-flex align-items-center justify-content-center w-100">
         <div class="row justify-content-center w-100">
-          <div class="col-md-8 col-lg-6 col-xxl-3">
-            <div class="card mb-0" style="background-color: #EDEDED">
+          <div class="col-md-8 col-lg-6 col-xxl-4">
+            <div class="card mb-0">
               <div class="card-body">
-
                <!-- Logo + Clinic System Title -->
               <div class="text-center mb-4">
                 <a href="{{ url('/') }}" class="logo-img d-block mb-3">
                <img src="{{ asset('admin/images/logos/ccp.svg') }}" alt="CCP Logo" width="80">
                 </a>
-                <h2 style="color:#8d4925;">Clinic System</h2>
+                <h2 style="color: var(--ccp-primary-color-maroon)">Clinic System</h2>
               </div>
 
 
@@ -47,15 +45,24 @@
                   <div class="d-flex align-items-center justify-content-between mb-4">
                     <div class="form-check">
                       <input class="form-check-input primary" type="checkbox" value="" id="flexCheckChecked" checked>
+<<<<<<< Updated upstream
                       <label class="form-check-label text-dark" for="flexCheckChecked">
                         Remember this Device
+=======
+                      <label class="form-check-label text-muted" for="flexCheckChecked">
+                        Remember password 
+>>>>>>> Stashed changes
                       </label>
                     </div>
                     <a class="text-primary fw-bold" href="./index.html">Forgot Password ?</a>
                   </div>
                   <button type="submit" class="btn btn-primary w-100 py-8 fs-4 mb-4">Sign In</button>
                   <div class="d-flex align-items-center justify-content-center">
+<<<<<<< Updated upstream
                     <p class="fs-4 mb-0 fw-bold" style="color: #a89f92">New to Site?</p>
+=======
+                    <p class="fs-5 mb-0 text-muted" style="font-size: 16px !important">New to Site?</p>
+>>>>>>> Stashed changes
                     <a class="text-primary fw-bold ms-2" style="text-decoration: underline" href="{{ route('register') }}">Create an account</a>
                   </div>
                 </form>

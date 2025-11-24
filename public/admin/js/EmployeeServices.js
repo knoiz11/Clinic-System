@@ -1,6 +1,6 @@
+// SERVICES BUTTONS W/ FORMS
 const templates = {
-      // vital signs
-      'vital-signs': `
+    'vital-signs': `
         <form id="serviceForm" class="row g-3" data-service="vital-signs" novalidate>
           <div class="col-md-4">
             <label class="form-label">Body Temperature</label>
@@ -47,8 +47,7 @@ const templates = {
           </div>
         </form>
       `,
-      // physical exam
-      'physical-exam': `
+    'physical-exam': `
         <form id="serviceForm" class="row g-3" data-service="physical-exam" novalidate>
 
     <div class="row g-4">
@@ -147,8 +146,8 @@ const templates = {
     </div>
 </form>
       `,
-      // laboratory
-      'laboratory': `
+    'laboratory': `
+      <form id="serviceForm" class="row g-3" data-service="laboratory" novalidate>
       <input type="hidden" name="service_type" value="laboratory" />
       <div class="row g-3">
         <div class="col-md-4">
@@ -203,8 +202,9 @@ const templates = {
           <button type="submit" class="btn service-btn btn-primary">Save Laboratory</button>
         </div>
       </div>
+      </form>
   `,
-      'doctors-order': `
+    'doctors-order': `
         <form id="serviceForm" class="row g-3" data-service="doctors-order" novalidate>
           <input type="hidden" name="service_type" value="doctors-order" />
 
@@ -215,16 +215,20 @@ const templates = {
 
           <div class="col-md-6">
             <label class="form-label">Prescription</label>
-            <textarea name="prescription" class="form-control" rows="4" value="{{ inventory.medicine }}" readonly disabled></textarea>
+            <textarea name="prescription" class="form-control" rows="4" readonly disabled></textarea>
           </div>
           
           <div class="col-md-6">
             <label class="form-label">Date of Prescription</label>
             <input name="order_date" class="form-control" type="date" />
           </div>
+          
           <div class="col-12">
-            <button type="button" class="btn service-btn btn-primary" id="prescribeMedication" style="background-color: var(--ccp-primary-color-gold) !important; color: var(--ccp-light) !important;">PRESCRIBE MEDICATION</button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#prescriptionModal" style="background-color: var(--ccp-primary-color-gold) !important; color: var(--ccp-light) !important; border-color: var(--ccp-primary-color-gold) !important;">
+              PRESCRIBE MEDICATION
+            </button>
           </div>
+          
           <div class="col-md-7">
             <label class="form-label">Diagnosis <span class="text-danger">*</span></label>
             <select name="diagnosis" class="form-select">
@@ -239,6 +243,7 @@ const templates = {
               <input name="other_diagnosis" class="form-control" type="text" placeholder="Other Diagnosis"/>
             </div>
           </div>
+          
           <div class="col-md-5">
             <label class="form-label">ICD-11 <span class="text-danger">*</span></label>
             <br>
@@ -261,7 +266,6 @@ const templates = {
             </select>
           </div>
 
-          <!-- Discharge / Scheduling / Remarks -->
           <div class="col-md-6">
             <label class="form-label">Reasons for Discharge</label>
             <textarea name="reasons_for_discharge" class="form-control" rows="2"></textarea>
@@ -271,6 +275,7 @@ const templates = {
             <label class="form-label">Date & Time of Discharge</label>
             <input name="discharge_datetime" class="form-control" type="datetime-local" />
           </div>
+          
           <div class="col-md-6">
             <label class="form-label">Remarks</label>
             <textarea name="order_remarks" class="form-control" rows="2"></textarea>
@@ -290,14 +295,13 @@ const templates = {
             </div>
           </div>
 
-          <!-- Actions -->
           <div class="col-12 d-flex justify-content-end gap-2">
-            <button type="button" class="btn service-btn btn-primary" style="background-color: var(--ccp-primary-color-gold) !important; color: var(--ccp-light) !important;">APPOINT</button>
-            <button type="submit" class="btn service-btn btn-primary">SAVE</button>
+            <button type="button" class="btn btn-primary" style="background-color: var(--ccp-primary-color-gold) !important; color: var(--ccp-light) !important; border-color: var(--ccp-primary-color-gold) !important;">APPOINT</button>
+            <button type="submit" class="btn btn-primary">SAVE</button>
           </div>
         </form>
       `
-    };
+};
 
 document.querySelectorAll('.service-btn').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -306,24 +310,22 @@ document.querySelectorAll('.service-btn').forEach(btn => {
 
         // Initialize ICD-11 autocompleter if the field is present and lib loaded
         (function initICDAutocomplete() {
-          const icd = document.getElementById('icd11_codes') || document.querySelector('input[name="icd11_codes"], input[name="icd11"]');
-          if (!icd) return;
-          // ensure it has the expected id
-          if (!icd.id) icd.id = 'icd11_codes';
-          if (window.Def && Def.Autocompleter && typeof Def.Autocompleter.Search === 'function') {
-            try {
-              new Def.Autocompleter.Search('icd11_codes', 'https://clinicaltables.nlm.nih.gov/api/icd11_codes/v3/search?sf=code,title', {
-                tableFormat: true,
-                valueCols: [0],
-                colHeaders: ['Code', 'Title', 'Type']
-              });
-            } catch (err) {
-              console.warn('ICD autocompleter init failed', err);
+            const icd = document.getElementById('icd11_codes') || document.querySelector('input[name="icd11_codes"], input[name="icd11"]');
+            if (!icd) return;
+            if (!icd.id) icd.id = 'icd11_codes';
+            if (window.Def && Def.Autocompleter && typeof Def.Autocompleter.Search === 'function') {
+                try {
+                    new Def.Autocompleter.Search('icd11_codes', 'https://clinicaltables.nlm.nih.gov/api/icd11_codes/v3/search?sf=code,title', {
+                        tableFormat: true,
+                        valueCols: [0],
+                        colHeaders: ['Code', 'Title', 'Type']
+                    });
+                } catch (err) {
+                    console.warn('ICD autocompleter init failed', err);
+                }
+            } else {
+                setTimeout(initICDAutocomplete, 250);
             }
-          } else {
-            // library not loaded yet — try again shortly
-            setTimeout(initICDAutocomplete, 250);
-          }
         })();
     });
 });
@@ -336,5 +338,141 @@ document.addEventListener('change', function(event) {
         } else {
             otherDiagnosisContainer.style.display = 'none';
         }
+    }
+});
+
+// PRESCRIBE MEDICATION MODAL - Bootstrap 5 Version
+const medications = [
+    { id: 1, name: 'Acetaminophen', strength: '500mg', otc: true, inventory: 24, quantity: 0 },
+    { id: 2, name: 'BENADRYL® Extra Strength Allergy Relief Antihistamine Tablets with 50 mg of Diphenhydramine HCl', strength: '50mg', otc: true, inventory: 24, quantity: 0 },
+    { id: 3, name: 'Ibuprofen', strength: '500mg', otc: true, inventory: 24, quantity: 0 },
+    { id: 4, name: 'Paracetamol', strength: '500mg', otc: true, inventory: 21, quantity: 0 },
+    { id: 5, name: 'Amoxicillin', strength: '250mg', otc: false, inventory: 18, quantity: 0 },
+    { id: 6, name: 'Aspirin', strength: '100mg', otc: true, inventory: 30, quantity: 0 }
+];
+
+let filteredMedications = [...medications];
+
+function renderTable() {
+    const tbody = document.getElementById('medicationTableBody');
+    if (!tbody) return;
+    
+    tbody.innerHTML = '';
+
+    filteredMedications.forEach(med => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${med.name}</td>
+            <td>${med.strength}</td>
+            <td>${med.otc ? '<span class="otc-badge yes">Yes</span>' : '<span class="otc-badge no">No</span>'}</td>
+            <td>${med.inventory}</td>
+            <td>
+                <div class="quantity-controls">
+                    <button class="qty-btn" onclick="decreaseQty(${med.id})" ${med.quantity === 0 ? 'disabled' : ''}>−</button>
+                    <span class="qty-display">${med.quantity}</span>
+                    <button class="qty-btn" onclick="increaseQty(${med.id})" ${med.quantity >= med.inventory ? 'disabled' : ''}>+</button>
+                </div>
+            </td>
+        `;
+        tbody.appendChild(row);
+    });
+
+    updateSelectedSection();
+}
+
+function increaseQty(id) {
+    const med = medications.find(m => m.id === id);
+    if (med && med.quantity < med.inventory) {
+        med.quantity++;
+        renderTable();
+    }
+}
+
+function decreaseQty(id) {
+    const med = medications.find(m => m.id === id);
+    if (med && med.quantity > 0) {
+        med.quantity--;
+        renderTable();
+    }
+}
+
+function updateSelectedSection() {
+    const selected = medications.filter(m => m.quantity > 0);
+    const section = document.getElementById('selectedSection');
+    const list = document.getElementById('selectedList');
+    const prescribeBtn = document.getElementById('prescribeBtn');
+
+    if (!section || !list || !prescribeBtn) return;
+
+    if (selected.length > 0) {
+        section.style.display = 'block';
+        prescribeBtn.disabled = false;
+        list.innerHTML = selected.map(med => `
+            <div class="selected-item">
+                <span><strong>${med.name}</strong> (${med.strength})</span>
+                <span>x ${med.quantity}</span>
+            </div>
+        `).join('');
+    } else {
+        section.style.display = 'none';
+        prescribeBtn.disabled = true;
+    }
+}
+
+function filterMedications() {
+    const searchInput = document.getElementById('searchInput');
+    const filterSelect = document.getElementById('filterSelect');
+    
+    if (!searchInput || !filterSelect) return;
+    
+    const searchTerm = searchInput.value.toLowerCase();
+    const filterType = filterSelect.value;
+
+    filteredMedications = medications.filter(med => {
+        const matchesSearch = med.name.toLowerCase().includes(searchTerm);
+        const matchesFilter = 
+            filterType === '' || 
+            (filterType === 'otc' && med.otc) || 
+            (filterType === 'prescription' && !med.otc);
+        
+        return matchesSearch && matchesFilter;
+    });
+
+    renderTable();
+}
+
+function clearFilters() {
+    const searchInput = document.getElementById('searchInput');
+    const filterSelect = document.getElementById('filterSelect');
+    
+    if (searchInput) searchInput.value = '';
+    if (filterSelect) filterSelect.value = '';
+    filterMedications();
+}
+
+function prescribeMedications() {
+    const selected = medications.filter(m => m.quantity > 0);
+    const prescriptionTextarea = document.querySelector('textarea[name="prescription"]');
+    
+    const prescriptionText = selected.map(m => `${m.name} (${m.strength}) - Qty: ${m.quantity}`).join('\n');
+    
+    if (prescriptionTextarea) {
+        prescriptionTextarea.value = prescriptionText;
+    }
+    
+    alert(`Prescribed ${selected.length} medication(s):\n${selected.map(m => `${m.name} x${m.quantity}`).join('\n')}`);
+    
+    medications.forEach(m => m.quantity = 0);
+    
+    const modal = bootstrap.Modal.getInstance(document.getElementById('prescriptionModal'));
+    if (modal) {
+        modal.hide();
+    }
+}
+
+// Initialize table when modal is shown
+document.addEventListener('shown.bs.modal', function (event) {
+    if (event.target.id === 'prescriptionModal') {
+        renderTable();
     }
 });

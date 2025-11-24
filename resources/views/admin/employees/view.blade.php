@@ -118,6 +118,118 @@
             <button class="btn btn-primary btn-sm mt-2">Save Note</button>
             </div>
           </div>
+<<<<<<< Updated upstream
+=======
+        </div>
+
+      </div>
+
+      <!-- SERVICES -->
+      <div class="mb-4" id="services-section">
+        <div class="mt-4" style="border: 1px solid var(--ccp-primary-color-maroon); border-radius: 5px;">
+          <h6 class="fw-bold text-center" style="background-color: var(--ccp-primary-color-maroon); padding: 10px; color: var(--ccp-light);">SERVICES</h6>
+
+          <div class="d-flex flex-wrap gap-3 justify-content-center p-4">
+            <button id="vital-signs" class="service-btn btn-sm">Vital Signs</button>
+            <button id="physical-exam" class="service-btn btn-sm">Physical Exam</button>
+            <button id="laboratory" class="service-btn btn-sm">Laboratory</button>
+            <button id="doctors-order" class="service-btn btn-sm">Doctor's Order</button>
+          </div>
+
+          <!-- Prescription Modal -->
+          <div class="modal fade" id="prescriptionModal" tabindex="-1" aria-labelledby="prescriptionModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+            <!-- Header -->
+            <div class="modal-header" style="background-color: var(--ccp-primary-color-maroon); color: white;">
+                <h5 class="modal-title" id="prescriptionModalLabel" style="color: var(--ccp-white);">Prescribe Medication</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <!-- Body -->
+            <div class="modal-body">
+                <!-- Search and Filter -->
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-text">&#x1F50D</span>
+                            <input type="text" class="form-control" id="searchInput" placeholder="Search Medicine..." oninput="filterMedications()">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <select class="form-select" id="filterSelect" onchange="filterMedications()">
+                            <option value="">All Types</option>
+                            <option value="otc">OTC Only</option>
+                            <option value="prescription">Prescription Only</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <button class="btn btn-outline-gold w-100" onclick="clearFilters()">Clear Filter</button>
+                    </div>
+                </div>
+
+                <!-- Medications Table -->
+                <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+                    <table class="table table-hover table-bordered align-middle">
+                        <thead class="table-light sticky-top">
+                            <tr>
+                                <th>Drug Name</th>
+                                <th>Strength</th>
+                                <th>OTC</th>
+                                <th>Inventory</th>
+                                <th style="width: 150px;">Quantity</th>
+                            </tr>
+                        </thead>
+                        <tbody id="medicationTableBody">
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Selected Medications -->
+                <div class="mt-4" id="selectedSection" style="display: none;">
+                    <div class="alert alert-maroon">
+                        <h6 class="alert-heading"><strong>Selected Medications</strong></h6>
+                        <div id="selectedList"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="background-color: var(--ccp-primary-color-gold); color: var(--ccp-white); border: none;">Cancel</button>
+                <button type="button" class="btn btn-primary" id="prescribeBtn" onclick="prescribeMedications()" disabled style="background-color: var(--ccp-primary-color-maroon); border-color: var(--ccp-primary-color-maroon);">
+                    PRESCRIBE MEDICATION
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+          <div id="service-form-container" class="mt-3 p-4">
+            <script src="{{ asset('admin/js/EmployeeServices.js') }}"></script>
+          </div>
+        </div>
+      </div>
+
+      <hr class="my-4">
+
+      <!-- Action Buttons -->
+      <div class="d-flex gap-2">
+        <a href="{{ route('employee.edit', $employee->id) }}" class="btn btn-warning btn-sm">Edit</a>
+
+        <form action="{{ route('employee.destroy', $employee->id) }}" method="POST" class="d-inline">
+          @csrf
+          @method('DELETE')
+          <button type="submit" class="btn btn-danger btn-sm"
+          onclick="return confirm('Are you sure you want to delete this employee?')">
+            Delete
+          </button>
+        </form>
+
+        <a href="{{ route('employee.index') }}" class="btn btn-secondary btn-sm">Back to List</a>
+      </div>
+
+>>>>>>> Stashed changes
     </div>
 
     <!-- SERVICES -->

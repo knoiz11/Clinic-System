@@ -7,8 +7,23 @@
      data-sidebar-position="fixed"
      data-header-position="fixed">
 
+<<<<<<< Updated upstream
     <!-- Sidebar -->
     @include('components.admin.sidebar')
+=======
+                    <!-- Tabs -->
+                    <ul class="nav nav-tabs mb-4" id="reportTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link reports-tab active" data-bs-toggle="tab" data-bs-target="#employee-reports" type="button">Employees</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link reports-tab" data-bs-toggle="tab" data-bs-target="#illness-reports" type="button">Common Illnesses</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link reports-tab" data-bs-toggle="tab" data-bs-target="#visit-reports" type="button">Visits</button>
+                        </li>
+                    </ul>
+>>>>>>> Stashed changes
 
     <!-- Main Wrapper -->
     <div class="body-wrapper">
