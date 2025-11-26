@@ -10,7 +10,7 @@
                 </h4>
                 <p class="text-muted mb-0">Manage and view employee appointment schedules</p>
             </div>
-            <button class="btn btn-success fw-bold px-4" data-bs-toggle="modal" data-bs-target="#addAppointmentModal">
+            <button class="btn btn-success text-white fw-bold px-4" data-bs-toggle="modal" data-bs-target="#addAppointmentModal">
                 <i class="bi bi-plus-circle me-2"></i>New Appointment
             </button>
         </div>
@@ -102,7 +102,7 @@
     </div>
 
     <!-- Add Appointment Modal -->
-    <div class="modal fade" id="addAppointmentModal" tabindex="-1" aria-labelledby="addAppointmentModalLabel" aria-hidden="true">
+    <div class="modal fade appointment-modal" id="addAppointmentModal" tabindex="-1" aria-labelledby="addAppointmentModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content rounded-4 shadow-lg">
                 <div class="modal-header bg-success text-white rounded-top-4">
@@ -112,7 +112,7 @@
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body p-4">
-                    <form action="{{ route('appointment.store') }}" method="POST">
+                    <form action="{{ route('appointment.store') }}" method="POST" id="addAppointmentForm">
                         @csrf
                         
                         <div class="mb-3">
@@ -128,33 +128,14 @@
                         <div class="mb-3 position-relative">
                             <label for="employee_search" class="form-label fw-bold">Employee</label>
 
-                            <input type="text" id="employee_search" class="form-control" placeholder="Search employee..." required>
+                            <input type="text" id="employee_search" class="form-control" placeholder="Search employee..." required autocomplete="off" aria-autocomplete="list" aria-controls="employee_results">
                             <input type="hidden" name="employee_id" id="employee_id">
                             <div id="employee_results" class="border rounded mt-1 bg-white shadow-sm" 
                                 style="display:none; max-height:150px; overflow-y:auto; position:absolute; width:100%; z-index:20;">
                             </div>
 
-                            <script id="employeesData" type="application/json">
-    {!! json_encode($employees->toArray(), JSON_UNESCAPED_UNICODE) !!}
-</script>
-
-<!-- Your Employee Search Script File -->
-<script src="{{ asset('js/appointmentemployeename.js') }}"></script>
-
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-    console.log('DOM loaded');
-    console.log('initEmployeeSearch exists?', typeof initEmployeeSearch);
-    
-    const empData = document.getElementById('employeesData');
-    console.log('Employees data:', empData ? JSON.parse(empData.textContent) : 'NOT FOUND');
-    
-    if (typeof initEmployeeSearch === 'function') {
-        initEmployeeSearch();
-        console.log('initEmployeeSearch called');
-    }
-});
-</script>
+                            <!-- Employee Search Script (AJAX-only) -->
+                            <script src="{{ asset('js/appointmentemployeename.js') }}"></script>
 
                         </div>
 
@@ -163,7 +144,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             <textarea name="reason" id="reason" class="form-control" rows="3" placeholder="Enter the reason for visit..." required></textarea>
                         </div>
 
-                        <button type="submit" class="btn btn-success w-100 fw-bold py-2">
+                        <button type="submit" class="btn btn-primary w-100 fw-bold py-2">
                             Save Appointment
                         </button>
                     </form>

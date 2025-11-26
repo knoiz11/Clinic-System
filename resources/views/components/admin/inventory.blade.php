@@ -78,7 +78,7 @@
 </div>
 
 <!-- Add/Edit Inventory Modal -->
-<div class="modal fade" id="addItemModal" tabindex="-1" aria-labelledby="addItemModalLabel" aria-hidden="true">
+<div class="modal fade inventory-modal" id="addItemModal" tabindex="-1" aria-labelledby="addItemModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <form id="inventoryForm" method="POST" action="{{ route('admin.inventory.store') }}">
@@ -133,8 +133,8 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-warning fw-bold">Save Item</button>
+                    <button type="button" class="btn btn-bright-danger text-white" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary text-white fw-bold">Save Item</button>
                 </div>
             </form>
         </div>

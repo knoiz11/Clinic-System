@@ -15,19 +15,18 @@ class AppointmentController extends Controller
             ->orderBy('date', 'asc')
             ->get();
 
-        $employees = Employee::all();
-
-        return view('admin.appointment', compact('appointments', 'employees'));
+        // For AJAX-based searching we don't need to embed all employees upfront.
+        return view('admin.appointment', compact('appointments'));
     }
 
     // 🔍 Employee Search (AJAX)
     public function searchEmployees(Request $request)
     {
         $query = $request->input('query');
-
         $employees = Employee::where('name', 'LIKE', "%{$query}%")
-            ->orWhere('position', 'LIKE', "%{$query}%")
+            ->orWhere('designation', 'LIKE', "%{$query}%")
             ->limit(10)
+            ->select(['id', 'name', 'designation'])
             ->get();
 
         return response()->json($employees);

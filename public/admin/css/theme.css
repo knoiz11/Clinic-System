@@ -167,7 +167,7 @@
 .body-wrapper,
 .main-content,
 .container-fluid {
-    padding-bottom: 80px; 
+  padding-bottom: 0; /* footer is no longer fixed */
 }
 
 .navbar .container,
@@ -191,6 +191,23 @@
 
 @media (min-width: 1400px) {
   .app-header { transform: translateX(var(--sidebar-width)); }
+}
+
+/* Page wrapper flex layout ensures footer is pushed to the bottom when content is short */
+.page-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.body-wrapper {
+  flex: 1 1 auto; /* Expand to push footer down */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Make main content expand to fill and push the footer down within body-wrapper */
+.body-wrapper > .container-fluid {
+  flex: 1 1 auto;
 }
 
 .app-header .dropdown-menu,
@@ -385,8 +402,36 @@ table[id^="icd11_codes"] th:nth-child(3) {
 }
 
 .appointment-modal .modal-header {
-    background-color: var(--ccp-primary-color-gold);
-    color: var(--ccp-light);
+  /* Use maroon color from current theme for the appointment modal header */
+  background-color: var(--ccp-primary-color-maroon) !important;
+  color: var(--ccp-white) !important; /* Ensure title text is pure white */
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+
+/* Target the modal title specifically to ensure it is white */
+.appointment-modal .modal-header .modal-title {
+  color: var(--ccp-white) !important;
+}
+
+/* Inventory modal header/title styling */
+.inventory-modal .modal-header {
+  background-color: var(--ccp-primary-color-maroon) !important;
+  color: var(--ccp-white) !important; /* ensure header text is white */
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+.inventory-modal .modal-header .modal-title {
+  color: var(--ccp-white) !important;
+}
+
+/* Bright danger variant for urgent actions (override Bootstrap danger with brighter/redder tone) */
+.btn-bright-danger {
+  background-color: #ff3b3b !important; /* bright red */
+  border-color: #ff3b3b !important;
+  color: var(--ccp-white) !important;
+}
+.btn-bright-danger:hover {
+  background-color: #e03232 !important;
+  border-color: #d32f2f !important;
 }
 .modal-title .bi {
     font-size: 1.3rem;
@@ -398,8 +443,9 @@ table[id^="icd11_codes"] th:nth-child(3) {
     color: var(--ccp-white);
     text-align: center;
     padding: 15px 0;
-    position: fixed;
-    bottom: 0;
+    /* Make footer non-sticky and keep it at the bottom of the page content */
+    position: static; /* previously 'fixed' */
+    bottom: auto;
     width: 100%;
   }
 
