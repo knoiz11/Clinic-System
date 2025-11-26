@@ -74,7 +74,8 @@
                             <div class="d-flex align-items-center mb-3">
                                 <i class="bi bi-person-circle fs-3 text-success me-2"></i>
                                 <h5 class="mb-0 fw-bold">
-                                    {{ $appointment->employee->name ?? 'Unassigned' }}
+                                    {{ $appointment->employee->name ?? $appointment->employee_name ?? 'Unassigned' }}
+
                                 </h5>
                             </div>
 
@@ -124,14 +125,37 @@
                             <input type="time" name="time" id="time" class="form-control" required>
                         </div>
 
-                        <div class="mb-3">
-                            <label for="employee_id" class="form-label fw-bold">Employee</label>
-                            <select name="employee_id" id="employee_id" class="form-control" required>
-                                <option value="">Select Employee</option>
-                                @foreach($employees as $employee)
-                                    <option value="{{ $employee->id }}">{{ $employee->name }}</option>
-                                @endforeach
-                            </select>
+                        <div class="mb-3 position-relative">
+                            <label for="employee_search" class="form-label fw-bold">Employee</label>
+
+                            <input type="text" id="employee_search" class="form-control" placeholder="Search employee..." required>
+                            <input type="hidden" name="employee_id" id="employee_id">
+                            <div id="employee_results" class="border rounded mt-1 bg-white shadow-sm" 
+                                style="display:none; max-height:150px; overflow-y:auto; position:absolute; width:100%; z-index:20;">
+                            </div>
+
+                            <script id="employeesData" type="application/json">
+    {!! json_encode($employees->toArray(), JSON_UNESCAPED_UNICODE) !!}
+</script>
+
+<!-- Your Employee Search Script File -->
+<script src="{{ asset('js/appointmentemployeename.js') }}"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    console.log('DOM loaded');
+    console.log('initEmployeeSearch exists?', typeof initEmployeeSearch);
+    
+    const empData = document.getElementById('employeesData');
+    console.log('Employees data:', empData ? JSON.parse(empData.textContent) : 'NOT FOUND');
+    
+    if (typeof initEmployeeSearch === 'function') {
+        initEmployeeSearch();
+        console.log('initEmployeeSearch called');
+    }
+});
+</script>
+
                         </div>
 
                         <div class="mb-3">
@@ -149,22 +173,26 @@
     </div>
 </div>
 
+<!-- 🔥 JS SECTION — FIXED AND CLEANED -->
+
 <!-- JS: Filter Function -->
 <script>
-    document.querySelectorAll('.filter-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-            this.classList.add('active');
+document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
 
-            const status = this.dataset.status;
-            document.querySelectorAll('.appointment-card').forEach(card => {
-                if (status === 'all' || card.dataset.status === status) {
-                    card.style.display = '';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
+        const status = this.dataset.status;
+        document.querySelectorAll('.appointment-card').forEach(card => {
+            card.style.display = (status === 'all' || card.dataset.status === status)
+                ? ''
+                : 'none';
         });
     });
+});
 </script>
+
+
+
+
 @endsection

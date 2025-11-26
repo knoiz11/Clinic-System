@@ -37,7 +37,7 @@
             <!-- Account / User Info -->
             <ul class="navbar-nav ms-auto">
                 @if (Auth::check())
-                    <li class="nav-item d-flex align-items-center me-3 text-white">
+                    <li class="nav-item d-flex align-items-center me-3 text-black">
                         {{ Auth::user()->username }}
                         <small class="text-light ms-1">
                             ({{ ucfirst(Auth::user()->role) }})

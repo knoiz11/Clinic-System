@@ -56,7 +56,7 @@
                   </div>
                   <button type="submit" class="btn btn-primary w-100 py-8 fs-4 mb-4">Sign In</button>
                   <div class="d-flex align-items-center justify-content-center">
-                    <p class="fs-5 mb-0 fw-bold" style="color: #a89f92">New to Site?</p>
+                    <p class="fs-6 mb-0 fw-bold" style="color: #a89f92">New to Site?</p>
                     <a class="text-primary fw-bold ms-2" style="text-decoration: underline" href="{{ route('register') }}">Create an account</a>
                   </div>
                 </form>

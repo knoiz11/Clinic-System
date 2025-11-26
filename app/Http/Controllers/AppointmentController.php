@@ -20,40 +20,47 @@ class AppointmentController extends Controller
         return view('admin.appointment', compact('appointments', 'employees'));
     }
 
-public function store(Request $request)
-{
-    $request->validate([
-        'employee_id' => 'required|exists:employees,id',
-        'date'        => 'required|date',
-        'time'        => 'required|date_format:H:i',
-        'reason'      => 'nullable|string|max:255',
-    ]);
+    // 🔍 Employee Search (AJAX)
+    public function searchEmployees(Request $request)
+    {
+        $query = $request->input('query');
 
-    // find employee (will exist because of the validation rule)
-    $employee = Employee::find($request->employee_id);
+        $employees = Employee::where('name', 'LIKE', "%{$query}%")
+            ->orWhere('position', 'LIKE', "%{$query}%")
+            ->limit(10)
+            ->get();
 
-    if (! $employee) {
-        return redirect()->route('appointment.create')
-            ->withErrors(['employee_id' => 'Selected employee not found.']);
+        return response()->json($employees);
     }
 
-    Appointment::create([
-        'employee_id'   => $employee->id,        // <-- property access, NOT a method
-        'employee_name' => $employee->name,      // save the employee name
-        'date'          => $request->date,
-        'time'          => $request->time,
-        'reason'        => $request->reason,
-        'status'        => 'Scheduled',
-        'created_by'    => Auth::id()
-    ]);
+    public function store(Request $request)
+    {
+        $request->validate([
+            'employee_id' => 'required|exists:employees,id',
+            'date'        => 'required|date',
+            'time'        => 'required|date_format:H:i',
+            'reason'      => 'nullable|string|max:255',
+        ]);
 
-    return redirect()->route('appointment.create')->with('success', 'Appointment booked successfully!');
-}
+        $employee = Employee::find($request->employee_id);
 
+        if (! $employee) {
+            return redirect()->route('appointment.create')
+                ->withErrors(['employee_id' => 'Selected employee not found.']);
+        }
 
+        Appointment::create([
+            'employee_id'   => $employee->id,
+            'employee_name' => $employee->name,
+            'date'          => $request->date,
+            'time'          => $request->time,
+            'reason'        => $request->reason,
+            'status'        => 'Scheduled',
+            'created_by'    => Auth::id()
+        ]);
 
-
-                       
+        return redirect()->route('appointment.create')->with('success', 'Appointment booked successfully!');
+    }
 
     public function updateStatus(Request $request, $id)
     {

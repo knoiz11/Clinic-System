@@ -82,6 +82,7 @@ Route::post('/register', function (Request $request) {
 Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+    
 
     // Employee Routes
     Route::prefix('employee')->name('employee.')->group(function () {

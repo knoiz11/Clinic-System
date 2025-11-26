@@ -1,4 +1,3 @@
-
 @extends('layout.admin')
 
 <!-- Body Wrapper -->
@@ -56,9 +55,7 @@
               <button class="btn btn-outline-primary btn-sm">2. Physical Exam</button>
               <button class="btn btn-outline-primary btn-sm">3. Consultation Record</button>
               <button class="btn btn-outline-primary btn-sm">4. Doctor’s Order</button>
-              <button class="btn btn-outline-primary btn-sm">5. Prescription</button>
               <button class="btn btn-outline-primary btn-sm">6. Laboratory</button>
-              <button class="btn btn-outline-primary btn-sm">7. Dispense Medicine</button>
             </div>
           </div>
 
@@ -76,7 +73,5 @@
     @include('components.admin.footer')
 
   </div>
-  <!-- End Main wrapper -->
-
 </div>
 <!-- End Body Wrapper -->

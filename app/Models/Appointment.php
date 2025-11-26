@@ -12,15 +12,16 @@ class Appointment extends Model
     protected $fillable = [
         'created_by',
         'employee_id',
+        'employee_name',
         'date',
         'time',
         'reason',
         'status',
-        'employee_name',
-    ];      
+    ];
 
     public function employee()
     {
-        return $this->belongsTo(Employee::class);
+        return $this->belongsTo(Employee::class, 'employee_id'); 
+        // <-- Explicit foreign key (important!)
     }
 }
