@@ -34,7 +34,7 @@
               <h6><strong>Middle Name:</strong> {{ $employee->middle_name ?? '-' }}</h6>
               <h6><strong>Sex:</strong> {{ $employee->sex ?? '-' }}</h6>
               <h6><strong>Birthdate:</strong> {{ $employee->birthdate ?? 'mm/dd/yyyy' }} &nbsp; <strong>Age:</strong> {{ $employee->age ?? '00' }}</h6>
-              <h6><strong>Employment Status:</strong> {{ $employee->status ?? '-' }}</h6>
+              <h6><strong>Status:</strong> {{ $employee->status ?? '-' }}</h6>
               <h6><strong>Designation:</strong> {{ $employee->designation ?? '-' }}</h6>
               <h6><strong>Division:</strong> {{ $employee->division ?? '-' }}</h6>
               <h6><strong>Department:</strong> {{ $employee->department ?? '-' }}</h6>

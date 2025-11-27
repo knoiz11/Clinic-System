@@ -35,7 +35,7 @@
                 <p><span class="text-muted">Religion:</span> <strong>{{ $employee->religion ?? '-' }}</strong></p>
                 <p><span class="text-muted">Age:</span> <strong>{{ $employee->age ?? '00' }}</strong></p>
                 <p><span class="text-muted">Contact Number:</span> <strong>{{ $employee->contact_no ?? '-' }}</strong></p>
-                <p><span class="text-muted">Employment Status:</span> <strong>{{ $employee->employment_status ?? '-' }}</strong></p>
+                <p><span class="text-muted">Status:</span> <strong>{{ $employee->status ?? '-' }}</strong></p>
                 <p><span class="text-muted">Designation:</span> <strong>{{ $employee->designation ?? '-' }}</strong></p>
                 <p><span class="text-muted">Division:</span> <strong>{{ $employee->division ?? '-' }}</strong></p>
                 <p><span class="text-muted">Department:</span> <strong>{{ $employee->department ?? '-' }}</strong></p>

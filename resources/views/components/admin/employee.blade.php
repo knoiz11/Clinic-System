@@ -15,20 +15,42 @@
             <thead class="table-light">
                 <tr>
                     <th style="width:50px;"></th>
-                    <th>Name</th>
-                    <th>Designation</th>
-                    <th>Department</th>
+                    <th>Last Name</th>
+                    <th>First Name</th>
+                    <th>Middle Name</th>
+                    <th>Sex</th>
+                    <th>Birthdate</th>
+                    <th>Age</th>
+                    <th>Civil Status</th>
+                    <th>Religion</th>
+                    <th>Blood Type</th>
+                    <th>Employee ID</th>
+                    <th>PHILHEALTH No.</th>
                     <th>Status</th>
+                    <th>Designation</th>
+                    <th>Division</th>
+                    <th>Department</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach($employees as $employee)
                 <tr data-bs-toggle="collapse" data-bs-target="#employee-{{ $employee->id }}" class="accordion-toggle">
                     <td><i class="bi bi-caret-down-fill"></i></td>
-                    <td>{{ $employee->name }}</td>
-                    <td>{{ $employee->designation ?? '-' }}</td>
-                    <td>{{ $employee->department ?? '-' }}</td>
+                    <td>{{ $employee->last_name ?? '-' }}</td>
+                    <td>{{ $employee->first_name ?? '-' }}</td>
+                    <td>{{ $employee->middle_name ?? '-' }}</td>
+                    <td>{{ $employee->sex ?? '-' }}</td>
+                    <td>{{ optional($employee->birthdate)->format('m/d/Y') ?? '-' }}</td>
+                    <td>{{ $employee->age ?? '-' }}</td>
+                    <td>{{ $employee->civil_status ?? '-' }}</td>
+                    <td>{{ $employee->religion ?? '-' }}</td>
+                    <td>{{ $employee->blood_type ?? '-' }}</td>
+                    <td>{{ $employee->employee_id ?? '-' }}</td>
+                    <td>{{ $employee->philhealth_no ?? '-' }}</td>
                     <td>{{ $employee->status ?? '-' }}</td>
+                    <td>{{ $employee->designation ?? '-' }}</td>
+                    <td>{{ $employee->division ?? '-' }}</td>
+                    <td>{{ $employee->department ?? '-' }}</td>
                 </tr>
                 <tr>
                     <td colspan="5" class="hiddenRow p-0">

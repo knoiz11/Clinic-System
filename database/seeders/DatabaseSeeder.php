@@ -19,5 +19,10 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
+
+        // add sample rich employees
+        $this->call([
+            \Database\Seeders\RichEmployeeSeeder::class,
+        ]);
     }
 }

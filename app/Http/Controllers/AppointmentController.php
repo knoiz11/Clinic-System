@@ -23,11 +23,23 @@ class AppointmentController extends Controller
     public function searchEmployees(Request $request)
     {
         $query = $request->input('query');
-        $employees = Employee::where('name', 'LIKE', "%{$query}%")
+        $employees = Employee::where('first_name', 'LIKE', "%{$query}%")
+            ->orWhere('last_name', 'LIKE', "%{$query}%")
             ->orWhere('designation', 'LIKE', "%{$query}%")
+            ->orWhere('division', 'LIKE', "%{$query}%")
+            ->orWhere('department', 'LIKE', "%{$query}%")
             ->limit(10)
-            ->select(['id', 'name', 'designation'])
-            ->get();
+            ->select(['id', 'first_name', 'middle_name', 'last_name', 'designation', 'division', 'department'])
+            ->get()
+            ->map(function ($e) { // include name via accessor for UI
+                return [
+                    'id' => $e->id,
+                    'name' => $e->name,
+                    'designation' => $e->designation,
+                    'division' => $e->division,
+                    'department' => $e->department,
+                ];
+            });
 
         return response()->json($employees);
     }
