@@ -57,8 +57,7 @@
                                     data-name="{{ $emp->name }}"
                                     data-department="{{ $emp->department }}"
                                     data-age="{{ $emp->age ?? 'N/A' }}"
-                                    data-gender="{{ $emp->gender ?? 'N/A' }}"
-                                    data-history="{{ $emp->medical_history ?? 'N/A' }}"
+                                    data-sex="{{ $emp->sex ?? 'N/A' }}"
                                     data-contact="{{ $emp->contact ?? 'N/A' }}"
                                     data-email="{{ $emp->email ?? 'N/A' }}">
                                     <td class="ps-0 fw-medium">{{ $emp->name }}</td>
@@ -83,8 +82,7 @@
                     <p><strong>Name:</strong> <span id="empName">-</span></p>
                     <p><strong>Department:</strong> <span id="empDept">-</span></p>
                     <p><strong>Age:</strong> <span id="empAge">-</span></p>
-                    <p><strong>Gender:</strong> <span id="empGender">-</span></p>
-                    <p><strong>Medical History:</strong> <span id="empHistory">-</span></p>
+                    <p><strong>Sex:</strong> <span id="empSex">-</span></p>
                     <p><strong>Contact No.:</strong> <span id="empContact">-</span></p>
                     <p><strong>Email:</strong> <span id="empEmail">-</span></p>
                 </div>
@@ -130,4 +128,56 @@
     </div>
 
 </div>
+
+<script>
+// Dashboard employee row click handler
+document.addEventListener('DOMContentLoaded', function() {
+    const rows = document.querySelectorAll('.employee-row');
+    
+    rows.forEach(row => {
+        row.style.cursor = 'pointer';
+        row.addEventListener('click', function() {
+            // Remove active class from all rows
+            rows.forEach(r => r.classList.remove('table-active'));
+            // Add active class to clicked row
+            this.classList.add('table-active');
+            
+            // Get data from row
+            const name = this.dataset.name;
+            const department = this.dataset.department;
+            const age = this.dataset.age;
+            const sex = this.dataset.sex;
+            const contact = this.dataset.contact;
+            const email = this.dataset.email;
+            
+            // Update details panel
+            document.getElementById('empName').textContent = name;
+            document.getElementById('empDept').textContent = department;
+            document.getElementById('empAge').textContent = age;
+            document.getElementById('empSex').textContent = sex;
+            document.getElementById('empContact').textContent = contact;
+            document.getElementById('empEmail').textContent = email;
+        });
+    });
+    
+    // Search functionality
+    const searchInput = document.getElementById('employeeSearch');
+    if (searchInput) {
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            
+            rows.forEach(row => {
+                const name = row.dataset.name.toLowerCase();
+                const department = row.dataset.department.toLowerCase();
+                
+                if (name.includes(searchTerm) || department.includes(searchTerm)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    }
+});
+</script>
 @endsection

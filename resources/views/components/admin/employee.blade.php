@@ -3,10 +3,22 @@
 @section('employee')
 <div class="container-fluid mt-4">
 
-    <!-- Header + Add Employee Button -->
-    <div class="d-flex justify-content-between mb-3">
+    <!-- Header + Add Employee Button + Search -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
         <h3>Employees</h3>
-        <a href="{{ route('employee.create') }}" class="btn btn-primary">Add Employee</a>
+        <div class="d-flex gap-2">
+            <!-- Search Input -->
+            <div class="input-group" style="width: 300px;">
+                <span class="input-group-text bg-white">
+                    <i class="bi bi-search"></i>
+                </span>
+                <input type="text" 
+                       id="employeeTableSearch" 
+                       class="form-control" 
+                       placeholder="Search employees...">
+            </div>
+            <a href="{{ route('employee.create') }}" class="btn btn-primary">Add Employee</a>
+        </div>
     </div>
     
     <!-- Employee Table -->
@@ -34,7 +46,7 @@
             </thead>
             <tbody>
                 @foreach($employees as $employee)
-                <tr data-bs-toggle="collapse" data-bs-target="#employee-{{ $employee->id }}" class="accordion-toggle">
+                <tr data-bs-toggle="collapse" data-bs-target="#employee-{{ $employee->id }}" class="accordion-toggle employee-row">
                     <td><i class="bi bi-caret-down-fill"></i></td>
                     <td>{{ $employee->last_name ?? '-' }}</td>
                     <td>{{ $employee->first_name ?? '-' }}</td>
@@ -53,7 +65,7 @@
                     <td>{{ $employee->department ?? '-' }}</td>
                 </tr>
                 <tr>
-                    <td colspan="5" class="hiddenRow p-0">
+                    <td colspan="16" class="hiddenRow p-0">
                         <div class="collapse" id="employee-{{ $employee->id }}">
                             <div class="p-3 bg-light border d-flex gap-2">
                                 <a href="{{ route('employee.show', $employee->id) }}" class="btn btn-info btn-sm">View</a>
@@ -68,4 +80,7 @@
     </div>
 
 </div>
+
+<!-- Add the search script -->
+<script src="{{ asset('admin/js/employeeTableSearch.js') }}"></script>
 @endsection
