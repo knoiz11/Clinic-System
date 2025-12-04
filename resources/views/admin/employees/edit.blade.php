@@ -26,7 +26,7 @@
 
 
         <div class="bg-white shadow p-4 rounded">
-                        <form action="{{ route('employee.update', $employee->id) }}" method="POST">
+                        <form action="{{ route('employee.update', $employee->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                                 <div class="row">
@@ -70,6 +70,20 @@
                                                     <option value="Inactive" {{ old('status', $employee->status) == 'Inactive' ? 'selected' : '' }}>Inactive</option>
                                                     <option value="On Leave" {{ old('status', $employee->status) == 'On Leave' ? 'selected' : '' }}>On Leave</option>
                                                 </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="fw-bold">Profile Photo:</label>
+                                            @if($employee->photo)
+                                                <div class="mb-2">
+                                                    <img src="{{ asset('storage/' . $employee->photo) }}" alt="Current Photo" class="img-thumbnail" style="max-width: 200px; max-height: 200px;">
+                                                </div>
+                                            @endif
+                                            <input type="file" name="photo" class="form-control" accept="image/*" id="photoInputEdit">
+                                            <small class="text-muted">Leave empty to keep current photo. Max: 2MB</small>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <img id="photoPreviewEdit" src="" alt="Preview" class="img-thumbnail" style="display: none; max-width: 200px; max-height: 200px;">
                                         </div>
                                         <div class="mb-3">
                                                 <label class="fw-bold">Contact:</label>
@@ -176,5 +190,22 @@
 
   </div>
   <!-- End Main wrapper -->
-</div>
+    <script>
+    document.getElementById('photoInputEdit').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        const preview = document.getElementById('photoPreviewEdit');
+        
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+            }
+            reader.readAsDataURL(file);
+        } else {
+            preview.style.display = 'none';
+        }
+    });
+    </script>
+    </div>
 <!-- End Body Wrapper -->

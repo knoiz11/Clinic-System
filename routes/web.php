@@ -11,6 +11,8 @@ use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DoctorStatusController;
+
 
 // -------------------------------------------------------
 // PUBLIC ROUTES
@@ -169,3 +171,18 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
     Route::get('/notifications/mark-all-read', [NotificationController::class, 'markAllRead'])->name('notifications.markAllRead');
 });
+
+// Public route
+Route::get('/doctor-status', [DoctorStatusController::class, 'getStatus'])->name('doctor.status');
+
+// Admin route
+Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
+    Route::post('/doctor-status/toggle', [DoctorStatusController::class, 'toggle'])->name('doctor.status.toggle');
+    // ... existing admin routes
+});
+
+// Update welcome route
+Route::get('/', function () {
+    $doctorStatus = \App\Models\DoctorStatus::getCurrentStatus();
+    return view('welcome', compact('doctorStatus'));
+})->middleware('web');

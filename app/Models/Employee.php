@@ -34,6 +34,7 @@ class Employee extends Model
         'notes',
         'photo',
         'next_visit',
+        'photo',  
     ];
 
     protected $casts = [
