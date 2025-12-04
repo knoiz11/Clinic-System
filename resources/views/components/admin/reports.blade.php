@@ -19,6 +19,9 @@
                         <li class="nav-item" role="presentation">
                             <button class="nav-link" data-bs-toggle="tab" data-bs-target="#visit-reports" type="button">Visits</button>
                         </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#inventory-reports" type="button">Inventory</button>
+                        </li>
                     </ul>
 
                     <div class="tab-content" id="reportTabsContent">
@@ -106,6 +109,159 @@
                                 </table>
                             </div>
                         </div>
+
+                        <!-- Inventory Reports -->  
+                        <div class="tab-pane fade" id="inventory-reports">
+
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h5 class="fw-bold mb-0">Complete Inventory</h5>
+                                <button class="btn btn-danger btn-sm"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#pdfPreviewModal"
+                                        data-type="inventory">
+                                    <i class="ti ti-file-type-pdf me-1"></i> Generate PDF
+                                </button>
+                            </div>
+
+                            <div class="table-responsive mb-4">
+                                <table class="table table-hover align-middle">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Item</th>
+                                            <th>Type</th>
+                                            <th class="text-center">Qty</th>
+                                            <th>Unit</th>
+                                            <th>Date Purchased</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @forelse ($inventoryAll as $item)
+                                            <tr>
+                                                <td>{{ $item->item_name }}</td>
+                                                <td>{{ $item->supply_type }}</td>
+                                                <td class="text-center">{{ $item->quantity }}</td>
+                                                <td>{{ $item->unit }}</td>
+                                                <td>{{ $item->date_purchased }}</td>
+                                            </tr>
+                                        @empty
+                                            <tr>
+                                                <td colspan="5" class="text-center text-muted">No inventory items available.</td>
+                                            </tr>
+                                        @endforelse
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- Clinic Supplies -->
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h5 class="fw-bold mb-0">Clinic Supplies</h5>
+                                <button class="btn btn-danger btn-sm"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#pdfPreviewModal"
+                                        data-type="inventory-clinic">
+                                    <i class="ti ti-file-type-pdf me-1"></i> Generate PDF
+                                </button>
+                            </div>
+
+                            <div class="table-responsive mb-4">
+                                <table class="table table-hover align-middle">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Item</th>
+                                            <th class="text-center">Qty</th>
+                                            <th>Unit</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @forelse ($inventoryClinic as $item)
+                                            <tr>
+                                                <td>{{ $item->item_name }}</td>
+                                                <td class="text-center">{{ $item->quantity }}</td>
+                                                <td>{{ $item->unit }}</td>
+                                            </tr>
+                                        @empty
+                                            <tr>
+                                                <td colspan="3" class="text-center text-muted">No clinic supplies.</td>
+                                            </tr>
+                                        @endforelse
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- Office Supplies -->
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h5 class="fw-bold mb-0">Office Supplies</h5>
+                                <button class="btn btn-danger btn-sm"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#pdfPreviewModal"
+                                        data-type="inventory-office">
+                                    <i class="ti ti-file-type-pdf me-1"></i> Generate PDF
+                                </button>
+                            </div>
+
+                            <div class="table-responsive mb-4">
+                                <table class="table table-hover align-middle">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Item</th>
+                                            <th class="text-center">Qty</th>
+                                            <th>Unit</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @forelse ($inventoryOffice as $item)
+                                            <tr>
+                                                <td>{{ $item->item_name }}</td>
+                                                <td class="text-center">{{ $item->quantity }}</td>
+                                                <td>{{ $item->unit }}</td>
+                                            </tr>
+                                        @empty
+                                            <tr>
+                                                <td colspan="3" class="text-center text-muted">No office supplies.</td>
+                                            </tr>
+                                        @endforelse
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- Low Stock Alerts -->
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h5 class="fw-bold mb-0 text-danger">Low Stock (≤10)</h5>
+                                <button class="btn btn-danger btn-sm"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#pdfPreviewModal"
+                                        data-type="inventory-low-stock">
+                                    <i class="ti ti-file-type-pdf me-1"></i> Generate PDF
+                                </button>
+                            </div>
+
+                            <div class="table-responsive">
+                                <table class="table table-hover align-middle">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Item</th>
+                                            <th>Type</th>
+                                            <th class="text-center">Qty</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @forelse ($lowStockItems as $item)
+                                            <tr>
+                                                <td>{{ $item->item_name }}</td>
+                                                <td>{{ $item->supply_type }}</td>
+                                                <td class="text-center text-danger fw-bold">{{ $item->quantity }}</td>
+                                            </tr>
+                                        @empty
+                                            <tr>
+                                                <td colspan="3" class="text-center text-muted">No low stock items.</td>
+                                            </tr>
+                                        @endforelse
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+
 
                     </div> <!-- end tab-content -->
                 </div>

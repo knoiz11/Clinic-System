@@ -5,6 +5,8 @@ use Illuminate\Http\Request;
 use App\Models\Employee;
 use App\Models\Appointment;
 use Carbon\Carbon;
+use App\Models\DoctorStatus;
+
 
 class DashboardController extends Controller
 {
@@ -51,13 +53,16 @@ public function index()
 
     $recentVisitsCount = $recentVisits->count();
 
+    $doctorStatus = DoctorStatus::getCurrentStatus();
+
     return view('admin.dashboard', compact(
         'employeeCount',
         'upcomingAppointmentsCount',
         'employees',
         'upcomingAppointments',
         'recentVisits',
-        'recentVisitsCount'
+        'recentVisitsCount',
+        'doctorStatus'
     ));
 }
 

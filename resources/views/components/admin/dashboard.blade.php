@@ -5,7 +5,7 @@
 
     <!-- Stats Cards -->
     <div class="row mb-4">
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="card shadow-sm text-center">
                 <div class="card-body">
                     <h2 class="fw-bold mb-0">{{ $employeeCount }}</h2>
@@ -13,7 +13,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="card shadow-sm text-center">
                 <div class="card-body">
                     <h2 class="fw-bold mb-0">{{ $recentVisitsCount }}</h2>
@@ -21,11 +21,27 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="card shadow-sm text-center">
                 <div class="card-body">
                     <h2 class="fw-bold mb-0">{{ $upcomingAppointmentsCount }}</h2>
                     <p class="mb-0">Upcoming Checkups</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Doctor Status Card -->
+        <div class="col-md-3">
+            <div class="card shadow-sm text-center" style="cursor: pointer; transition: transform 0.1s;" id="doctorStatusCard">
+                <div class="card-body">
+                    <h5 class="mb-3">Doctor Status</h5>
+                    <div class="d-flex align-items-center justify-content-center gap-2 mb-2">
+                        <i class="bi bi-circle-fill" id="statusIndicator" 
+                           style="font-size: 24px; color: {{ $doctorStatus->is_in ? '#28a745' : '#dc3545' }}"></i>
+                        <h3 class="mb-0" id="statusText">{{ $doctorStatus->is_in ? 'IN' : 'OUT' }}</h3>
+                    </div>
+                    <small class="text-muted">Click to toggle</small>
+                    <input type="hidden" id="currentStatus" value="{{ $doctorStatus->is_in ? '1' : '0' }}">
                 </div>
             </div>
         </div>
@@ -37,8 +53,13 @@
             <div class="card shadow-sm">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h5 class="card-title">Employee Records</h5>
-                        <input type="text" id="employeeSearch" class="form-control w-50" placeholder="Search employee...">
+                        <h5 class="card-title mb-0">Employee Records</h5>
+                        <div class="d-flex gap-2 align-items-center">
+                            <input type="text" id="employeeSearch" class="form-control" style="max-width: 250px;" placeholder="Search employee...">
+                            <a href="{{ route('employee.index') }}" class="btn btn-primary btn-sm text-nowrap">
+                                <i class="bi bi-eye"></i> See More
+                            </a>
+                        </div>
                     </div>
 
                     <div class="table-responsive">
@@ -59,7 +80,8 @@
                                     data-age="{{ $emp->age ?? 'N/A' }}"
                                     data-sex="{{ $emp->sex ?? 'N/A' }}"
                                     data-contact="{{ $emp->contact ?? 'N/A' }}"
-                                    data-email="{{ $emp->email ?? 'N/A' }}">
+                                    data-email="{{ $emp->email ?? 'N/A' }}"
+                                    data-photo="{{ $emp->photo ? asset('storage/' . $emp->photo) : '' }}">
                                     <td class="ps-0 fw-medium">{{ $emp->name }}</td>
                                     <td>{{ $emp->designation ?? 'N/A' }}</td>
                                     <td class="text-center fw-medium">{{ $emp->department }}</td>
@@ -78,7 +100,21 @@
         <div class="col-lg-4">
             <div class="card shadow-sm">
                 <div class="card-body">
-                    <h5 class="card-title">Employee Details</h5>
+                    <h5 class="card-title mb-3">Employee Details</h5>
+                    
+                    <!-- Photo Section -->
+                    <div class="text-center mb-4">
+                        <div class="border bg-light rounded-3 p-3 d-inline-block" style="min-width: 150px; min-height: 150px;">
+                            <img id="empPhoto" 
+                                 src="{{ asset('admin/images/profile/user.jpg') }}" 
+                                 alt="Employee Photo" 
+                                 class="rounded-3"
+                                 style="width: 140px; height: 140px; object-fit: cover; display: none;">
+                            <i id="empPhotoIcon" class="bi bi-person-circle" style="font-size: 100px; color: #b0b0b0;"></i>
+                        </div>
+                    </div>
+
+                    <!-- Details -->
                     <p><strong>Name:</strong> <span id="empName">-</span></p>
                     <p><strong>Department:</strong> <span id="empDept">-</span></p>
                     <p><strong>Age:</strong> <span id="empAge">-</span></p>
@@ -129,34 +165,79 @@
 
 </div>
 
+<!-- JavaScript for Doctor Status Toggle & Employee Details -->
 <script>
-// Dashboard employee row click handler
 document.addEventListener('DOMContentLoaded', function() {
+    // Doctor Status Toggle
+    const statusCard = document.getElementById('doctorStatusCard');
+    const statusIndicator = document.getElementById('statusIndicator');
+    const statusText = document.getElementById('statusText');
+    const currentStatusInput = document.getElementById('currentStatus');
+    
+    statusCard?.addEventListener('click', async function() {
+        try {
+            const response = await fetch('{{ route("doctor.status.toggle") }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                }
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                const isIn = data.is_in;
+                statusText.textContent = isIn ? 'IN' : 'OUT';
+                statusIndicator.style.color = isIn ? '#28a745' : '#dc3545';
+                currentStatusInput.value = isIn ? '1' : '0';
+                
+                // Add animation
+                statusCard.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    statusCard.style.transform = 'scale(1)';
+                }, 100);
+            }
+        } catch (error) {
+            console.error('Error toggling doctor status:', error);
+            alert('Failed to update doctor status');
+        }
+    });
+
+    // Employee row click handler
     const rows = document.querySelectorAll('.employee-row');
+    const empPhoto = document.getElementById('empPhoto');
+    const empPhotoIcon = document.getElementById('empPhotoIcon');
     
     rows.forEach(row => {
         row.style.cursor = 'pointer';
         row.addEventListener('click', function() {
-            // Remove active class from all rows
             rows.forEach(r => r.classList.remove('table-active'));
-            // Add active class to clicked row
             this.classList.add('table-active');
             
-            // Get data from row
             const name = this.dataset.name;
             const department = this.dataset.department;
             const age = this.dataset.age;
             const sex = this.dataset.sex;
             const contact = this.dataset.contact;
             const email = this.dataset.email;
+            const photo = this.dataset.photo;
             
-            // Update details panel
             document.getElementById('empName').textContent = name;
             document.getElementById('empDept').textContent = department;
             document.getElementById('empAge').textContent = age;
             document.getElementById('empSex').textContent = sex;
             document.getElementById('empContact').textContent = contact;
             document.getElementById('empEmail').textContent = email;
+            
+            if (photo) {
+                empPhoto.src = photo;
+                empPhoto.style.display = 'block';
+                empPhotoIcon.style.display = 'none';
+            } else {
+                empPhoto.style.display = 'none';
+                empPhotoIcon.style.display = 'inline';
+            }
         });
     });
     
@@ -180,4 +261,5 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 </script>
+
 @endsection
