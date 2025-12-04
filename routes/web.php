@@ -95,9 +95,48 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
         Route::get('/{employee}/view', [EmployeeController::class, 'show'])->name('show');
     });
 
-    // Consultation
+    // Consultation (existing route)
     Route::get('/consultation/{employee}', [ConsultationController::class, 'show'])
         ->name('consultation.show');
+
+    // ============================================
+    // CONSULTATION RECORDS ROUTES (NEW)
+    // ============================================
+    Route::prefix('employee/{employeeId}/consultation')->group(function () {
+        
+        // Get all records at once (for page load)
+        Route::get('/all', [ConsultationController::class, 'getAllRecords'])->name('consultation.all');
+        
+        // Vital Signs
+        Route::get('/vital-signs', [ConsultationController::class, 'getVitalSigns'])->name('consultation.vital-signs.index');
+        Route::post('/vital-signs', [ConsultationController::class, 'storeVitalSign'])->name('consultation.vital-signs.store');
+        Route::put('/vital-signs/{id}', [ConsultationController::class, 'updateVitalSign'])->name('consultation.vital-signs.update');
+        Route::delete('/vital-signs/{id}', [ConsultationController::class, 'deleteVitalSign'])->name('consultation.vital-signs.delete');
+        
+        // Physical Exam
+        Route::get('/physical-exams', [ConsultationController::class, 'getPhysicalExams'])->name('consultation.physical-exams.index');
+        Route::post('/physical-exams', [ConsultationController::class, 'storePhysicalExam'])->name('consultation.physical-exams.store');
+        Route::put('/physical-exams/{id}', [ConsultationController::class, 'updatePhysicalExam'])->name('consultation.physical-exams.update');
+        Route::delete('/physical-exams/{id}', [ConsultationController::class, 'deletePhysicalExam'])->name('consultation.physical-exams.delete');
+        
+        // Consultation
+        Route::get('/consultations', [ConsultationController::class, 'getConsultations'])->name('consultation.consultations.index');
+        Route::post('/consultations', [ConsultationController::class, 'storeConsultation'])->name('consultation.consultations.store');
+        Route::put('/consultations/{id}', [ConsultationController::class, 'updateConsultation'])->name('consultation.consultations.update');
+        Route::delete('/consultations/{id}', [ConsultationController::class, 'deleteConsultation'])->name('consultation.consultations.delete');
+        
+        // Doctor's Order
+        Route::get('/doctor-orders', [ConsultationController::class, 'getDoctorOrders'])->name('consultation.doctor-orders.index');
+        Route::post('/doctor-orders', [ConsultationController::class, 'storeDoctorOrder'])->name('consultation.doctor-orders.store');
+        Route::put('/doctor-orders/{id}', [ConsultationController::class, 'updateDoctorOrder'])->name('consultation.doctor-orders.update');
+        Route::delete('/doctor-orders/{id}', [ConsultationController::class, 'deleteDoctorOrder'])->name('consultation.doctor-orders.delete');
+        
+        // Laboratory
+        Route::get('/laboratories', [ConsultationController::class, 'getLaboratories'])->name('consultation.laboratories.index');
+        Route::post('/laboratories', [ConsultationController::class, 'storeLaboratory'])->name('consultation.laboratories.store');
+        Route::put('/laboratories/{id}', [ConsultationController::class, 'updateLaboratory'])->name('consultation.laboratories.update');
+        Route::delete('/laboratories/{id}', [ConsultationController::class, 'deleteLaboratory'])->name('consultation.laboratories.delete');
+    });
 
     // Appointment
     Route::get('/appointment', [AppointmentController::class, 'create'])->name('appointment.create');

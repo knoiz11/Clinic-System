@@ -10,7 +10,7 @@ class Employee extends Model
 {
     use HasFactory;
 
-    protected $table = 'employees'; // optional, only needed if table name differs
+    protected $table = 'employees';
 
     protected $fillable = [
         'employee_id',
@@ -41,33 +41,51 @@ class Employee extends Model
         'next_visit' => 'datetime',
     ];
 
-        // Compute age from birthdate if available; fallback to stored 'age' column if missing
-        public function getAgeAttribute($value)
-        {
-            if ($this->birthdate) {
-                $born = $this->birthdate instanceof Carbon ? $this->birthdate : Carbon::parse($this->birthdate);
-                return $born->age;
-            }
-            return $value;
+    // Compute age from birthdate
+    public function getAgeAttribute($value)
+    {
+        if ($this->birthdate) {
+            $born = $this->birthdate instanceof Carbon ? $this->birthdate : Carbon::parse($this->birthdate);
+            return $born->age;
         }
-    
-    public function appointments()
-    {
-        return $this->hasMany(Appointment::class);
+        return $value;
     }
 
-    public function employee()
-    {
-    return $this->belongsTo(Employee::class, 'employee_id');
-    }
-
-    // Compatibility: compute 'name' from first/middle/last for existing code that expects $employee->name
+    // Compute full name
     public function getNameAttribute()
     {
         $parts = array_filter([$this->first_name, $this->middle_name, $this->last_name]);
         return implode(' ', $parts);
     }
 
-    // (kept above) accessor computes age; nothing else to do here.
+    // Relationships
+    public function appointments()
+    {
+        return $this->hasMany(Appointment::class);
+    }
 
+    public function vitalSigns()
+    {
+        return $this->hasMany(VitalSign::class);
+    }
+
+    public function physicalExams()
+    {
+        return $this->hasMany(PhysicalExam::class);
+    }
+
+    public function consultations()
+    {
+        return $this->hasMany(Consultation::class);
+    }
+
+    public function doctorOrders()
+    {
+        return $this->hasMany(DoctorOrder::class);
+    }
+
+    public function laboratories()
+    {
+        return $this->hasMany(Laboratory::class);
+    }
 }

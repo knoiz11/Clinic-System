@@ -353,11 +353,64 @@ const templates = {
         </form>
       `
 };
+// ✅ capture form data + show read-only form preview
+function attachFormSaveListener() {
+    const form = document.getElementById("serviceForm");
+    if (!form) return;
+
+    form.addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        const data = new FormData(form);
+        const finalData = {};
+
+        // also get checkboxes and radio properly
+        form.querySelectorAll("input, textarea, select").forEach(field => {
+            if (field.type === "checkbox") {
+                finalData[field.name] = field.checked ? "Yes" : "No";
+            } else if (field.type === "radio") {
+                if (field.checked) finalData[field.name] = field.value;
+            } else {
+                finalData[field.name] = data.get(field.name) || "";
+            }
+        });
+
+        renderPreviewForm(finalData);
+    });
+}
+
+function renderPreviewForm(data) {
+    const container = document.getElementById("service-view-container");
+    if (!container) {
+        alert("⚠ Add <div id='service-view-container'></div> in HTML!");
+        return;
+    }
+
+    let html = `
+      <div class="card p-4 mt-4">
+        <h5 class="mb-3 text-maroon fw-bold">📁 Your Filled Up Form</h5>
+        <form class="row g-3">
+    `;
+
+    for (let key in data) {
+        html += `
+          <div class="col-md-6">
+            <label class="form-label">${key.replace(/_/g, " ")}</label>
+            <input class="form-control" type="text" value="${data[key]}" readonly disabled />
+          </div>
+        `;
+    }
+
+    html += `</form></div>`;
+    container.innerHTML = html;
+}
 
 document.querySelectorAll('.service-btn').forEach(btn => {
     btn.addEventListener('click', () => {
         const key = btn.id;
+
         document.getElementById('service-form-container').innerHTML = templates[key] || '';
+        attachFormSaveListener(); // ✅ enables save + preview after form loads
 
         // Initialize ICD-11 autocompleter if the field is present and lib loaded
         (function initICDAutocomplete() {
