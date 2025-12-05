@@ -18,7 +18,7 @@
     <div class="row mb-4">
         <div class="col-12">
             <div class="card shadow-sm">
-                <div class="card-body" style="background: linear-gradient(135deg, #7d3c4d 0%, #5a2c38 100%); color: white;">
+                <div class="card-body" style="background: linear-gradient(135deg, #7d3c4d 0%, #7D1D37 100%); color: white;">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
                             <h2 class="mb-1">
@@ -43,19 +43,19 @@
     <div class="row mb-4">
         <div class="col-12">
             <div class="btn-group" role="group">
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#vitalSignsModal">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#vitalSignsModal" style="background-color: #7D1D37; border-color: #7D1D37;">
                     <i class="bi bi-heart-pulse me-2"></i>Add Vital Signs
                 </button>
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#physicalExamModal">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#physicalExamModal" style="background-color: #7D1D37; border-color: #7D1D37;">
                     <i class="bi bi-clipboard-pulse me-2"></i>Add Physical Exam
                 </button>
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#consultationModal">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#consultationModal" style="background-color: #7D1D37; border-color: #7D1D37;">
                     <i class="bi bi-journal-medical me-2"></i>Add Consultation
                 </button>
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#doctorOrderModal">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#doctorOrderModal" style="background-color: #7D1D37; border-color: #7D1D37;">
                     <i class="bi bi-prescription2 me-2"></i>Add Doctor's Order
                 </button>
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#laboratoryModal">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#laboratoryModal" style="background-color: #7D1D37; border-color: #7D1D37;">
                     <i class="bi bi-file-medical me-2"></i>Add Laboratory
                 </button>
             </div>
@@ -66,25 +66,25 @@
     <div class="row">
         <div class="col-12">
             <div class="card shadow-sm">
-                <div class="card-header" style="background-color: #7d3c4d; color: white;">
+                <div class="card-header" style="background-color: #7D1D37; color: white;">
                     <h5 class="mb-0"><i class="bi bi-folder2-open me-2"></i>All Records</h5>
                 </div>
                 <div class="card-body">
                     
                     {{-- Vital Signs Records --}}
-                    <div id="vitalSignsRecords" class="mb-4"></div>
+                    <div id="vitalSignsRecords" class="mb-4" style="background-color: #7D1D37;"></div>
                     
                     {{-- Physical Exam Records --}}
-                    <div id="physicalExamRecords" class="mb-4"></div>
+                    <div id="physicalExamRecords" class="mb-4" style="background-color: #7D1D37;"></div>
                     
                     {{-- Consultation Records --}}
-                    <div id="consultationRecords" class="mb-4"></div>
+                    <div id="consultationRecords" class="mb-4" style="background-color: #7D1D37;"></div>
                     
                     {{-- Doctor's Order Records --}}
-                    <div id="doctorOrderRecords" class="mb-4"></div>
+                    <div id="doctorOrderRecords" class="mb-4" style="background-color: #7D1D37;"></div>
                     
                     {{-- Laboratory Records --}}
-                    <div id="laboratoryRecords" class="mb-4"></div>
+                    <div id="laboratoryRecords" class="mb-4" style="background-color: #7D1D37;"></div>
                     
                     {{-- Empty State --}}
                     <div id="emptyState" class="text-center py-5 text-muted">

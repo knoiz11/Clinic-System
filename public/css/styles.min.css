@@ -1,6 +1,6 @@
 :root {
-  --primary-color: #6A0D1A; /* Maroon */
-  --secondary-color: #C9A33C; /* Gold */
+  --primary-color: #7D1D37; /* Maroon */
+  --secondary-color: #B3822B; /* Gold */
   --text-light: #fff;
   --text-dark: #333;
 }
@@ -33,3 +33,16 @@ main {
 .footer a:hover {
   color: var(--text-light);
 }
+
+<style>
+.btn-maroon {
+    background-color: #800020;
+    color: white;
+    border: none;
+}
+
+.btn-maroon:hover {
+    background-color: #660019;
+    color: white;
+}
+</style>
