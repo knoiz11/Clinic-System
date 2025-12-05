@@ -3,7 +3,7 @@
 namespace App\Policies;
 
 use App\Models\User;
-use App\Models\Vital_Signs;
+use App\Models\VitalSign;
 
 class VitalSignsPolicy
 {
@@ -12,7 +12,7 @@ class VitalSignsPolicy
         return true;
     }
 
-    public function view(User $user, Vital_Signs $vitalSigns): bool
+    public function view(User $user, VitalSign $vitalSigns): bool
     {
         return true; // anyone logged in can view
     }
@@ -22,22 +22,22 @@ class VitalSignsPolicy
         return true; // all logged users can create
     }
 
-    public function update(User $user, Vital_Signs $vitalSigns): bool
+    public function update(User $user, VitalSign $vitalSigns): bool
     {
         return $user->id === $vitalSigns->user_id;
     }
 
-    public function delete(User $user, Vital_Signs $vitalSigns): bool
+    public function delete(User $user, VitalSign $vitalSigns): bool
     {
         return $user->id === $vitalSigns->user_id;
     }
 
-    public function restore(User $user, Vital_Signs $vitalSigns): bool
+    public function restore(User $user, VitalSign $vitalSigns): bool
     {
         return $user->id === $vitalSigns->user_id;
     }
 
-    public function forceDelete(User $user, Vital_Signs $vitalSigns): bool
+    public function forceDelete(User $user, VitalSign $vitalSigns): bool
     {
         return $user->id === $vitalSigns->user_id;
     }

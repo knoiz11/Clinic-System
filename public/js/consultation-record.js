@@ -1,5 +1,5 @@
 /**
- * Consultation Records Management System
+ * Consultation Records Management System - FIXED VERSION
  * Saves to DATABASE (primary) + localStorage (backup)
  */
 
@@ -24,9 +24,15 @@ let laboratoriesData = [];
 // INITIALIZATION
 // ============================================
 document.addEventListener('DOMContentLoaded', function() {
+  console.log('Page loaded, initializing...');
+  
   const employeeIdElement = document.querySelector('[data-employee-id]');
   if (employeeIdElement) {
     employeeId = employeeIdElement.getAttribute('data-employee-id');
+    console.log('Employee ID:', employeeId);
+  } else {
+    console.error('Employee ID element not found!');
+    return;
   }
   
   loadAllRecordsFromDatabase();
@@ -38,6 +44,8 @@ document.addEventListener('DOMContentLoaded', function() {
 // ============================================
 async function apiRequest(url, method = 'GET', data = null) {
   try {
+    console.log(`API Request: ${method} ${url}`, data);
+    
     const options = {
       method: method,
       headers: {
@@ -52,6 +60,8 @@ async function apiRequest(url, method = 'GET', data = null) {
     
     const response = await fetch(url, options);
     const result = await response.json();
+    
+    console.log('API Response:', result);
     
     if (!response.ok) {
       throw new Error(result.message || 'Request failed');
@@ -85,11 +95,20 @@ function safeLocalStorageGet(key, defaultValue = '[]') {
   }
 }
 
+// Helper function to show records section (if it exists)
+function showSavedRecordsSection() {
+  const section = document.getElementById('savedRecordsSection');
+  if (section) {
+    section.style.display = 'block';
+  }
+}
+
 // ============================================
 // LOAD ALL RECORDS FROM DATABASE
 // ============================================
 async function loadAllRecordsFromDatabase() {
   try {
+    console.log('Loading all records from database...');
     const data = await apiRequest(`/admin/employee/${employeeId}/consultation/all`);
     
     vitalSignsData = data.vitalSigns || [];
@@ -110,13 +129,15 @@ async function loadAllRecordsFromDatabase() {
     loadDoctorOrders();
     loadLaboratories();
     
+    console.log('All records loaded successfully');
   } catch (error) {
-    console.error('Failed to load records from database, using localStorage:', error);
+    console.error('Failed to load records from database:', error);
     loadFromLocalStorage();
   }
 }
 
 function loadFromLocalStorage() {
+  console.log('Loading from localStorage...');
   vitalSignsData = JSON.parse(safeLocalStorageGet(`vitalSigns_${employeeId}`));
   physicalExamsData = JSON.parse(safeLocalStorageGet(`physicalExams_${employeeId}`));
   consultationsData = JSON.parse(safeLocalStorageGet(`consultations_${employeeId}`));
@@ -135,12 +156,15 @@ function loadFromLocalStorage() {
 // ============================================
 function loadVitalSigns() {
   const container = document.getElementById('vitalSignsRecords');
-  if (!container) return;
+  if (!container) {
+    console.warn('vitalSignsRecords container not found');
+    return;
+  }
   
   container.innerHTML = '';
   
   vitalSignsData.forEach((data, index) => {
-    const timestamp = data.created_at ? new Date(data.created_at).toLocaleString() : data.timestamp;
+    const timestamp = data.created_at ? new Date(data.created_at).toLocaleString() : data.timestamp || 'N/A';
     const recordHTML = `
       <div class="card mb-3 border-0 shadow-sm">
         <div class="card-header d-flex justify-content-between align-items-center" style="background-color: #7d3c4d; color: white;">
@@ -162,7 +186,7 @@ function loadVitalSigns() {
             </div>
             <div class="col-md-4">
               <small class="text-muted">Heart Rate:</small>
-              <p class="mb-0 fw-semibold">${data.heart_rate} bpm</p>
+              <p class="mb-0 fw-semibold">${data.heart_rate || 'N/A'} bpm</p>
             </div>
             <div class="col-md-4">
               <small class="text-muted">Pulse Rate:</small>
@@ -170,11 +194,11 @@ function loadVitalSigns() {
             </div>
             <div class="col-md-4">
               <small class="text-muted">BP Systolic:</small>
-              <p class="mb-0 fw-semibold">${data.bp_systolic} mmHg</p>
+              <p class="mb-0 fw-semibold">${data.bp_systolic || 'N/A'} mmHg</p>
             </div>
             <div class="col-md-4">
               <small class="text-muted">BP Diastolic:</small>
-              <p class="mb-0 fw-semibold">${data.bp_diastolic} mmHg</p>
+              <p class="mb-0 fw-semibold">${data.bp_diastolic || 'N/A'} mmHg</p>
             </div>
             <div class="col-md-4">
               <small class="text-muted">Respiratory Rate:</small>
@@ -182,11 +206,11 @@ function loadVitalSigns() {
             </div>
             <div class="col-md-6">
               <small class="text-muted">BP Assessment:</small>
-              <p class="mb-0 fw-semibold">${data.bp_assessment}</p>
+              <p class="mb-0 fw-semibold">${data.bp_assessment || 'N/A'}</p>
             </div>
             <div class="col-md-6">
               <small class="text-muted">Administered by:</small>
-              <p class="mb-0 fw-semibold">${data.administered_by}</p>
+              <p class="mb-0 fw-semibold">${data.administered_by || 'N/A'}</p>
             </div>
           </div>
           ${data.remarks ? `<hr class="my-2"><div><small class="text-muted">Remarks:</small><p class="mb-0">${data.remarks}</p></div>` : ''}
@@ -242,12 +266,15 @@ async function deleteVitalSign(index) {
 // ============================================
 function loadPhysicalExams() {
   const container = document.getElementById('physicalExamRecords');
-  if (!container) return;
+  if (!container) {
+    console.warn('physicalExamRecords container not found');
+    return;
+  }
   
   container.innerHTML = '';
   
   physicalExamsData.forEach((data, index) => {
-    const timestamp = data.created_at ? new Date(data.created_at).toLocaleString() : data.timestamp;
+    const timestamp = data.created_at ? new Date(data.created_at).toLocaleString() : data.timestamp || 'N/A';
     const recordHTML = `
       <div class="card mb-3 border-0 shadow-sm">
         <div class="card-header d-flex justify-content-between align-items-center" style="background-color: #7d3c4d; color: white;">
@@ -339,12 +366,15 @@ async function deletePhysicalExam(index) {
 // ============================================
 function loadConsultations() {
   const container = document.getElementById('consultationRecords');
-  if (!container) return;
+  if (!container) {
+    console.warn('consultationRecords container not found');
+    return;
+  }
   
   container.innerHTML = '';
   
   consultationsData.forEach((data, index) => {
-    const timestamp = data.created_at ? new Date(data.created_at).toLocaleString() : data.timestamp;
+    const timestamp = data.created_at ? new Date(data.created_at).toLocaleString() : data.timestamp || 'N/A';
     const recordHTML = `
       <div class="card mb-3 border-0 shadow-sm">
         <div class="card-header d-flex justify-content-between align-items-center" style="background-color: #7d3c4d; color: white;">
@@ -421,12 +451,15 @@ async function deleteConsultation(index) {
 // ============================================
 function loadDoctorOrders() {
   const container = document.getElementById('doctorOrderRecords');
-  if (!container) return;
+  if (!container) {
+    console.warn('doctorOrderRecords container not found');
+    return;
+  }
   
   container.innerHTML = '';
   
   doctorOrdersData.forEach((data, index) => {
-    const timestamp = data.created_at ? new Date(data.created_at).toLocaleString() : data.timestamp;
+    const timestamp = data.created_at ? new Date(data.created_at).toLocaleString() : data.timestamp || 'N/A';
     const recordHTML = `
       <div class="card mb-3 border-0 shadow-sm">
         <div class="card-header d-flex justify-content-between align-items-center" style="background-color: #7d3c4d; color: white;">
@@ -480,12 +513,15 @@ async function deleteDoctorOrder(index) {
 // ============================================
 function loadLaboratories() {
   const container = document.getElementById('laboratoryRecords');
-  if (!container) return;
+  if (!container) {
+    console.warn('laboratoryRecords container not found');
+    return;
+  }
   
   container.innerHTML = '';
   
   laboratoriesData.forEach((data, index) => {
-    const timestamp = data.created_at ? new Date(data.created_at).toLocaleString() : data.timestamp;
+    const timestamp = data.created_at ? new Date(data.created_at).toLocaleString() : data.timestamp || 'N/A';
     const recordHTML = `
       <div class="card mb-3 border-0 shadow-sm">
         <div class="card-header d-flex justify-content-between align-items-center" style="background-color: #7d3c4d; color: white;">
@@ -543,128 +579,118 @@ async function deleteLaboratory(index) {
 // FORM HANDLERS
 // ============================================
 function initializeFormHandlers() {
-  document.getElementById('vitalSignsForm')?.addEventListener('submit', async function(e) {
-    e.preventDefault();
-    const formData = new FormData(this);
-    const data = Object.fromEntries(formData);
-    
-    if (editingVitalSignIndex !== null) {
-      const record = vitalSignsData[editingVitalSignIndex];
-      if (record.id) {
-        const result = await apiRequest(`/admin/employee/${employeeId}/consultation/vital-signs/${record.id}`, 'PUT', data);
-        vitalSignsData[editingVitalSignIndex] = result.data;
-      } else {
-        vitalSignsData[editingVitalSignIndex] = data;
+  console.log('Initializing form handlers...');
+  
+  // Vital Signs Form
+  const vitalSignsForm = document.getElementById('vitalSignsForm');
+  if (vitalSignsForm) {
+    vitalSignsForm.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      console.log('Vital Signs form submitted');
+      
+      const formData = new FormData(this);
+      const data = Object.fromEntries(formData);
+      
+      try {
+        if (editingVitalSignIndex !== null) {
+          const record = vitalSignsData[editingVitalSignIndex];
+          if (record.id) {
+            const result = await apiRequest(`/admin/employee/${employeeId}/consultation/vital-signs/${record.id}`, 'PUT', data);
+            vitalSignsData[editingVitalSignIndex] = result.data;
+          } else {
+            vitalSignsData[editingVitalSignIndex] = data;
+          }
+          editingVitalSignIndex = null;
+        } else {
+          const result = await apiRequest(`/admin/employee/${employeeId}/consultation/vital-signs`, 'POST', data);
+          vitalSignsData.unshift(result.data);
+        }
+        
+        safeLocalStorageSet(`vitalSigns_${employeeId}`, JSON.stringify(vitalSignsData));
+        loadVitalSigns();
+        this.reset();
+        bootstrap.Modal.getInstance(document.getElementById('vitalSignsModal')).hide();
+        alert('Vital signs saved successfully!');
+      } catch (error) {
+        console.error('Error saving vital signs:', error);
       }
-      editingVitalSignIndex = null;
-    } else {
-      const result = await apiRequest(`/admin/employee/${employeeId}/consultation/vital-signs`, 'POST', data);
-      vitalSignsData.unshift(result.data);
-    }
-    
-    safeLocalStorageSet(`vitalSigns_${employeeId}`, JSON.stringify(vitalSignsData));
-    loadVitalSigns();
-    this.reset();
-    bootstrap.Modal.getInstance(document.getElementById('vitalSignsModal')).hide();
-  });
+    });
+    console.log('Vital Signs form handler attached');
+  } else {
+    console.warn('vitalSignsForm not found');
+  }
 
-  document.getElementById('physicalExamForm')?.addEventListener('submit', async function(e) {
-    e.preventDefault();
-    const formData = new FormData(this);
-    const data = Object.fromEntries(formData);
-    
-    if (editingPhysicalExamIndex !== null) {
-      const record = physicalExamsData[editingPhysicalExamIndex];
-      if (record.id) {
-        const result = await apiRequest(`/admin/employee/${employeeId}/consultation/physical-exams/${record.id}`, 'PUT', data);
-        physicalExamsData[editingPhysicalExamIndex] = result.data;
-      } else {
-        physicalExamsData[editingPhysicalExamIndex] = data;
+  // Physical Exam Form
+  const physicalExamForm = document.getElementById('physicalExamForm');
+  if (physicalExamForm) {
+    physicalExamForm.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      console.log('Physical Exam form submitted');
+      
+      const formData = new FormData(this);
+      const data = Object.fromEntries(formData);
+      
+      try {
+        if (editingPhysicalExamIndex !== null) {
+          const record = physicalExamsData[editingPhysicalExamIndex];
+          if (record.id) {
+            const result = await apiRequest(`/admin/employee/${employeeId}/consultation/physical-exams/${record.id}`, 'PUT', data);
+            physicalExamsData[editingPhysicalExamIndex] = result.data;
+          } else {
+            physicalExamsData[editingPhysicalExamIndex] = data;
+          }
+          editingPhysicalExamIndex = null;
+        } else {
+          const result = await apiRequest(`/admin/employee/${employeeId}/consultation/physical-exams`, 'POST', data);
+          physicalExamsData.unshift(result.data);
+        }
+        
+        safeLocalStorageSet(`physicalExams_${employeeId}`, JSON.stringify(physicalExamsData));
+        loadPhysicalExams();
+        this.reset();
+        bootstrap.Modal.getInstance(document.getElementById('physicalExamModal')).hide();
+        alert('Physical exam saved successfully!');
+      } catch (error) {
+        console.error('Error saving physical exam:', error);
       }
-      editingPhysicalExamIndex = null;
-    } else {
-      const result = await apiRequest(`/admin/employee/${employeeId}/consultation/physical-exams`, 'POST', data);
-      physicalExamsData.unshift(result.data);
-    }
-    
-    safeLocalStorageSet(`physicalExams_${employeeId}`, JSON.stringify(physicalExamsData));
-    loadPhysicalExams();
-    this.reset();
-    bootstrap.Modal.getInstance(document.getElementById('physicalExamModal')).hide();
-  });
+    });
+    console.log('Physical Exam form handler attached');
+  }
 
-  document.getElementById('consultationForm')?.addEventListener('submit', async function(e) {
-    e.preventDefault();
-    const formData = new FormData(this);
-    const data = Object.fromEntries(formData);
-    
-    if (editingConsultationIndex !== null) {
-      const record = consultationsData[editingConsultationIndex];
-      if (record.id) {
-        const result = await apiRequest(`/admin/employee/${employeeId}/consultation/consultations/${record.id}`, 'PUT', data);
-        consultationsData[editingConsultationIndex] = result.data;
-      } else {
-        consultationsData[editingConsultationIndex] = data;
+  // Consultation Form
+  const consultationForm = document.getElementById('consultationForm');
+  if (consultationForm) {
+    consultationForm.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      console.log('Consultation form submitted');
+      
+      const formData = new FormData(this);
+      const data = Object.fromEntries(formData);
+      
+      try {
+        if (editingConsultationIndex !== null) {
+          const record = consultationsData[editingConsultationIndex];
+          if (record.id) {
+            const result = await apiRequest(`/admin/employee/${employeeId}/consultation/consultations/${record.id}`, 'PUT', data);
+            consultationsData[editingConsultationIndex] = result.data;
+          } else {
+            consultationsData[editingConsultationIndex] = data;
+          } 
+          editingConsultationIndex = null;
+        } else {
+          const result = await apiRequest(`/admin/employee/${employeeId}/consultation/consultations`, 'POST', data);
+          consultationsData.unshift(result.data);
+        }
+        
+        safeLocalStorageSet(`consultations_${employeeId}`, JSON.stringify(consultationsData));
+        loadConsultations();
+        this.reset();
+        bootstrap.Modal.getInstance(document.getElementById('consultationModal')).hide();
+        alert('Consultation saved successfully!');
+      } catch (error) {
+        console.error('Error saving consultation:', error);
       }
-      editingConsultationIndex = null;
-    } else {
-      const result = await apiRequest(`/admin/employee/${employeeId}/consultation/consultations`, 'POST', data);
-      consultationsData.unshift(result.data);
-    }
-    
-    safeLocalStorageSet(`consultations_${employeeId}`, JSON.stringify(consultationsData));
-    loadConsultations();
-    this.reset();
-    bootstrap.Modal.getInstance(document.getElementById('consultationModal')).hide();
-  });
-
-  document.getElementById('doctorOrderForm')?.addEventListener('submit', async function(e) {
-    e.preventDefault();
-    const formData = new FormData(this);
-    const data = Object.fromEntries(formData);
-    
-    if (editingDoctorOrderIndex !== null) {
-      const record = doctorOrdersData[editingDoctorOrderIndex];
-      if (record.id) {
-        const result = await apiRequest(`/admin/employee/${employeeId}/consultation/doctor-orders/${record.id}`, 'PUT', data);
-        doctorOrdersData[editingDoctorOrderIndex] = result.data;
-      } else {
-        doctorOrdersData[editingDoctorOrderIndex] = data;
-      }
-      editingDoctorOrderIndex = null;
-    } else {
-      const result = await apiRequest(`/admin/employee/${employeeId}/consultation/doctor-orders`, 'POST', data);
-      doctorOrdersData.unshift(result.data);
-    }
-    
-    safeLocalStorageSet(`doctorOrders_${employeeId}`, JSON.stringify(doctorOrdersData));
-    loadDoctorOrders();
-    this.reset();
-    bootstrap.Modal.getInstance(document.getElementById('doctorOrderModal')).hide();
-  });
-
-  document.getElementById('laboratoryForm')?.addEventListener('submit', async function(e) {
-    e.preventDefault();
-    const formData = new FormData(this);
-    const data = Object.fromEntries(formData);
-    
-    if (editingLaboratoryIndex !== null) {
-      const record = laboratoriesData[editingLaboratoryIndex];
-      if (record.id) {
-        const result = await apiRequest(`/admin/employee/${employeeId}/consultation/laboratories/${record.id}`, 'PUT', data);
-        laboratoriesData[editingLaboratoryIndex] = result.data;
-      } else {
-        laboratoriesData[editingLaboratoryIndex] = data;
-      }
-      editingLaboratoryIndex = null;
-    } else {
-      const result = await apiRequest(`/admin/employee/${employeeId}/consultation/laboratories  `, 'POST', data);
-      laboratoriesData.unshift(result.data);
-    }
-    
-    safeLocalStorageSet(`laboratories_${employeeId}`, JSON.stringify(laboratoriesData));
-    loadLaboratories();
-    this.reset();
-    bootstrap.Modal.getInstance(document.getElementById('laboratoryModal')).hide();
-  });
+    });
+    console.log('Consultation form handler attached');
+  }
 }
