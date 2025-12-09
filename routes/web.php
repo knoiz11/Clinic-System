@@ -19,7 +19,8 @@ use App\Http\Controllers\DoctorStatusController;
 // -------------------------------------------------------
 
 Route::get('/', function () {
-    return view('welcome');
+    $doctorStatus = \App\Models\DoctorStatus::getCurrentStatus();
+    return view('welcome', compact('doctorStatus'));
 })->middleware('web');
 
 // Login
@@ -44,7 +45,12 @@ Route::post('/login', function (Request $request) {
 
     $request->session()->regenerate();
 
-    return redirect()->intended(Auth::user()->role === 'admin' ? '/admin/dashboard' : '/');
+    // Redirect admin, doctor, and nurse to admin dashboard
+    if (in_array(Auth::user()->role, ['admin', 'doctor', 'nurse'])) {
+        return redirect()->intended('/admin/dashboard');
+    }
+    
+    return redirect()->intended('/');
 })->name('login.post');
 
 // Logout
@@ -78,7 +84,7 @@ Route::post('/register', function (Request $request) {
 });
 
 // -------------------------------------------------------
-// ADMIN ROUTES
+// ADMIN/DOCTOR/NURSE ROUTES (Staff access)
 // -------------------------------------------------------
 
 Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
@@ -151,15 +157,17 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::get('/reports', [ReportController::class, 'index'])->name('admin.reports');
     Route::get('/reports/pdf/{type}/{mode?}', [ReportController::class, 'generatePDF'])->name('reports.pdf');
 
-    // Inventory (Admin)
+    // Inventory
     Route::get('/inventory/ajax', [InventoryController::class, 'ajax'])->name('admin.inventory.ajax');
     Route::get('/inventory', [InventoryController::class, 'index'])->name('admin.inventory');
     Route::post('/inventory', [InventoryController::class, 'store'])->name('admin.inventory.store');
     Route::get('/inventory/{inventory}/edit', [InventoryController::class, 'edit'])->name('admin.inventory.edit');
-    // Page-based edit view
     Route::get('/inventory/{inventory}/edit-page', [InventoryController::class, 'editPage'])->name('admin.inventory.editPage');
     Route::patch('/inventory/{inventory}', [InventoryController::class, 'update'])->name('admin.inventory.update');
     Route::delete('/inventory/{inventory}', [InventoryController::class, 'destroy'])->name('admin.inventory.destroy');
+
+    // Doctor Status
+    Route::post('/doctor-status/toggle', [DoctorStatusController::class, 'toggle'])->name('doctor.status.toggle');
 });
 
 
@@ -172,17 +180,5 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/notifications/mark-all-read', [NotificationController::class, 'markAllRead'])->name('notifications.markAllRead');
 });
 
-// Public route
+// Public doctor status route
 Route::get('/doctor-status', [DoctorStatusController::class, 'getStatus'])->name('doctor.status');
-
-// Admin route
-Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
-    Route::post('/doctor-status/toggle', [DoctorStatusController::class, 'toggle'])->name('doctor.status.toggle');
-    // ... existing admin routes
-});
-
-// Update welcome route
-Route::get('/', function () {
-    $doctorStatus = \App\Models\DoctorStatus::getCurrentStatus();
-    return view('welcome', compact('doctorStatus'));
-})->middleware('web');
