@@ -447,6 +447,7 @@ document.addEventListener('change', function(event) {
 
 // PRESCRIBE MEDICATION MODAL - Bootstrap 5 Version
 const medications = [
+  // connect to database pls thx
     { id: 1, name: 'Acetaminophen', strength: '500mg', otc: true, inventory: 24, quantity: 0 },
     { id: 2, name: 'BENADRYL® Extra Strength Allergy Relief Antihistamine Tablets with 50 mg of Diphenhydramine HCl', strength: '50mg', otc: true, inventory: 24, quantity: 0 },
     { id: 3, name: 'Ibuprofen', strength: '500mg', otc: true, inventory: 24, quantity: 0 },
@@ -570,7 +571,7 @@ function prescribeMedications() {
     
     const modal = bootstrap.Modal.getInstance(document.getElementById('prescriptionModal'));
     if (modal) {
-        modal.hide();
+        modal.hide('prescriptionModal');
     }
 }
 

@@ -64,9 +64,6 @@
     <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
     <script src="{{ asset('admin/js/searchemployee.js') }}"></script>
     <script src="{{ asset('admin/js/viewemployee.js') }}"></script>
-    <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>
-    <script src='https://clinicaltables.nlm.nih.gov/autocomplete-lhc-versions/19.2.4/autocomplete-lhc.min.js'></script>
-    <script src="{{ asset('admin/js/icdcode.js') }}"></script>
 </body>
 
 </html>

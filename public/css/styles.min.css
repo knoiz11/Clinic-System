@@ -1,12 +1,29 @@
 :root {
-  --primary-color: #7D1D37; /* Maroon */
-  --secondary-color: #B3822B; /* Gold */
+  --ccp-white:                    #FFFFFF;
+  --section-bg-color:             #F9F9F9;
+  --dark-color:                   #000000;
+  --title-color:                  #565758;
+  --p-color:                      #717275;
+  --border-color:                 #eaeaea;
+
+  --ccp-primary-color-gold:       #B3822B;  
+  --ccp-primary-color-maroon:     #7D1D37;
+  --ccp-m1:                       #660C21;
+  --ccp-m2:                       #9B0D3C;
+  --ccp-m3:                       #A83561;
+  --ccp-g1:                       #cd9e4a;
+  --ccp-g2:                       #e7c17d;
+  --ccp-g3:                       #f9ddab;
+  --ccp-light-grey:               #cccccc;
+  --ccp-dark-grey:                #353535;
+  --ccp-light:                    #fffaea;
+
   --text-light: #fff;
   --text-dark: #333;
 }
 
 main {
-  background-color: var(--primary-color);
+  background-color: var(--ccp-primary-color-maroon);
   min-height: 100vh;
   padding: 40px;
 }
@@ -17,7 +34,7 @@ main {
 }
 
 .footer {
-  background-color: var(--primary-color);
+  background-color: var(--ccp-primary-color-maroon);
   color: var(--text-light);
   text-align: center;
   padding: 15px 0;
@@ -27,14 +44,13 @@ main {
 }
 
 .footer a {
-  color: var(--secondary-color);
+  color: var(--ccp-primary-color-gold);
 }
 
 .footer a:hover {
   color: var(--text-light);
 }
 
-<style>
 .btn-maroon {
     background-color: #800020;
     color: white;
@@ -45,4 +61,154 @@ main {
     background-color: #660019;
     color: white;
 }
-</style>
+
+/* Fix modal and backdrop z-index */
+.modal-backdrop {
+  z-index: 1040 !important;
+}
+
+.modal {
+  z-index: 1050 !important;
+}
+
+#doctorOrderModal {
+  z-index: 1050 !important;
+}
+
+/* Ensure modal dialog is also on top */
+.modal-dialog {
+  z-index: 1050 !important;
+}
+
+/* Ultra-high priority z-index fix for ICD-11 autocomplete */
+ul[id^="completionOptions"],
+ul[id*="completionOptions"],
+.autocomp_selected,
+.completionOptions,
+div[class*="autocomplete"] ul,
+.lhc-autocomplete ul,
+ul.autocomp_selected {
+  z-index: 999999 !important;
+  position: absolute !important;
+}
+
+/* Target the specific library elements */
+body > ul[id^="completionOptions"] {
+  z-index: 999999 !important;
+  position: absolute !important;
+}
+
+/***** Prescription Modal Style *****/
+  .otc-badge {
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+}
+
+.otc-badge.yes {
+    background-color: #28a745;
+    color: var(--ccp-white);
+}
+
+.otc-badge.no {
+    background-color: #dc3545;
+    color: var(--ccp-white);
+}
+
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.qty-btn {
+    background-color: var(--ccp-primary-color-maroon);
+    color: white;
+    border: none;
+    width: 30px;
+    height: 30px;
+    display: inline-block;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-outline-gold {
+    color: var(--ccp-primary-color-gold);
+    border-color: var(--ccp-primary-color-gold);
+}
+.btn-outline-gold:hover {
+    background-color: var(--ccp-primary-color-gold);
+    color: var(--text-light);
+}
+
+.qty-btn:hover:not(:disabled) {
+    opacity: 0.8;
+}
+
+.qty-btn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.qty-display {
+    font-weight: bold;
+    min-width: 30px;
+    text-align: center;
+}
+
+.selected-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.selected-item:last-child {
+    border-bottom: none;
+}
+
+.alert-maroon {
+    background-color: rgba(168, 53, 97, 0.5);
+    border-color: var(--ccp-m3);
+    color: rgb(82, 26, 48);
+    border-radius: 8px;
+    padding: 12px 16px;
+}
+
+/* Accordion Customisation */
+.accordion-button {
+    background-color: var(--ccp-primary-color-maroon) !important;
+    color: var(--text-light) !important;
+    border-radius: 4px !important;
+    padding: 12px 16px !important; }
+
+.accordion-button:hover {
+    background-color: var(--ccp-m2) !important;
+    color: var(--text-light) !important;
+}
+
+.accordion-button:not(.collapsed) {
+    background-color: var(--ccp-m2) !important;
+    color: var(--text-light) !important;
+}
+
+.accordion-button::after {
+ display: none;
+}
+
+#searchButton, #clearFilterButton {
+    background-color: var(--ccp-primary-color-gold);
+    color: var(--text-light);
+    border: none;
+}
+
+#back2employeeButton {
+    background-color: var(--ccp-g1);
+    color: var(--text-light);
+    border: none;
+}
