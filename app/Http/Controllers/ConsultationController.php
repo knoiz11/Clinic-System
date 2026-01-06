@@ -123,15 +123,39 @@ class ConsultationController extends Controller
 
     public function storePhysicalExam(Request $request, $employeeId)
     {
+        $validator = Validator::make($request->all(), [
+            'administered_by' => 'required|string',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
         $physicalExam = PhysicalExam::create([
             'employee_id' => $employeeId,
-            'general_appearance' => $request->general_appearance,
-            'head_neck' => $request->head_neck,
-            'chest_lungs' => $request->chest_lungs,
-            'heart_cardiovascular' => $request->heart_cardiovascular,
-            'abdomen' => $request->abdomen,
-            'extremities' => $request->extremities,
-            'additional_notes' => $request->additional_notes,
+            'head' => $request->head,
+            'conjunctiva_pale' => $request->conjunctiva_pale,
+            'conjunctiva_yellowish' => $request->conjunctiva_yellowish,
+            'conjunctiva_remarks' => $request->conjunctiva_remarks,
+            'neck_enlarged_thyroid' => $request->neck_enlarged_thyroid,
+            'neck_enlarged_lymph' => $request->neck_enlarged_lymph,
+            'thorax_abnormal_cardiac' => $request->thorax_abnormal_cardiac,
+            'thorax_abnormal_breathing' => $request->thorax_abnormal_breathing,
+            'thorax_remarks' => $request->thorax_remarks,
+            'chest' => $request->chest,
+            'breast_mass' => $request->breast_mass,
+            'breast_nipple_discharge' => $request->breast_nipple_discharge,
+            'breast_skin_orange' => $request->breast_skin_orange,
+            'breast_enlarged_nodes' => $request->breast_enlarged_nodes,
+            'breast_remarks' => $request->breast_remarks,
+            'abdomen_enlarged_liver' => $request->abdomen_enlarged_liver,
+            'abdomen_mass' => $request->abdomen_mass,
+            'abdomen_scar' => $request->abdomen_scar,
+            'abdomen_tenderness' => $request->abdomen_tenderness,
+            'abdomen_remarks' => $request->abdomen_remarks,
+            'others' => $request->others,
+            'administered_by' => $request->administered_by,
+            'remarks' => $request->remarks,
         ]);
 
         return response()->json([
@@ -232,11 +256,29 @@ class ConsultationController extends Controller
 
     public function storeDoctorOrder(Request $request, $employeeId)
     {
+        $validator = Validator::make($request->all(), [
+            'diagnosis' => 'required|string',
+            'disposition' => 'required|string',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
         $doctorOrder = DoctorOrder::create([
             'employee_id' => $employeeId,
-            'medication_orders' => $request->medication_orders,
-            'lab_tests_ordered' => $request->lab_tests_ordered,
-            'special_instructions' => $request->special_instructions,
+            'doctors_order' => $request->doctors_order,
+            'prescription' => $request->prescription,
+            'order_date' => $request->order_date,
+            'diagnosis' => $request->diagnosis,
+            'other_diagnosis' => $request->other_diagnosis,
+            'icd11_codes' => $request->icd11_codes,
+            'treatment_plan' => $request->treatment_plan,
+            'disposition' => $request->disposition,
+            'reasons_for_discharge' => $request->reasons_for_discharge,
+            'discharge_datetime' => $request->discharge_datetime,
+            'order_remarks' => $request->order_remarks,
+            'schedule_next' => $request->schedule_next,
         ]);
 
         return response()->json([
@@ -284,12 +326,28 @@ class ConsultationController extends Controller
 
     public function storeLaboratory(Request $request, $employeeId)
     {
+        $validator = Validator::make($request->all(), [
+            'administered_by' => 'required|string',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
         $laboratory = Laboratory::create([
             'employee_id' => $employeeId,
-            'test_type' => $request->test_type,
-            'test_results' => $request->test_results,
-            'test_date' => $request->test_date,
-            'conducted_by' => $request->conducted_by,
+            'blood_chemistry' => $request->blood_chemistry,
+            'blood_oxygenation' => $request->blood_oxygenation,
+            'complete_blood_count' => $request->complete_blood_count,
+            'immunology' => $request->immunology,
+            'clinical_chemistry' => $request->clinical_chemistry,
+            'fecalysis' => $request->fecalysis,
+            'serology' => $request->serology,
+            'sputum_microscopy' => $request->sputum_microscopy,
+            'urinalysis' => $request->urinalysis,
+            'hematology' => $request->hematology,
+            'administered_by' => $request->administered_by,
+            'remarks' => $request->remarks,
         ]);
 
         return response()->json([

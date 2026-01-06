@@ -12,7 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('doctor_status', function (Blueprint $table) {
-            $table->boolean('is_in')->default(0);
+            if (!Schema::hasColumn('doctor_status', 'is_in')) {
+                $table->boolean('is_in')->default(0);
+            }
         });
     }
 
