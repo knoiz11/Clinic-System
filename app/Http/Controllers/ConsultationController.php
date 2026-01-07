@@ -131,35 +131,40 @@ class ConsultationController extends Controller
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        $physicalExam = PhysicalExam::create([
-            'employee_id' => $employeeId,
-            'head' => $request->head,
-            'conjunctiva_pale' => $request->conjunctiva_pale,
-            'conjunctiva_yellowish' => $request->conjunctiva_yellowish,
-            'conjunctiva_remarks' => $request->conjunctiva_remarks,
-            'neck_enlarged_thyroid' => $request->neck_enlarged_thyroid,
-            'neck_enlarged_lymph' => $request->neck_enlarged_lymph,
-            'thorax_abnormal_cardiac' => $request->thorax_abnormal_cardiac,
-            'thorax_abnormal_breathing' => $request->thorax_abnormal_breathing,
-            'thorax_remarks' => $request->thorax_remarks,
-            'chest' => $request->chest,
-            'breast_mass' => $request->breast_mass,
-            'breast_nipple_discharge' => $request->breast_nipple_discharge,
-            'breast_skin_orange' => $request->breast_skin_orange,
-            'breast_enlarged_nodes' => $request->breast_enlarged_nodes,
-            'breast_remarks' => $request->breast_remarks,
-            'abdomen_enlarged_liver' => $request->abdomen_enlarged_liver,
-            'abdomen_mass' => $request->abdomen_mass,
-            'abdomen_scar' => $request->abdomen_scar,
-            'abdomen_tenderness' => $request->abdomen_tenderness,
-            'abdomen_remarks' => $request->abdomen_remarks,
-            'others' => $request->others,
-            'administered_by' => $request->administered_by,
-            'remarks' => $request->remarks,
-        ]);
+        // $physicalExam = PhysicalExam::create([
+        //     'employee_id' => $employeeId,
+        //     'head' => $request->head,
+        //     'conjunctiva_pale' => $request->conjunctiva_pale,
+        //     'conjunctiva_yellowish' => $request->conjunctiva_yellowish,
+        //     'conjunctiva_remarks' => $request->conjunctiva_remarks,
+        //     'neck_enlarged_thyroid' => $request->neck_enlarged_thyroid,
+        //     'neck_enlarged_lymph' => $request->neck_enlarged_lymph,
+        //     'thorax_abnormal_cardiac' => $request->thorax_abnormal_cardiac,
+        //     'thorax_abnormal_breathing' => $request->thorax_abnormal_breathing,
+        //     'thorax_remarks' => $request->thorax_remarks,
+        //     'chest' => $request->chest,
+        //     'breast_mass' => $request->breast_mass,
+        //     'breast_nipple_discharge' => $request->breast_nipple_discharge,
+        //     'breast_skin_orange' => $request->breast_skin_orange,
+        //     'breast_enlarged_nodes' => $request->breast_enlarged_nodes,
+        //     'breast_remarks' => $request->breast_remarks,
+        //     'abdomen_enlarged_liver' => $request->abdomen_enlarged_liver,
+        //     'abdomen_mass' => $request->abdomen_mass,
+        //     'abdomen_scar' => $request->abdomen_scar,
+        //     'abdomen_tenderness' => $request->abdomen_tenderness,
+        //     'abdomen_remarks' => $request->abdomen_remarks,
+        //     'others' => $request->others,
+        //     'administered_by' => $request->administered_by,
+        //     'remarks' => $request->remarks,
+        // ]);
+
+        $data = $request->all();
+        $data['employee_id'] = $employeeId;
+        
+        $physicalExam = PhysicalExam::create($data);
 
         return response()->json([
-            'success' => true,
+            'success' => true,  
             'message' => 'Physical exam saved successfully',
             'data' => $physicalExam
         ], 201);

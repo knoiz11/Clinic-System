@@ -110,6 +110,7 @@ function initializeDiagnosisDropdown() {
 // API HELPER FUNCTIONS
 // ============================================
 async function apiRequest(url, method = 'GET', data = null) {
+  console.log(url, method, data);
   try {
     console.log(`API Request: ${method} ${url}`, data);
     
@@ -942,7 +943,7 @@ async function deleteLaboratory(index) {
 // FORM HANDLERS
 // ============================================
 function initializeFormHandlers() {
-  console.log('Initializing form handlers...');
+  console.log('Initializing form handlers...'); -``
   
   // Vital Signs Form
   const vitalSignsForm = document.getElementById('vitalSignsForm');
