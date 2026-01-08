@@ -45,20 +45,23 @@
                                     {{ ucfirst($appointment->status ?? 'Scheduled') }}
                                 </span>
 
-                                <form action="{{ route('appointment.destroy', $appointment->id) }}"
-                                     method="POST"
-                                     onsubmit="return confirm('Are you sure you want to delete this appointment?');"
-                                     class="ms-2">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit"
-                                        class="btn fw-bold py-2 px-3 shadow-sm d-flex align-items-center justify-content-center"
-                                        style="background: url('{{ asset('images/gallery/delete.png') }}') center/contain no-repeat; 
-                                        height: 30px; 
-                                        width: 60px;" 
-                                    title="Delete Appointment">
-                                    </button>
-                                </form>
+                                @if(($appointment->status ?? 'Scheduled') === 'Scheduled')
+    <form action="{{ route('appointment.destroy', $appointment->id) }}"
+          method="POST"
+          onsubmit="return confirm('Are you sure you want to delete this appointment?');"
+          class="ms-2">
+        @csrf
+        @method('DELETE')
+        <button type="submit"
+            class="btn fw-bold py-2 px-3 shadow-sm d-flex align-items-center justify-content-center"
+            style="background: url('{{ asset('images/gallery/delete.png') }}') center/contain no-repeat; 
+                   height: 30px; 
+                   width: 60px;" 
+            title="Delete Appointment">
+        </button>
+    </form>
+@endif
+
 
                                 <form action="{{ route('appointment.updateStatus', $appointment->id) }}" method="POST" class="mt-2">
                                     @csrf
@@ -154,7 +157,7 @@
     </div>
 </div>
 
-<!-- 🔥 JS SECTION — FIXED AND CLEANED -->
+<!--  JS SECTION — FIXED AND CLEANED -->
 
 <!-- JS: Filter Function -->
 <script>

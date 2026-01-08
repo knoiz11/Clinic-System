@@ -13,7 +13,7 @@
 
                             <li class="list-group-item footer-text d-flex">
                                 Tuesday-Friday
-                                <span>7:00 AM - 9:30 PM</span>
+                                <span>7:00 AM - 7:00 PM</span>
                             </li>
                         </ul>
                     </div>
@@ -21,7 +21,7 @@
                     <div class="col-lg-2 col-md-6 col-12 my-4 my-lg-0">
                         <h5 class="mb-lg-4 footer-text mb-3">Our Clinic</h5>
 
-                        <p><a class="footer-link" href="mailto:hello@company.co">hello@company.co</a><p>
+                        <p><a class="footer-link" href="mailto:culturalcenter@gmail.com">culturalcenter@gmail.com</a><p>
 
                         <p>123 Digital Art Street, San Diego, CA 92123</p>
                     </div>
@@ -30,19 +30,19 @@
                         <h5 class="mb-lg-4 mb-2 footer-text">Socials</h5>
 
                         <ul class="social-icon">
-                            <li><a href="#" class="social-icon-link bi-facebook"></a></li>
+                            <li><a href="https://www.facebook.com/search/top?q=cultural%20center%20of%20the%20philippines" class="social-icon-link bi-facebook"></a></li>
 
                             <li><a href="#" class="social-icon-link bi-twitter"></a></li>
 
-                            <li><a href="#" class="social-icon-link bi-instagram"></a></li>
+                            <li><a href="https://www.instagram.com/culturalcenterph/" class="social-icon-link bi-instagram"></a></li>
 
                             <li><a href="#" class="social-icon-link bi-youtube"></a></li>
                         </ul>
 
                         <div>
-                            <p class="copyright-text footer-text">Copyright © Medic Care 2021 
+                            <p class="copyright-text footer-text">CCP Care 2025 
                             <br><br>Design: <a class="footer-link" href="https://templatemo.com" target="_parent">TemplateMo</a></p>
-                            <p class="copyright-text footer-text">Distributed By: <a class="footer-link" href="https://themewagon.com" target="_parent">Themewagon</a></p>
+                            <p class="copyright-text footer-text">Distributed By: <a class="footer-link" href="https://themewagon.com" target="_parent">MSD/MIS</a></p>
                         </div>
                     </div>
 

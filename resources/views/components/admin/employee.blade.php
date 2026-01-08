@@ -7,15 +7,27 @@
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h3>Employees</h3>
         <div class="d-flex gap-2">
-            <!-- Search Input -->
-            <div class="input-group" style="width: 300px;">
-                <span class="input-group-text bg-white">
-                    <i class="bi bi-search"></i>
-                </span>
-                <input type="text" 
-                       id="employeeTableSearch" 
-                       class="form-control" 
-                       placeholder="Search employees...">
+            <div class="d-flex gap-2 align-items-center">
+
+    <!-- Status Filter -->
+    <select id="statusFilter" class="form-select" style="width: 160px;">
+        <option value="">All Status</option>
+        <option value="Active">Active</option>
+        <option value="Inactive">Inactive</option>
+        <option value="On Leave">On Leave</option>
+    </select>
+
+    <!-- Search Input -->
+    <div class="input-group" style="width: 300px;">
+        <span class="input-group-text bg-white">
+            <i class="bi bi-search"></i>
+        </span>
+        <input type="text" 
+               id="employeeTableSearch" 
+               class="form-control" 
+               placeholder="Search employees...">
+    </div>
+
             </div>
             <a href="{{ route('employee.create') }}" class="btn btn-primary">Add Employee</a>
         </div>
@@ -46,7 +58,8 @@
             </thead>
             <tbody>
                 @foreach($employees as $employee)
-                <tr data-bs-toggle="collapse" data-bs-target="#employee-{{ $employee->id }}" class="accordion-toggle employee-row">
+                <tr data-bs-toggle="collapse"data-bs-target="#employee-{{ $employee->id }}"class="accordion-toggle employee-row"data-status="{{ $employee->status }}">
+
                     <td><i class="bi bi-caret-down-fill"></i></td>
                     <td>{{ $employee->last_name ?? '-' }}</td>
                     <td>{{ $employee->first_name ?? '-' }}</td>
@@ -83,4 +96,6 @@
 
 <!-- Add the search script -->
 <script src="{{ asset('admin/js/employeeTableSearch.js') }}"></script>
+<script src="{{ asset('admin/js/employeeStatusFilter.js') }}"></script>
+
 @endsection
