@@ -11,10 +11,18 @@ class Laboratory extends Model
 
     protected $fillable = [
         'employee_id',
-        'test_type',
-        'test_results',
-        'test_date',
-        'conducted_by',
+        'blood_chemistry',
+        'blood_oxygenation',
+        'complete_blood_count',
+        'immunology',
+        'clinical_chemistry',
+        'fecalysis',
+        'serology',
+        'sputum_microscopy',
+        'urinalysis',
+        'hematology',
+        'administered_by',
+        'remarks',
     ];
 
     public function employee()

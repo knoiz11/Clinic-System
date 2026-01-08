@@ -31,9 +31,9 @@ class LoginController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            // ✅ Redirect based on role
+            // ✅ Redirect based on role - admin, doctor, and nurse go to admin dashboard
             $user = Auth::user();
-            if ($user->role === 'admin') {
+            if (in_array($user->role, ['admin', 'doctor', 'nurse'])) {
                 return redirect()->intended('/admin/dashboard');
             } else {
                 return redirect()->intended('/');

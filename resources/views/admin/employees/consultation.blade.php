@@ -147,4 +147,4 @@
 @include('modals.laboratory-modal')
 
 <!-- Include the external JavaScript file -->
-<script src="{{ asset('js/consultation-records.js') }}"></script>
+<script src="{{ asset('js/consultation-record.js') }}"></script>

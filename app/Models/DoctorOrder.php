@@ -11,9 +11,18 @@ class DoctorOrder extends Model
 
     protected $fillable = [
         'employee_id',
-        'medication_orders',
-        'lab_tests_ordered',
-        'special_instructions',
+        'doctors_order',
+        'prescription',
+        'order_date',
+        'diagnosis',
+        'other_diagnosis',
+        'icd11_codes',
+        'treatment_plan',
+        'disposition',
+        'reasons_for_discharge',
+        'discharge_datetime',
+        'order_remarks',
+        'schedule_next',
     ];
 
     public function employee()

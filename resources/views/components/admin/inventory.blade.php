@@ -18,8 +18,8 @@
 
                 <select id="filterSupplyType" name="supply_type" class="form-select" style="max-width: 180px;">
                     <option value="">Filter...</option>
-                    <option value="Clinic" {{ request('supply_type') == 'Clinic' ? 'selected' : '' }}>Clinic</option>
-                    <option value="Office" {{ request('supply_type') == 'Office' ? 'selected' : '' }}>Office</option>
+                    <option value="Meds" {{ request('supply_type') == 'Meds' ? 'selected' : '' }}>Meds</option>
+                    <option value="NonMeds" {{ request('supply_type') == 'NonMeds' ? 'selected' : '' }}>Non-Meds</option>
                 </select>
 
                 <button type="button" class="btn btn-outline-secondary" id="clearFilterBtn">Clear Filter</button>
