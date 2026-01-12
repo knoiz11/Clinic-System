@@ -15,6 +15,13 @@ let consultationsData = [];
 let doctorOrdersData = [];
 let laboratoriesData = [];
 
+// Filtered data for search and filter functionality
+let filteredVitalSignsData = [];
+let filteredPhysicalExamsData = [];
+let filteredConsultationsData = [];
+let filteredDoctorOrdersData = [];
+let filteredLaboratoriesData = [];
+
 // ============================================
 // INITIALIZATION
 // ============================================
@@ -32,6 +39,7 @@ document.addEventListener('DOMContentLoaded', function() {
   
   loadAllRecordsFromDatabase();
   initializeFormHandlers();
+  initializeSearchAndFilter();
   initializeICD11Autocomplete();
   initializeDiagnosisDropdown();
 });
@@ -185,6 +193,13 @@ async function loadAllRecordsFromDatabase() {
     doctorOrdersData = data.doctorOrders || [];
     laboratoriesData = data.laboratories || [];
     
+    // Initialize filtered data with all records
+    filteredVitalSignsData = [...vitalSignsData];
+    filteredPhysicalExamsData = [...physicalExamsData];
+    filteredConsultationsData = [...consultationsData];
+    filteredDoctorOrdersData = [...doctorOrdersData];
+    filteredLaboratoriesData = [...laboratoriesData];
+    
     safeLocalStorageSet(`vitalSigns_${employeeId}`, JSON.stringify(vitalSignsData));
     safeLocalStorageSet(`physicalExams_${employeeId}`, JSON.stringify(physicalExamsData));
     safeLocalStorageSet(`consultations_${employeeId}`, JSON.stringify(consultationsData));
@@ -212,6 +227,13 @@ function loadFromLocalStorage() {
   doctorOrdersData = JSON.parse(safeLocalStorageGet(`doctorOrders_${employeeId}`));
   laboratoriesData = JSON.parse(safeLocalStorageGet(`laboratories_${employeeId}`));
   
+  // Initialize filtered data with all records
+  filteredVitalSignsData = vitalSignsData ? [...vitalSignsData] : [];
+  filteredPhysicalExamsData = physicalExamsData ? [...physicalExamsData] : [];
+  filteredConsultationsData = consultationsData ? [...consultationsData] : [];
+  filteredDoctorOrdersData = doctorOrdersData ? [...doctorOrdersData] : [];
+  filteredLaboratoriesData = laboratoriesData ? [...laboratoriesData] : [];
+  
   loadVitalSigns();
   loadPhysicalExams();
   loadConsultations();
@@ -231,27 +253,32 @@ function loadVitalSigns() {
   
   container.innerHTML = '';
   
-  vitalSignsData.forEach((data, index) => {
+  filteredVitalSignsData.forEach((data, filteredIndex) => {
+    // Find the original index in the main array
+    const originalIndex = vitalSignsData.findIndex(record => 
+      record.id ? record.id === data.id : record.timestamp === data.timestamp
+    );
+    
     const timestamp = data.created_at ? new Date(data.created_at).toLocaleString() : data.timestamp || 'N/A';
     const recordHTML = `
-     <div class="accordion mb-3" id="vitalAccordion${index}">
+     <div class="accordion mb-3" id="vitalAccordion${filteredIndex}">
   <div class="accordion-item border-0 shadow-sm">
 
     <h2 class="accordion-header">
       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-        data-bs-target="#vitalCollapse${index}">
+        data-bs-target="#vitalCollapse${filteredIndex}">
         <span><i class="bi bi-heart-pulse me-2"></i><strong>Vital Signs</strong> - ${timestamp}</span>
       </button>
     </h2>
 
-    <div id="vitalCollapse${index}" class="accordion-collapse collapse" data-bs-parent="#vitalAccordion${index}">
+    <div id="vitalCollapse${filteredIndex}" class="accordion-collapse collapse" data-bs-parent="#vitalAccordion${filteredIndex}">
       <div class="accordion-body bg-light">
 
         <div class="d-flex justify-content-end mb-3">
-          <button class="btn btn-sm btn-secondary me-2" onclick="editVitalSign(${index})">
+          <button class="btn btn-sm btn-secondary me-2" onclick="editVitalSign(${originalIndex})">
             <i class="bi bi-pencil"></i> Edit
           </button>
-          <button class="btn btn-sm btn-danger" onclick="deleteVitalSign(${index})">
+          <button class="btn btn-sm btn-danger" onclick="deleteVitalSign(${originalIndex})">
             <i class="bi bi-trash"></i> Delete
           </button>
         </div>
@@ -356,7 +383,7 @@ async function deleteVitalSign(index) {
   
   vitalSignsData.splice(index, 1);
   safeLocalStorageSet(`vitalSigns_${employeeId}`, JSON.stringify(vitalSignsData));
-  loadVitalSigns();
+  applySearchAndFilter();
 }
 
 // ============================================
@@ -371,28 +398,33 @@ function loadPhysicalExams() {
   
   container.innerHTML = '';
   
-  physicalExamsData.forEach((data, index) => {
+  filteredPhysicalExamsData.forEach((data, filteredIndex) => {
+    // Find the original index in the main array
+    const originalIndex = physicalExamsData.findIndex(record => 
+      record.id ? record.id === data.id : record.timestamp === data.timestamp
+    );
+    
     const timestamp = data.created_at ? new Date(data.created_at).toLocaleString() : data.timestamp || 'N/A';
     const recordHTML = `
-      <div class="accordion mb-3" id="physicalExamAccordion${index}">
+      <div class="accordion mb-3" id="physicalExamAccordion${filteredIndex}">
   <div class="accordion-item border-0 shadow-sm">
 
     <h2 class="accordion-header">
       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-        data-bs-target="#physicalExamCollapse${index}">
+        data-bs-target="#physicalExamCollapse${filteredIndex}">
         <i class="bi bi-clipboard-pulse me-2"></i>
         <strong>Physical Exam</strong> - ${timestamp}
       </button>
     </h2>
 
-    <div id="physicalExamCollapse${index}" class="accordion-collapse collapse" data-bs-parent="#physicalExamAccordion${index}">
+    <div id="physicalExamCollapse${filteredIndex}" class="accordion-collapse collapse" data-bs-parent="#physicalExamAccordion${filteredIndex}">
       <div class="accordion-body bg-light">
 
         <div class="d-flex justify-content-end mb-3">
-          <button class="btn btn-sm btn-secondary me-2" onclick="editPhysicalExam(${index})">
+          <button class="btn btn-sm btn-secondary me-2" onclick="editPhysicalExam(${originalIndex})">
             <i class="bi bi-pencil"></i> Edit
           </button>
-          <button class="btn btn-sm btn-danger" onclick="deletePhysicalExam(${index})">
+          <button class="btn btn-sm btn-danger" onclick="deletePhysicalExam(${originalIndex})">
             <i class="bi bi-trash"></i> Delete
           </button>
         </div>
@@ -561,7 +593,7 @@ async function deletePhysicalExam(index) {
   
   physicalExamsData.splice(index, 1);
   safeLocalStorageSet(`physicalExams_${employeeId}`, JSON.stringify(physicalExamsData));
-  loadPhysicalExams();
+  applySearchAndFilter();
 }
 
 // ============================================
@@ -576,28 +608,33 @@ function loadConsultations() {
   
   container.innerHTML = '';
   
-  consultationsData.forEach((data, index) => {
+  filteredConsultationsData.forEach((data, filteredIndex) => {
+    // Find the original index in the main array
+    const originalIndex = consultationsData.findIndex(record => 
+      record.id ? record.id === data.id : record.timestamp === data.timestamp
+    );
+    
     const timestamp = data.created_at ? new Date(data.created_at).toLocaleString() : data.timestamp || 'N/A';
     const recordHTML = `
-      <div class="accordion mb-3" id="consultationAccordion${index}">
+      <div class="accordion mb-3" id="consultationAccordion${filteredIndex}">
   <div class="accordion-item border-0 shadow-sm">
 
     <h2 class="accordion-header">
       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-        data-bs-target="#consultationCollapse${index}">
+        data-bs-target="#consultationCollapse${filteredIndex}">
         <i class="bi bi-journal-medical me-2"></i>
         <strong>Consultation Record</strong> - ${timestamp}
       </button>
     </h2>
 
-    <div id="consultationCollapse${index}" class="accordion-collapse collapse" data-bs-parent="#consultationAccordion${index}">
+    <div id="consultationCollapse${filteredIndex}" class="accordion-collapse collapse" data-bs-parent="#consultationAccordion${filteredIndex}">
       <div class="accordion-body bg-light">
 
         <div class="d-flex justify-content-end mb-3">
-          <button class="btn btn-sm btn-secondary me-2" onclick="editConsultation(${index})">
+          <button class="btn btn-sm btn-secondary me-2" onclick="editConsultation(${originalIndex})">
             <i class="bi bi-pencil"></i> Edit
           </button>
-          <button class="btn btn-sm btn-danger" onclick="deleteConsultation(${index})">
+          <button class="btn btn-sm btn-danger" onclick="deleteConsultation(${originalIndex})">
             <i class="bi bi-trash"></i> Delete
           </button>
         </div>
@@ -664,7 +701,7 @@ async function deleteConsultation(index) {
   
   consultationsData.splice(index, 1);
   safeLocalStorageSet(`consultations_${employeeId}`, JSON.stringify(consultationsData));
-  loadConsultations();
+  applySearchAndFilter();
 }
 
 // ============================================
@@ -679,28 +716,33 @@ function loadDoctorOrders() {
   
   container.innerHTML = '';
   
-  doctorOrdersData.forEach((data, index) => {
+  filteredDoctorOrdersData.forEach((data, filteredIndex) => {
+    // Find the original index in the main array
+    const originalIndex = doctorOrdersData.findIndex(record => 
+      record.id ? record.id === data.id : record.timestamp === data.timestamp
+    );
+    
     const timestamp = data.created_at ? new Date(data.created_at).toLocaleString() : data.timestamp || 'N/A';
     const recordHTML = `
-      <div class="accordion mb-3" id="doctorOrderAccordion${index}">
+      <div class="accordion mb-3" id="doctorOrderAccordion${filteredIndex}">
   <div class="accordion-item border-0 shadow-sm">
 
     <h2 class="accordion-header">
       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-        data-bs-target="#doctorOrderCollapse${index}">
+        data-bs-target="#doctorOrderCollapse${filteredIndex}">
         <i class="bi bi-prescription2 me-2"></i>
         <strong>Doctor's Order</strong> - ${timestamp}
       </button>
     </h2>
 
-    <div id="doctorOrderCollapse${index}" class="accordion-collapse collapse" data-bs-parent="#doctorOrderAccordion${index}">
+    <div id="doctorOrderCollapse${filteredIndex}" class="accordion-collapse collapse" data-bs-parent="#doctorOrderAccordion${filteredIndex}">
       <div class="accordion-body bg-light">
 
         <div class="d-flex justify-content-end mb-3">
-          <button class="btn btn-sm btn-secondary me-2" onclick="editDoctorOrder(${index})">
+          <button class="btn btn-sm btn-secondary me-2" onclick="editDoctorOrder(${originalIndex})">
             <i class="bi bi-pencil"></i> Edit
           </button>
-          <button class="btn btn-sm btn-danger" onclick="deleteDoctorOrder(${index})">
+          <button class="btn btn-sm btn-danger" onclick="deleteDoctorOrder(${originalIndex})">
             <i class="bi bi-trash"></i> Delete
           </button>
         </div>
@@ -809,7 +851,7 @@ async function deleteDoctorOrder(index) {
   }
   doctorOrdersData.splice(index, 1);
   safeLocalStorageSet(`doctorOrders_${employeeId}`, JSON.stringify(doctorOrdersData));
-  loadDoctorOrders();
+  applySearchAndFilter();
 }
 
 // ============================================
@@ -824,28 +866,33 @@ function loadLaboratories() {
   
   container.innerHTML = '';
   
-  laboratoriesData.forEach((data, index) => {
+  filteredLaboratoriesData.forEach((data, filteredIndex) => {
+    // Find the original index in the main array
+    const originalIndex = laboratoriesData.findIndex(record => 
+      record.id ? record.id === data.id : record.timestamp === data.timestamp
+    );
+    
     const timestamp = data.created_at ? new Date(data.created_at).toLocaleString() : data.timestamp || 'N/A';
     const recordHTML = `
-      <div class="accordion mb-3" id="laboratoryAccordion${index}">
+      <div class="accordion mb-3" id="laboratoryAccordion${filteredIndex}">
   <div class="accordion-item border-0 shadow-sm">
 
     <h2 class="accordion-header">
       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-        data-bs-target="#laboratoryCollapse${index}">
+        data-bs-target="#laboratoryCollapse${filteredIndex}">
         <i class="bi bi-file-medical me-2"></i>
         <strong>Laboratory Results</strong> - ${timestamp}
       </button>
     </h2>
 
-    <div id="laboratoryCollapse${index}" class="accordion-collapse collapse" data-bs-parent="#laboratoryAccordion${index}">
+    <div id="laboratoryCollapse${filteredIndex}" class="accordion-collapse collapse" data-bs-parent="#laboratoryAccordion${filteredIndex}">
       <div class="accordion-body bg-light">
 
         <div class="d-flex justify-content-end mb-3">
-          <button class="btn btn-sm btn-secondary me-2" onclick="editLaboratory(${index})">
+          <button class="btn btn-sm btn-secondary me-2" onclick="editLaboratory(${originalIndex})">
             <i class="bi bi-pencil"></i> Edit
           </button>
-          <button class="btn btn-sm btn-danger" onclick="deleteLaboratory(${index})">
+          <button class="btn btn-sm btn-danger" onclick="deleteLaboratory(${originalIndex})">
             <i class="bi bi-trash"></i> Delete
           </button>
         </div>
@@ -936,7 +983,7 @@ async function deleteLaboratory(index) {
   }
   laboratoriesData.splice(index, 1);
   safeLocalStorageSet(`laboratories_${employeeId}`, JSON.stringify(laboratoriesData));
-  loadLaboratories();
+  applySearchAndFilter();
 }
 
 // ============================================
@@ -971,7 +1018,7 @@ function initializeFormHandlers() {
         }
         
         safeLocalStorageSet(`vitalSigns_${employeeId}`, JSON.stringify(vitalSignsData));
-        loadVitalSigns();
+        applySearchAndFilter();
         this.reset();
         bootstrap.Modal.getInstance(document.getElementById('vitalSignsModal')).hide();
         alert('Vital signs saved successfully!');
@@ -1010,7 +1057,7 @@ function initializeFormHandlers() {
         }
         
         safeLocalStorageSet(`physicalExams_${employeeId}`, JSON.stringify(physicalExamsData));
-        loadPhysicalExams();
+        applySearchAndFilter();
         this.reset();
         bootstrap.Modal.getInstance(document.getElementById('physicalExamModal')).hide();
         alert('Physical exam saved successfully!');
@@ -1047,7 +1094,7 @@ function initializeFormHandlers() {
         }
         
         safeLocalStorageSet(`consultations_${employeeId}`, JSON.stringify(consultationsData));
-        loadConsultations();
+        applySearchAndFilter();
         this.reset();
         bootstrap.Modal.getInstance(document.getElementById('consultationModal')).hide();
         alert('Consultation saved successfully!');
@@ -1084,7 +1131,7 @@ function initializeFormHandlers() {
         }
         
         safeLocalStorageSet(`doctorOrders_${employeeId}`, JSON.stringify(doctorOrdersData));
-        loadDoctorOrders();
+        applySearchAndFilter();
         this.reset();
         bootstrap.Modal.getInstance(document.getElementById('doctorOrderModal')).hide();
         alert('Doctor\'s order saved successfully!');
@@ -1121,7 +1168,7 @@ function initializeFormHandlers() {
         }
         
         safeLocalStorageSet(`laboratories_${employeeId}`, JSON.stringify(laboratoriesData));
-        loadLaboratories();
+        applySearchAndFilter();
         this.reset();
         bootstrap.Modal.getInstance(document.getElementById('laboratoryModal')).hide();
         alert('Laboratory record saved successfully!');
@@ -1131,6 +1178,150 @@ function initializeFormHandlers() {
     });
     console.log('Laboratory form handler attached');
   }
+}
+
+// ============================================
+// SEARCH AND FILTER FUNCTIONALITY
+// ============================================
+function initializeSearchAndFilter() {
+  const searchInput = document.getElementById('recordSearchInput');
+  const searchButton = document.getElementById('searchButton');
+  const filterSelect = document.getElementById('recordFilter');
+  const clearFilterButton = document.getElementById('clearFilterButton');
+
+  if (searchInput) {
+    searchInput.addEventListener('input', applySearchAndFilter);
+    searchInput.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        applySearchAndFilter();
+      }
+    });
+  }
+
+  if (searchButton) {
+    searchButton.addEventListener('click', applySearchAndFilter);
+  }
+
+  if (filterSelect) {
+    filterSelect.addEventListener('change', applySearchAndFilter);
+  }
+
+  if (clearFilterButton) {
+    clearFilterButton.addEventListener('click', clearSearchAndFilter);
+  }
+
+  console.log('Search and filter handlers initialized');
+}
+
+function applySearchAndFilter() {
+  const searchInput = document.getElementById('recordSearchInput');
+  const filterSelect = document.getElementById('recordFilter');
+
+  if (!searchInput || !filterSelect) return;
+
+  const searchTerm = searchInput.value.toLowerCase().trim();
+  const filterType = filterSelect.value;
+
+  // Filter each record type
+  filteredVitalSignsData = filterRecords(vitalSignsData, searchTerm, filterType, 'vitalSigns');
+  filteredPhysicalExamsData = filterRecords(physicalExamsData, searchTerm, filterType, 'physicalExam');
+  filteredConsultationsData = filterRecords(consultationsData, searchTerm, filterType, 'consultation');
+  filteredDoctorOrdersData = filterRecords(doctorOrdersData, searchTerm, filterType, 'doctorOrder');
+  filteredLaboratoriesData = filterRecords(laboratoriesData, searchTerm, filterType, 'laboratory');
+
+  // Reload all record displays
+  loadVitalSigns();
+  loadPhysicalExams();
+  loadConsultations();
+  loadDoctorOrders();
+  loadLaboratories();
+
+  updateEmptyState();
+}
+
+function filterRecords(records, searchTerm, filterType, recordType) {
+  if (!records) return [];
+
+  return records.filter(record => {
+    // Filter by record type first
+    if (filterType && filterType !== recordType) {
+      return false;
+    }
+
+    // If no search term, include all records of this type
+    if (!searchTerm) {
+      return true;
+    }
+
+    // Search in record content based on type
+    return searchInRecord(record, searchTerm, recordType);
+  });
+}
+
+function searchInRecord(record, searchTerm, recordType) {
+  const searchableFields = {
+    vitalSigns: ['body_temperature', 'heart_rate', 'pulse_rate', 'respiratory_rate', 'bp_systolic', 'bp_diastolic', 'bp_assessment', 'administered_by', 'remarks'],
+    physicalExam: ['general_appearance', 'head_neck', 'chest_lungs', 'heart', 'abdomen', 'extremities', 'neurological', 'skin', 'remarks'],
+    consultation: ['chief_complaint', 'history_present_illness', 'past_medical_history', 'family_history', 'social_history', 'review_systems', 'physical_examination', 'assessment', 'plan'],
+    doctorOrder: ['diagnosis', 'icd11_codes', 'prescription', 'laboratory_tests', 'remarks'],
+    laboratory: ['test_name', 'result', 'reference_range', 'interpretation', 'remarks']
+  };
+
+  const fields = searchableFields[recordType] || [];
+  
+  for (const field of fields) {
+    if (record[field] && record[field].toString().toLowerCase().includes(searchTerm)) {
+      return true;
+    }
+  }
+
+  // Also search in timestamp
+  if (record.created_at && new Date(record.created_at).toLocaleString().toLowerCase().includes(searchTerm)) {
+    return true;
+  }
+  if (record.timestamp && record.timestamp.toLowerCase().includes(searchTerm)) {
+    return true;
+  }
+
+  return false;
+}
+
+function clearSearchAndFilter() {
+  const searchInput = document.getElementById('recordSearchInput');
+  const filterSelect = document.getElementById('recordFilter');
+
+  if (searchInput) searchInput.value = '';
+  if (filterSelect) filterSelect.value = '';
+
+  // Reset filtered data to show all records
+  filteredVitalSignsData = [...vitalSignsData];
+  filteredPhysicalExamsData = [...physicalExamsData];
+  filteredConsultationsData = [...consultationsData];
+  filteredDoctorOrdersData = [...doctorOrdersData];
+  filteredLaboratoriesData = [...laboratoriesData];
+
+  // Reload all record displays
+  loadVitalSigns();
+  loadPhysicalExams();
+  loadConsultations();
+  loadDoctorOrders();
+  loadLaboratories();
+
+  updateEmptyState();
+}
+
+function updateEmptyState() {
+  const emptyState = document.getElementById('emptyState');
+  if (!emptyState) return;
+
+  const hasRecords = 
+    filteredVitalSignsData.length > 0 ||
+    filteredPhysicalExamsData.length > 0 ||
+    filteredConsultationsData.length > 0 ||
+    filteredDoctorOrdersData.length > 0 ||
+    filteredLaboratoriesData.length > 0;
+
+  emptyState.style.display = hasRecords ? 'none' : 'block';
 }
 
 

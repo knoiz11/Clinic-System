@@ -34,20 +34,22 @@
         </div>
     </div>
 
-    <div class="col-md-3 d-flex">
-        <div class="card shadow-sm text-center w-100" id="doctorStatusCard">
-            <div class="card-body">
-                <h5 class="fw-bold mb-0">Doctor Status</h5>
-                <div class="d-flex align-items-center justify-content-center gap-2 my-2">
-                    <i class="bi bi-circle-fill"
-                       style="font-size: 24px; color: {{ $doctorStatus->is_in ? '#28a745' : '#dc3545' }}"></i>
-                    <h3 class="mb-0">{{ $doctorStatus->is_in ? 'IN' : 'OUT' }}</h3>
+        <!-- Doctor Status Card -->
+        <div class="col-md-3">
+            <div class="card shadow-sm text-center" style="cursor: pointer; transition: transform 0.1s;" id="doctorStatusCard">
+                <div class="card-body">
+                    <h5 class="mb-3">Doctor Status</h5>
+                    <div class="d-flex align-items-center justify-content-center gap-2 mb-2">
+                        <i class="bi bi-circle-fill" id="statusIndicator" 
+                           style="font-size: 24px; color: {{ $doctorStatus->is_in ? '#28a745' : '#dc3545' }}"></i>
+                        <h3 class="mb-0" id="statusText">{{ $doctorStatus->is_in ? 'IN' : 'OUT' }}</h3>
+                    </div>
+                    <small class="text-muted">Click to toggle</small>
+                    <input type="hidden" id="currentStatus" value="{{ $doctorStatus->is_in ? '1' : '0' }}">
                 </div>
-                <p class="mb-0 text-muted">Click to toggle</p>
             </div>
         </div>
     </div>
-</div>
 
 
     <!-- Employee Table -->
