@@ -16,11 +16,16 @@
                     <input type="search" name="q" id="searchInput" value="{{ request('q') }}" class="form-control border-start-0" placeholder="Search item name or object id...">
                 </div>
 
-                <select id="filterSupplyType" name="supply_type" class="form-select" style="max-width: 180px;">
-                    <option value="">Filter...</option>
-                    <option value="Meds" {{ request('supply_type') == 'Meds' ? 'selected' : '' }}>Clinic</option>
-                    <option value="NonMeds" {{ request('supply_type') == 'NonMeds' ? 'selected' : '' }}>Office</option>
-                </select>
+            <select id="filterSupplyType" name="supply_type" class="form-select" style="max-width: 180px;">
+                <option value="">Filter...</option>
+                <option value="Clinic" {{ request('supply_type') == 'Clinic' ? 'selected' : '' }}>
+                    Clinic
+                </option>
+                <option value="Office" {{ request('supply_type') == 'Office' ? 'selected' : '' }}>
+                    Office
+                </option>
+            </select>
+
 
                 <button type="button" class="btn btn-outline-secondary" id="clearFilterBtn">Clear Filter</button>
             </form>

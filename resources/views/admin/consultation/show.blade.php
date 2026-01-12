@@ -89,6 +89,18 @@
     </div>
   </div>
 
+
+  <!-- Date Filter -->
+  <div class="col-lg-3 col-md-6 mb-2">
+  <div class="input-group">
+      <input type="date" id="consultationDatePicker" class="form-control">
+      <button class="btn" id="clearDateFilter">
+        <i class="bi bi-x-circle"></i>
+      </button>
+    </div>
+  </div>
+
+
 </div>
 
 
@@ -729,6 +741,28 @@
         </div>
     </div>
 </div>
+
+{{-- Consultation By Date Modal --}}
+<div class="modal fade" id="consultationByDateModal" tabindex="-1">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header" style="background:#7D1D37; color:white;">
+        <h5 class="modal-title">
+          <i class="bi bi-calendar-event me-2"></i>
+          Consultation Records for <span id="selectedDateLabel"></span>
+        </h5>
+        <button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <div id="consultationDateResults">
+          <p class="text-muted text-center">Loading records...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 {{-- Bootstrap JS --}}
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

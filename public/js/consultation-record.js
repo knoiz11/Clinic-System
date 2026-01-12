@@ -1473,3 +1473,42 @@ document.addEventListener('shown.bs.modal', function (event) {
         renderTable();
     }
 });
+
+// ============================================
+// CONSULTATION BY DATE MODAL
+// ============================================
+document.addEventListener('DOMContentLoaded', () => {
+    const datePicker = document.getElementById('consultationDatePicker');
+    const clearBtn = document.getElementById('clearDateFilter');
+    const modal = new bootstrap.Modal(
+        document.getElementById('consultationByDateModal')
+    );
+
+    const employeeId = document
+        .querySelector('[data-employee-id]')
+        .dataset.employeeId;
+
+    datePicker.addEventListener('change', async () => {
+        if (!datePicker.value) return;
+
+        document.getElementById('selectedDateLabel').textContent =
+            new Date(datePicker.value).toLocaleDateString();
+
+        modal.show();
+
+        try {
+            const res = await fetch(
+                `/employees/${employeeId}/consultations-by-date?date=${datePicker.value}`
+            );
+            const html = await res.text();
+            document.getElementById('consultationDateResults').innerHTML = html;
+        } catch (err) {
+            document.getElementById('consultationDateResults').innerHTML =
+                '<p class="text-danger text-center">Failed to load records.</p>';
+        }
+    });
+
+    clearBtn.addEventListener('click', () => {
+        datePicker.value = '';
+    });
+});

@@ -13,6 +13,6 @@
             @method('DELETE')
             <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this item?')">Delete</button>
         </form>
-    </td>
+    </td>   
 </tr>
 @endforeach

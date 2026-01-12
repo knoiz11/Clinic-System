@@ -182,3 +182,9 @@ Route::middleware(['auth'])->group(function () {
 
 // Public doctor status route
 Route::get('/doctor-status', [DoctorStatusController::class, 'getStatus'])->name('doctor.status');
+
+
+Route::get(
+    '/employees/{employee}/consultations-by-date',
+    [ConsultationController::class, 'byDate']
+);

@@ -401,4 +401,21 @@ class ConsultationController extends Controller
             'laboratories' => $employee->laboratories()->orderBy('created_at', 'desc')->get(),
         ]);
     }
+
+
+    // ============================================
+    // GET CONSULTATIONS BY DATE
+    // ============================================
+        public function byDate(Request $request, Employee $employee)
+    {
+        $date = $request->date;
+
+        $consultations = Consultation::where('employee_id', $employee->id)
+            ->whereDate('created_at', $date)
+            ->latest()
+            ->get();
+
+        return view('components.admin.partials.consultations-by-date', compact('consultations'));
+
+    }
 }
