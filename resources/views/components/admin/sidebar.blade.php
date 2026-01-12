@@ -1,31 +1,5 @@
 <!-- =================== SIDEBAR =================== -->
 <aside class="left-sidebar">
-  <style>
-    .left-sidebar .sidebar-nav #sidebarnav .sidebar-item .sidebar-link,
-    .left-sidebar .sidebar-nav #sidebarnav .sidebar-link {
-      transition: background-color .12s ease, color .12s ease;
-    }
-    .left-sidebar .sidebar-nav #sidebarnav .sidebar-link:hover,
-    .left-sidebar .sidebar-nav #sidebarnav .sidebar-item:hover > .sidebar-link {
-      background-color: #f2f4f6 !important;
-      color: var(--ccp-primary-color-maroon) !important;
-      border-radius: 30px !important;
-    }
-    .left-sidebar .sidebar-nav #sidebarnav .sidebar-link.active,
-    .left-sidebar .sidebar-nav #sidebarnav .sidebar-item .sidebar-link.active,
-    .left-sidebar .sidebar-nav #sidebarnav .sidebar-item.show > .sidebar-link,
-    .left-sidebar .sidebar-nav #sidebarnav .sidebar-item > .sidebar-link[aria-expanded="true"] {
-      background-color: var(--ccp-primary-color-maroon) !important;
-      color: var(--ccp-light) !important;
-      border-radius: 30px !important;
-    }
-    .left-sidebar .sidebar-nav #sidebarnav .sidebar-link .iconify-icon,
-    .left-sidebar .sidebar-nav #sidebarnav .sidebar-link i,
-    .left-sidebar .sidebar-nav #sidebarnav .sidebar-link .ti {
-      color: inherit !important;
-      opacity: 1 !important;
-    }
-  </style>
   <div>
     <!-- Logo Section -->
     <div class="brand-logo d-flex align-items-center justify-content-between">

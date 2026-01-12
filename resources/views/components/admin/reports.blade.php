@@ -10,19 +10,26 @@
 
                     <!-- Tabs -->
                     <ul class="nav nav-tabs mb-4" id="reportTabs" role="tablist">
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#employee-reports" type="button">Employees</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#illness-reports" type="button">Common Illnesses</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#visit-reports" type="button">Visits</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#inventory-reports" type="button">Inventory</button>
-                        </li>
-                    </ul>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#employee-reports" type="button">Employees</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#illness-reports" type="button">Common Illnesses</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#visit-reports" type="button">Visits</button>
+    </li>
+    <!-- Inventory Dropdown Tab -->
+    <li class="nav-item dropdown" role="presentation">
+        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Inventory</a>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" data-bs-toggle="tab" href="#inventory-complete">Complete Inventory</a></li>
+            <li><a class="dropdown-item" data-bs-toggle="tab" href="#inventory-clinic">Clinic Supplies</a></li>
+            <li><a class="dropdown-item" data-bs-toggle="tab" href="#inventory-office">Office Supplies</a></li>
+            <li><a class="dropdown-item" data-bs-toggle="tab" href="#inventory-low-stock">Low Stock</a></li>
+        </ul>
+    </li>
+</ul>
 
                     <div class="tab-content" id="reportTabsContent">
 
@@ -30,11 +37,11 @@
                         <div class="tab-pane fade show active" id="employee-reports">
                             <div class="d-flex justify-content-between align-items-center mb-3">
                                 <h5 class="fw-bold mb-0">Employee Reports</h5>
-                                <button class="btn btn-danger btn-sm" 
+                                <button class="btn btn-danger" 
                                         data-bs-toggle="modal" 
                                         data-bs-target="#pdfPreviewModal" 
                                         data-type="employees">
-                                    <i class="ti ti-file-type-pdf me-1"></i> Generate PDF
+                                <i class="bi bi-file-earmark-pdf-fill me-1 text-white"></i> Generate PDF
                                 </button>
                             </div>
 
@@ -66,19 +73,50 @@
 
                         <!-- Common Illnesses Report (Placeholder) -->
                         <div class="tab-pane fade" id="illness-reports">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
                             <h5 class="fw-bold mb-3">Common Illnesses Report</h5>
-                            <p class="text-muted">No illness data available yet.</p>
+                            <button class="btn btn-danger" 
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#pdfPreviewModal" 
+                                        data-type="employees">
+                                <i class="bi bi-file-earmark-pdf-fill me-1 text-white"></i> Generate PDF
+                                </button>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-hover align-middle mb-0">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>ICD-11</th>
+                                            <th>Name</th>
+                                            <th class="text-center">Diagnoses</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @forelse ($employees as $employee)
+                                            <tr>
+                                                <td class="fw-medium">{{ $employee->name }}</td>
+                                                <td>{{ $employee->id }}</td>
+                                                <td class="text-center">{{ $employee->appointments_count }}</td>
+                                            </tr>
+                                        @empty
+                                            <tr>
+                                                <td colspan="3" class="text-center text-muted">No common illnesses found.</td>
+                                            </tr>
+                                        @endforelse
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
 
                         <!-- Visit Reports -->
                         <div class="tab-pane fade" id="visit-reports">
                             <div class="d-flex justify-content-between align-items-center mb-3">
                                 <h5 class="fw-bold mb-0">Visit Reports</h5>
-                                <button class="btn btn-danger btn-sm" 
+                                <button class="btn btn-danger" 
                                         data-bs-toggle="modal" 
                                         data-bs-target="#pdfPreviewModal" 
-                                        data-type="visits">
-                                    <i class="ti ti-file-type-pdf me-1"></i> Generate PDF
+                                        data-type="employees">
+                                <i class="bi bi-file-earmark-pdf-fill me-1 text-white"></i> Generate PDF
                                 </button>
                             </div>
 
@@ -111,156 +149,154 @@
                         </div>
 
                         <!-- Inventory Reports -->  
-                        <div class="tab-pane fade" id="inventory-reports">
-
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h5 class="fw-bold mb-0">Complete Inventory</h5>
-                                <button class="btn btn-danger btn-sm"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#pdfPreviewModal"
-                                        data-type="inventory">
-                                    <i class="ti ti-file-type-pdf me-1"></i> Generate PDF
+                        <!-- Inventory Subsections -->
+    <div class="tab-pane fade" id="inventory-complete">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="fw-bold">Complete Inventory</h5>
+        <button class="btn btn-danger" 
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#pdfPreviewModal" 
+                                        data-type="employees">
+                                <i class="bi bi-file-earmark-pdf-fill me-1 text-white"></i> Generate PDF
                                 </button>
-                            </div>
+        </div>
+        <div class="table-responsive mb-4">
+            <table class="table table-hover align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Item</th>
+                        <th>Type</th>
+                        <th class="text-center">Qty</th>
+                        <th>Unit</th>
+                        <th>Date Purchased</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse ($inventoryAll as $item)
+                        <tr>
+                            <td>{{ $item->item_name }}</td>
+                            <td>{{ $item->supply_type }}</td>
+                            <td class="text-center">{{ $item->quantity }}</td>
+                            <td>{{ $item->unit }}</td>
+                            <td>{{ $item->date_purchased }}</td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="5" class="text-center text-muted">No inventory items available.</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-                            <div class="table-responsive mb-4">
-                                <table class="table table-hover align-middle">
-                                    <thead class="table-light">
-                                        <tr>
-                                            <th>Item</th>
-                                            <th>Type</th>
-                                            <th class="text-center">Qty</th>
-                                            <th>Unit</th>
-                                            <th>Date Purchased</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @forelse ($inventoryAll as $item)
-                                            <tr>
-                                                <td>{{ $item->item_name }}</td>
-                                                <td>{{ $item->supply_type }}</td>
-                                                <td class="text-center">{{ $item->quantity }}</td>
-                                                <td>{{ $item->unit }}</td>
-                                                <td>{{ $item->date_purchased }}</td>
-                                            </tr>
-                                        @empty
-                                            <tr>
-                                                <td colspan="5" class="text-center text-muted">No inventory items available.</td>
-                                            </tr>
-                                        @endforelse
-                                    </tbody>
-                                </table>
-                            </div>
-
-                            <!-- Clinic Supplies -->
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h5 class="fw-bold mb-0">Clinic Supplies</h5>
-                                <button class="btn btn-danger btn-sm"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#pdfPreviewModal"
-                                        data-type="inventory-clinic">
-                                    <i class="ti ti-file-type-pdf me-1"></i> Generate PDF
+    <div class="tab-pane fade" id="inventory-clinic">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="fw-bold">Clinic Supplies</h5>
+        <button class="btn btn-danger" 
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#pdfPreviewModal" 
+                                        data-type="employees">
+                                <i class="bi bi-file-earmark-pdf-fill me-1 text-white"></i> Generate PDF
                                 </button>
-                            </div>
+        </div>
+        <div class="table-responsive mb-4">
+            <table class="table table-hover align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Item</th>
+                        <th class="text-center">Qty</th>
+                        <th>Unit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse ($inventoryClinic as $item)
+                        <tr>
+                            <td>{{ $item->item_name }}</td>
+                            <td class="text-center">{{ $item->quantity }}</td>
+                            <td>{{ $item->unit }}</td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="3" class="text-center text-muted">No clinic supplies.</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-                            <div class="table-responsive mb-4">
-                                <table class="table table-hover align-middle">
-                                    <thead class="table-light">
-                                        <tr>
-                                            <th>Item</th>
-                                            <th class="text-center">Qty</th>
-                                            <th>Unit</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @forelse ($inventoryClinic as $item)
-                                            <tr>
-                                                <td>{{ $item->item_name }}</td>
-                                                <td class="text-center">{{ $item->quantity }}</td>
-                                                <td>{{ $item->unit }}</td>
-                                            </tr>
-                                        @empty
-                                            <tr>
-                                                <td colspan="3" class="text-center text-muted">No clinic supplies.</td>
-                                            </tr>
-                                        @endforelse
-                                    </tbody>
-                                </table>
-                            </div>
-
-                            <!-- Office Supplies -->
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h5 class="fw-bold mb-0">Office Supplies</h5>
-                                <button class="btn btn-danger btn-sm"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#pdfPreviewModal"
-                                        data-type="inventory-office">
-                                    <i class="ti ti-file-type-pdf me-1"></i> Generate PDF
+    <div class="tab-pane fade" id="inventory-office">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="fw-bold">Office Supplies</h5>
+        <button class="btn btn-danger" 
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#pdfPreviewModal" 
+                                        data-type="employees">
+                                <i class="bi bi-file-earmark-pdf-fill me-1 text-white"></i> Generate PDF
                                 </button>
-                            </div>
+        </div>
+        <div class="table-responsive mb-4">
+            <table class="table table-hover align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Item</th>
+                        <th class="text-center">Qty</th>
+                        <th>Unit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse ($inventoryOffice as $item)
+                        <tr>
+                            <td>{{ $item->item_name }}</td>
+                            <td class="text-center">{{ $item->quantity }}</td>
+                            <td>{{ $item->unit }}</td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="3" class="text-center text-muted">No office supplies.</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-                            <div class="table-responsive mb-4">
-                                <table class="table table-hover align-middle">
-                                    <thead class="table-light">
-                                        <tr>
-                                            <th>Item</th>
-                                            <th class="text-center">Qty</th>
-                                            <th>Unit</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @forelse ($inventoryOffice as $item)
-                                            <tr>
-                                                <td>{{ $item->item_name }}</td>
-                                                <td class="text-center">{{ $item->quantity }}</td>
-                                                <td>{{ $item->unit }}</td>
-                                            </tr>
-                                        @empty
-                                            <tr>
-                                                <td colspan="3" class="text-center text-muted">No office supplies.</td>
-                                            </tr>
-                                        @endforelse
-                                    </tbody>
-                                </table>
-                            </div>
-
-                            <!-- Low Stock Alerts -->
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h5 class="fw-bold mb-0 text-danger">Low Stock (≤10)</h5>
-                                <button class="btn btn-danger btn-sm"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#pdfPreviewModal"
-                                        data-type="inventory-low-stock">
-                                    <i class="ti ti-file-type-pdf me-1"></i> Generate PDF
+    <div class="tab-pane fade" id="inventory-low-stock">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="fw-bold text-danger">Low Stock (≤10)</h5>
+        <button class="btn btn-danger" 
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#pdfPreviewModal" 
+                                        data-type="employees">
+                                <i class="bi bi-file-earmark-pdf-fill me-1 text-white"></i> Generate PDF
                                 </button>
-                            </div>
-
-                            <div class="table-responsive">
-                                <table class="table table-hover align-middle">
-                                    <thead class="table-light">
-                                        <tr>
-                                            <th>Item</th>
-                                            <th>Type</th>
-                                            <th class="text-center">Qty</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @forelse ($lowStockItems as $item)
-                                            <tr>
-                                                <td>{{ $item->item_name }}</td>
-                                                <td>{{ $item->supply_type }}</td>
-                                                <td class="text-center text-danger fw-bold">{{ $item->quantity }}</td>
-                                            </tr>
-                                        @empty
-                                            <tr>
-                                                <td colspan="3" class="text-center text-muted">No low stock items.</td>
-                                            </tr>
-                                        @endforelse
-                                    </tbody>
-                                </table>
-                            </div>
-
-                        </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Item</th>
+                        <th>Type</th>
+                        <th class="text-center">Qty</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse ($lowStockItems as $item)
+                        <tr>
+                            <td>{{ $item->item_name }}</td>
+                            <td>{{ $item->supply_type }}</td>
+                            <td class="text-center text-danger fw-bold">{{ $item->quantity }}</td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="3" class="text-center text-muted">No low stock items.</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </div>
 
 
                     </div> <!-- end tab-content -->

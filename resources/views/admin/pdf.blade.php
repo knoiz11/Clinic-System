@@ -3,82 +3,12 @@
 <head>
     <meta charset="utf-8">
     <title>{{ ucfirst($type) }} Report</title>
-    <style>
-        body { 
-            font-family: DejaVu Sans, sans-serif; 
-            font-size: 11px; 
-            margin: 20px;
-        }
-        h2 { 
-            text-align: center; 
-            margin-bottom: 5px;
-            color: #7c0020;
-        }
-        .header-info {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #666;
-            font-size: 10px;
-        }
-        table { 
-            width: 100%; 
-            border-collapse: collapse; 
-            margin-top: 10px; 
-        }
-        th, td { 
-            border: 1px solid #999; 
-            padding: 8px; 
-            text-align: left; 
-        }
-        th { 
-            background: #7c0020; 
-            color: white;
-            font-weight: bold;
-        }
-        .summary-box {
-            background: #f5f5f5;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-        .summary-box h4 {
-            margin: 0 0 10px 0;
-            color: #7c0020;
-        }
-        .summary-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 5px;
-        }
-        .badge {
-            display: inline-block;
-            padding: 3px 8px;
-            border-radius: 3px;
-            font-size: 9px;
-            font-weight: bold;
-        }
-        .badge-clinic {
-            background: #17a2b8;
-            color: white;
-        }
-        .badge-office {
-            background: #28a745;
-            color: white;
-        }
-        .low-stock {
-            color: #dc3545;
-            font-weight: bold;
-        }
-        .footer {
-            margin-top: 30px;
-            text-align: center;
-            font-size: 9px;
-            color: #666;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ public_path('admin/css/pdf-layout.css') }}">
 </head>
 <body>
+    <div class="logo" style="text-align: center; margin-bottom: 10px;">
+        <img src="{{ public_path('admin/images/logos/ccp.png') }}" alt="CCP Logo" style="height: 40px;">
+    </div>
     @if ($type === 'employees')
         <h2>Employee Report</h2>
         <div class="header-info">
@@ -128,6 +58,8 @@
                 @endforeach
             </tbody>
         </table>
+
+<!-- Inventory Reports -->
 
     @elseif ($type === 'inventory')
         <h2>Complete Inventory Report</h2>

@@ -3,49 +3,52 @@
 @section('dashboard')
 <div class="container-fluid mt-4">
 
-    <!-- Stats Cards -->
     <div class="row mb-4">
-        <div class="col-md-3">
-            <div class="card shadow-sm text-center">
-                <div class="card-body">
-                    <h2 class="fw-bold mb-0">{{ $employeeCount }}</h2>
-                    <p class="mb-0">CCP Employees</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card shadow-sm text-center">
-                <div class="card-body">
-                    <h2 class="fw-bold mb-0">{{ $recentVisitsCount }}</h2>
-                    <p class="mb-0">Recent Visits</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card shadow-sm text-center">
-                <div class="card-body">
-                    <h2 class="fw-bold mb-0">{{ $upcomingAppointmentsCount }}</h2>
-                    <p class="mb-0">Upcoming Checkups</p>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Doctor Status Card -->
-        <div class="col-md-3">
-            <div class="card shadow-sm text-center" style="cursor: pointer; transition: transform 0.1s;" id="doctorStatusCard">
-                <div class="card-body">
-                    <h5 class="mb-3">Doctor Status</h5>
-                    <div class="d-flex align-items-center justify-content-center gap-2 mb-2">
-                        <i class="bi bi-circle-fill" id="statusIndicator" 
-                           style="font-size: 24px; color: {{ $doctorStatus->is_in ? '#28a745' : '#dc3545' }}"></i>
-                        <h3 class="mb-0" id="statusText">{{ $doctorStatus->is_in ? 'IN' : 'OUT' }}</h3>
-                    </div>
-                    <small class="text-muted">Click to toggle</small>
-                    <input type="hidden" id="currentStatus" value="{{ $doctorStatus->is_in ? '1' : '0' }}">
-                </div>
+    <div class="col-md-3 d-flex">
+        <div class="card shadow-sm text-center w-100">
+            <div class="card-body">
+                <br>
+                <h2 class="fw-bold mb-0">{{ $employeeCount }}</h2>
+                <p class="mb-0">CCP Employees</p>
             </div>
         </div>
     </div>
+
+    <div class="col-md-3 d-flex">
+        <div class="card shadow-sm text-center w-100">
+            <div class="card-body">
+                <br>
+                <h2 class="fw-bold mb-0">{{ $recentVisitsCount }}</h2>
+                <p class="mb-0">Recent Visits</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3 d-flex">
+        <div class="card shadow-sm text-center w-100">
+            <div class="card-body">
+                <br>
+                <h2 class="fw-bold mb-0">{{ $upcomingAppointmentsCount }}</h2>
+                <p class="mb-0">Upcoming Checkups</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3 d-flex">
+        <div class="card shadow-sm text-center w-100" id="doctorStatusCard">
+            <div class="card-body">
+                <h5 class="fw-bold mb-0">Doctor Status</h5>
+                <div class="d-flex align-items-center justify-content-center gap-2 my-2">
+                    <i class="bi bi-circle-fill"
+                       style="font-size: 24px; color: {{ $doctorStatus->is_in ? '#28a745' : '#dc3545' }}"></i>
+                    <h3 class="mb-0">{{ $doctorStatus->is_in ? 'IN' : 'OUT' }}</h3>
+                </div>
+                <p class="mb-0 text-muted">Click to toggle</p>
+            </div>
+        </div>
+    </div>
+</div>
+
 
     <!-- Employee Table -->
     <div class="row">
@@ -56,8 +59,8 @@
                         <h5 class="card-title mb-0">Employee Records</h5>
                         <div class="d-flex gap-2 align-items-center">
                             <input type="text" id="employeeSearch" class="form-control" style="max-width: 250px;" placeholder="Search employee...">
-                            <a href="{{ route('employee.index') }}" class="btn btn-primary btn-sm text-nowrap">
-                                <i class="bi bi-eye"></i> See More
+                            <a href="{{ route('employee.index') }}" class="btn btn-primary btn-sm text-nowrap p-2" style="width: 200px;">
+                                See More
                             </a>
                         </div>
                     </div>
@@ -76,7 +79,7 @@
                                 @foreach ($employees as $emp)
                                 <tr class="employee-row"
                                     data-name="{{ $emp->name }}"
-                                    data-department="{{ $emp->department }}"
+                                    data-department="{{ $emp->department ?? 'N/A' }}"
                                     data-age="{{ $emp->age ?? 'N/A' }}"
                                     data-sex="{{ $emp->sex ?? 'N/A' }}"
                                     data-contact="{{ $emp->contact ?? 'N/A' }}"
@@ -84,7 +87,7 @@
                                     data-photo="{{ $emp->photo ? asset('storage/' . $emp->photo) : '' }}">
                                     <td class="ps-0 fw-medium">{{ $emp->name }}</td>
                                     <td>{{ $emp->designation ?? 'N/A' }}</td>
-                                    <td class="text-center fw-medium">{{ $emp->department }}</td>
+                                    <td class="text-center fw-medium">{{ $emp->department ?? 'N/A' }}</td>
                                     <td class="text-center fw-medium">{{ $emp->status ?? 'Active' }}</td>
                                 </tr>
                                 @endforeach
@@ -106,21 +109,24 @@
                     <div class="text-center mb-4">
                         <div class="border bg-light rounded-3 p-3 d-inline-block" style="min-width: 150px; min-height: 150px;">
                             <img id="empPhoto" 
-                                 src="{{ asset('admin/images/profile/user.jpg') }}" 
+                            @if (Auth::user()->photo)
+                            data-src="{{ asset('storage/' . Auth::user()->photo)}}"
+                            @else
+                               src="{{ asset('admin/images/profile/user.jpg') }}" 
+                            @endif
                                  alt="Employee Photo" 
                                  class="rounded-3"
-                                 style="width: 140px; height: 140px; object-fit: cover; display: none;">
-                            <i id="empPhotoIcon" class="bi bi-person-circle" style="font-size: 100px; color: #b0b0b0;"></i>
+                                 style="width: 140px; height: 140px; object-fit: cover; display: block;">
                         </div>
                     </div>
 
                     <!-- Details -->
-                    <p><strong>Name:</strong> <span id="empName">-</span></p>
-                    <p><strong>Department:</strong> <span id="empDept">-</span></p>
-                    <p><strong>Age:</strong> <span id="empAge">-</span></p>
-                    <p><strong>Sex:</strong> <span id="empSex">-</span></p>
-                    <p><strong>Contact No.:</strong> <span id="empContact">-</span></p>
-                    <p><strong>Email:</strong> <span id="empEmail">-</span></p>
+                    <p><strong>Name:</strong> <span id="empName">{{ Auth::user()->name }}</span></p>
+                    <p><strong>Department:</strong> <span id="empDept">{{ Auth::user()->department }}</span></p>
+                    <p><strong>Age:</strong> <span id="empAge">{{ Auth::user()->age }}</span></p>
+                    <p><strong>Sex:</strong> <span id="empSex">{{ Auth::user()->sex }}</span></p>
+                    <p><strong>Contact No.:</strong> <span id="empContact">{{ Auth::user()->contact }}</span></p>
+                    <p><strong>Email:</strong> <span id="empEmail">{{ Auth::user()->email }}</span></p>
                 </div>
             </div>
         </div>

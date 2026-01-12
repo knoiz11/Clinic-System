@@ -6,7 +6,7 @@
         <div class="d-flex justify-content-between align-items-center mb-4">
             <div>
                 <h4 class="fw-bold mb-1">
-                    <i class="bi bi-calendar-check me-2"></i> Clinic Appointments
+                    Clinic Appointments
                 </h4>
                 <p class="text-muted mb-0">Manage and view employee appointment schedules</p>
             </div>
@@ -53,7 +53,7 @@
         @csrf
         @method('DELETE')
         <button type="submit"
-            class="btn fw-bold py-2 px-3 shadow-sm d-flex align-items-center justify-content-center"
+            class="btn fw-bold py-2 px-3 d-flex align-items-center justify-content-center"
             style="background: url('{{ asset('images/gallery/delete.png') }}') center/contain no-repeat; 
                    height: 30px; 
                    width: 60px;" 
@@ -75,7 +75,6 @@
                             </div>
 
                             <div class="d-flex align-items-center mb-3">
-                                <i class="bi bi-person-circle fs-3 text-success me-2"></i>
                                 <h5 class="mb-0 fw-bold">
                                     {{ $appointment->employee->name ?? $appointment->employee_name ?? 'Unassigned' }}
 
@@ -92,7 +91,7 @@
                             </div>
 
                             @if(!empty($appointment->reason))
-                                <div class="mt-2 p-2 rounded" style="background:#e8f5e9;">
+                                <div class="mt-2 p-2 rounded comment">
                                     <small class="fw-bold d-block mb-1">Reason for Visit:</small>
                                     <p class="mb-0">{{ $appointment->reason }}</p>
                                 </div>

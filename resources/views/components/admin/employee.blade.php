@@ -10,7 +10,7 @@
             <div class="d-flex gap-2 align-items-center">
 
     <!-- Status Filter -->
-    <select id="statusFilter" class="form-select" style="width: 160px;">
+    <select id="statusFilter" class="form-select bg-white" style="width: 160px;">
         <option value="">All Status</option>
         <option value="Active">Active</option>
         <option value="Inactive">Inactive</option>
@@ -19,17 +19,17 @@
 
     <!-- Search Input -->
     <div class="input-group" style="width: 300px;">
-        <span class="input-group-text bg-white">
+        <span class="input-group-text">
             <i class="bi bi-search"></i>
         </span>
         <input type="text" 
                id="employeeTableSearch" 
-               class="form-control" 
+               class="form-control bg-white" 
                placeholder="Search employees...">
     </div>
 
             </div>
-            <a href="{{ route('employee.create') }}" class="btn btn-primary">Add Employee</a>
+            <a href="{{ route('employee.create') }}" class="btn btn-primary"><i class="bi bi-plus-circle"></i> Add Employee</a>
         </div>
     </div>
     
@@ -37,8 +37,8 @@
     <div class="table-responsive">
         <table class="table table-bordered align-middle mb-0">
             <thead class="table-light">
-                <tr>
-                    <th style="width:50px;"></th>
+                <tr class="text-center">
+                    <th></th>
                     <th>Last Name</th>
                     <th>First Name</th>
                     <th>Middle Name</th>
@@ -59,8 +59,7 @@
             <tbody>
                 @foreach($employees as $employee)
                 <tr data-bs-toggle="collapse"data-bs-target="#employee-{{ $employee->id }}"class="accordion-toggle employee-row"data-status="{{ $employee->status }}">
-
-                    <td><i class="bi bi-caret-down-fill"></i></td>
+                    <td></td>
                     <td>{{ $employee->last_name ?? '-' }}</td>
                     <td>{{ $employee->first_name ?? '-' }}</td>
                     <td>{{ $employee->middle_name ?? '-' }}</td>

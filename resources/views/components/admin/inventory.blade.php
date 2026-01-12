@@ -18,8 +18,8 @@
 
                 <select id="filterSupplyType" name="supply_type" class="form-select" style="max-width: 180px;">
                     <option value="">Filter...</option>
-                    <option value="Meds" {{ request('supply_type') == 'Meds' ? 'selected' : '' }}>Meds</option>
-                    <option value="NonMeds" {{ request('supply_type') == 'NonMeds' ? 'selected' : '' }}>Non-Meds</option>
+                    <option value="Meds" {{ request('supply_type') == 'Meds' ? 'selected' : '' }}>Clinic</option>
+                    <option value="NonMeds" {{ request('supply_type') == 'NonMeds' ? 'selected' : '' }}>Office</option>
                 </select>
 
                 <button type="button" class="btn btn-outline-secondary" id="clearFilterBtn">Clear Filter</button>
@@ -27,7 +27,7 @@
 
             @if(Auth::user()->role === 'admin')
             <button class="btn btn-warning fw-bold" data-bs-toggle="modal" data-bs-target="#addItemModal" id="addNewItemBtn">
-                Add Item
+                <i class="bi bi-plus-circle me-2 text-white text-center"></i>Add Item
             </button>
             @endif
         </div>

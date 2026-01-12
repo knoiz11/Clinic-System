@@ -1,3 +1,13 @@
+body {
+    font-family: 'Arial', sans-serif;
+    font-size: 14px;
+  }
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Georgia', serif;
+    color: var(--title-color);
+  }
+ 
   .employee-row:hover td {
     background-color: #f8f9fa !important;
     cursor: pointer;
@@ -7,8 +17,8 @@
   }
 
   :root {
-  --ccp-white:                  #FFFFFF;
-  --primary-color:                #247cff;
+  --ccp-white:                    #FFFFFF;
+  --primary-color:                #7D1D37;
   --section-bg-color:             #F9F9F9;
   --dark-color:                   #000000;
   --title-color:                  #565758;
@@ -27,9 +37,7 @@
   --ccp-dark-grey: #353535;
   --ccp-light: #fffaea;
 
-
-
-  --body-font-family:             'Open Sans', sans-serif;
+  --body-font-family:             'Arial', sans-serif;
 
   --h1-font-size:                 48px;
   --h2-font-size:                 36px;
