@@ -381,12 +381,12 @@
                     </div>
 
                     <div class="col-md-6">
-                        <label class="form-label">Prescription</label>
+                        <label class="form-label">Medication</label>
                         <textarea id="prescriptionTextarea" name="prescription" class="form-control" rows="4" readonly disabled></textarea>
                     </div>
                     
                     <div class="col-md-6">
-                        <label class="form-label">Date of Prescription</label>
+                        <label class="form-label">Date of Medication/Prescription</label>
                         <input name="order_date" class="form-control" type="date" />
                     </div>
 
@@ -394,7 +394,7 @@
                         <button type="button" class="btn btn-primary" id="prescribeMedication"
                             data-bs-toggle="modal" data-bs-target="#prescriptionModal"
                             style="background-color: var(--ccp-primary-color-gold) !important; color: var(--ccp-light) !important; border-color: var(--ccp-primary-color-gold) !important;">
-                            PRESCRIBE MEDICATION
+                            DISPENSE MEDICATION
                         </button>
                     </div>
 
@@ -446,7 +446,7 @@
                     </div>
 
                     <div class="col-md-6">
-                        <label class="form-label">Remarks</label>
+                        <label class="form-label">Remarks/Prescription</label>
                         <textarea name="order_remarks" class="form-control" rows="2"></textarea>
                     </div>
 
@@ -465,11 +465,11 @@
                     </div>
 
                     <div class="col-12 d-flex justify-content-end gap-2">
-                        <button type="button" class="btn btn-primary" style="background-color: var(--ccp-primary-color-gold) !important; color: var(--ccp-light) !important; border-color: var(--ccp-primary-color-gold) !important;">
-                            APPOINT
-                        </button>
-                        <button type="submit" class="btn btn-primary" style="background-color: var(--ccp-primary-color-maroon) !important; color: var(--ccp-light) !important; border-color: var(--ccp-primary-color-maroon) !important;">SAVE</button>
-                    </div>
+                      <button type="submit" class="btn btn-primary" 
+                          style="background-color: var(--ccp-primary-color-maroon) !important; color: var(--ccp-light) !important; border-color: var(--ccp-primary-color-maroon) !important;">
+                          SAVE
+                      </button>
+                  </div>
                 </form>
             </div>
         </div>
@@ -481,7 +481,7 @@
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header" style="background-color: #7d3c4d; color: white;">
-                <h5 class="modal-title"><i class="bi bi-capsule me-2"></i>Prescribe Medication</h5>
+                <h5 class="modal-title"><i class="bi bi-capsule me-2"></i>Dispense Medication</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
@@ -772,6 +772,7 @@
 <script src="{{ asset('js/icdcode.js') }}"></script>
 <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>
 <script src='https://clinicaltables.nlm.nih.gov/autocomplete-lhc-versions/19.2.4/autocomplete-lhc.min.js'></script>
+
 <script>
 // Helper function to show saved records section
 function showSavedRecordsSection() {
@@ -780,6 +781,7 @@ function showSavedRecordsSection() {
         emptyState.style.display = 'none';
     }
 }
+
 </script>
 
 </body>

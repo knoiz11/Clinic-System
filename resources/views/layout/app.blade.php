@@ -9,6 +9,8 @@
 
         <title>Clinic Information System</title>
 
+        <link rel="shortcut icon" type="image/png" href="{{ asset('admin/images/logos/ccp.png') }}" />
+
         <!-- CSS FILES -->        
         <link rel="preconnect" href="https://fonts.googleapis.com">
         

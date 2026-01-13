@@ -25,7 +25,7 @@
 }
 
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: 'Inter Tight', sans-serif;
     font-size: 14px;
     background-color: var(--ccp-light);
     color: var(--dark-color);
@@ -555,6 +555,14 @@ h1, h2, h3, h4, h5, h6 {
 .app-header .dropdown-menu,
 .navbar .dropdown-menu {
   background-image: none !important;
+}
+
+#profile {
+    cursor: pointer;
+}
+
+#profile:hover {
+    background-color: none !important;
 }
 
 .service-btn {

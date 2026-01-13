@@ -14,11 +14,9 @@
         <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#employee-reports" type="button">Employees</button>
     </li>
     <li class="nav-item" role="presentation">
-        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#illness-reports" type="button">Common Illnesses</button>
-    </li>
-    <li class="nav-item" role="presentation">
         <button class="nav-link" data-bs-toggle="tab" data-bs-target="#visit-reports" type="button">Visits</button>
     </li>
+    
     <!-- Inventory Dropdown Tab -->
     <li class="nav-item dropdown" role="presentation">
         <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Inventory</a>
@@ -71,43 +69,6 @@
                             </div>
                         </div>
 
-                        <!-- Common Illnesses Report (Placeholder) -->
-                        <div class="tab-pane fade" id="illness-reports">
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h5 class="fw-bold mb-3">Common Illnesses Report</h5>
-                            <button class="btn btn-danger" 
-                                        data-bs-toggle="modal" 
-                                        data-bs-target="#pdfPreviewModal" 
-                                        data-type="employees">
-                                <i class="bi bi-file-earmark-pdf-fill me-1 text-white"></i> Generate PDF
-                                </button>
-                            </div>
-                            <div class="table-responsive">
-                                <table class="table table-hover align-middle mb-0">
-                                    <thead class="table-light">
-                                        <tr>
-                                            <th>ICD-11</th>
-                                            <th>Name</th>
-                                            <th class="text-center">Diagnoses</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @forelse ($employees as $employee)
-                                            <tr>
-                                                <td class="fw-medium">{{ $employee->name }}</td>
-                                                <td>{{ $employee->id }}</td>
-                                                <td class="text-center">{{ $employee->appointments_count }}</td>
-                                            </tr>
-                                        @empty
-                                            <tr>
-                                                <td colspan="3" class="text-center text-muted">No common illnesses found.</td>
-                                            </tr>
-                                        @endforelse
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
                         <!-- Visit Reports -->
                         <div class="tab-pane fade" id="visit-reports">
                             <div class="d-flex justify-content-between align-items-center mb-3">
@@ -115,7 +76,7 @@
                                 <button class="btn btn-danger" 
                                         data-bs-toggle="modal" 
                                         data-bs-target="#pdfPreviewModal" 
-                                        data-type="employees">
+                                        data-type="visits">
                                 <i class="bi bi-file-earmark-pdf-fill me-1 text-white"></i> Generate PDF
                                 </button>
                             </div>
@@ -156,7 +117,7 @@
         <button class="btn btn-danger" 
                                         data-bs-toggle="modal" 
                                         data-bs-target="#pdfPreviewModal" 
-                                        data-type="employees">
+                                        data-type="inventory">
                                 <i class="bi bi-file-earmark-pdf-fill me-1 text-white"></i> Generate PDF
                                 </button>
         </div>
@@ -196,7 +157,7 @@
         <button class="btn btn-danger" 
                                         data-bs-toggle="modal" 
                                         data-bs-target="#pdfPreviewModal" 
-                                        data-type="employees">
+                                        data-type="inventory-clinic">
                                 <i class="bi bi-file-earmark-pdf-fill me-1 text-white"></i> Generate PDF
                                 </button>
         </div>
@@ -232,7 +193,7 @@
         <button class="btn btn-danger" 
                                         data-bs-toggle="modal" 
                                         data-bs-target="#pdfPreviewModal" 
-                                        data-type="employees">
+                                        data-type="inventory-office">
                                 <i class="bi bi-file-earmark-pdf-fill me-1 text-white"></i> Generate PDF
                                 </button>
         </div>
@@ -268,7 +229,7 @@
         <button class="btn btn-danger" 
                                         data-bs-toggle="modal" 
                                         data-bs-target="#pdfPreviewModal" 
-                                        data-type="employees">
+                                        data-type="inventory-low-stock">
                                 <i class="bi bi-file-earmark-pdf-fill me-1 text-white"></i> Generate PDF
                                 </button>
         </div>
