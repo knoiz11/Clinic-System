@@ -121,6 +121,11 @@
                         <input type="text" class="form-control" id="item_name" name="item_name" required>
                     </div>
 
+                    <div class="mb-3" id="strengthField" style="display: none;">
+                        <label for="strength" class="form-label">Strength</label>
+                        <input type="text" class="form-control" id="strength" name="strength" placeholder="e.g., 500mg, 250ml">
+                    </div>
+
                     <div class="mb-3">
                         <label for="quantity" class="form-label">Quantity</label>
                         <input type="number" class="form-control" id="quantity" name="quantity" min="1" required>

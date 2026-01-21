@@ -119,4 +119,26 @@ class InventoryController extends Controller
         $inventory->delete();
         return back()->with('success', 'Item deleted successfully.');
     }
+
+    /**
+     * Get medications from inventory (items categorized as 'clinic')
+     */
+    public function getMedications()
+    {
+        $medications = Inventory::where('supply_type', 'clinic')
+            ->select('id', 'item_name as name', 'quantity as inventory')
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'id' => $item->id,
+                    'name' => $item->name,
+                    'strength' => '',
+                    'otc' => true,
+                    'inventory' => $item->inventory,
+                    'quantity' => 0
+                ];
+            });
+
+        return response()->json($medications);
+    }
 }

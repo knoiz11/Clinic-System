@@ -37,6 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
     return;
   }
   
+  loadMedications();
   loadAllRecordsFromDatabase();
   initializeFormHandlers();
   initializeSearchAndFilter();
@@ -1326,17 +1327,22 @@ function updateEmptyState() {
 
 
 // PRESCRIBE MEDICATION MODAL - Bootstrap 5 Version
-const medications = [
-  // edit for database pls thx
-    { id: 1, name: 'Acetaminophen', strength: '500mg', otc: true, inventory: 24, quantity: 0 },
-    { id: 2, name: 'BENADRYL® Extra Strength Allergy Relief Antihistamine Tablets with 50 mg of Diphenhydramine HCl', strength: '50mg', otc: true, inventory: 24, quantity: 0 },
-    { id: 3, name: 'Ibuprofen', strength: '500mg', otc: true, inventory: 24, quantity: 0 },
-    { id: 4, name: 'Paracetamol', strength: '500mg', otc: true, inventory: 21, quantity: 0 },
-    { id: 5, name: 'Amoxicillin', strength: '250mg', otc: false, inventory: 18, quantity: 0 },
-    { id: 6, name: 'Aspirin', strength: '100mg', otc: true, inventory: 30, quantity: 0 }
-];
+let medications = [];
+let filteredMedications = [];
 
-let filteredMedications = [...medications];
+// Load medications from database
+async function loadMedications() {
+    try {
+        const response = await fetch('/admin/inventory/medications');
+        const data = await response.json();
+        medications = data;
+        filteredMedications = [...medications];
+        console.log('Medications loaded from inventory:', medications);
+    } catch (error) {
+        console.error('Error loading medications:', error);
+        alert('Failed to load medications from database');
+    }
+}
 
 function renderTable() {
     const tbody = document.getElementById('medicationTableBody');
@@ -1348,7 +1354,6 @@ function renderTable() {
         const row = document.createElement('tr');
         row.innerHTML = `
             <td>${med.name}</td>
-            <td>${med.strength}</td>
             <td>${med.otc ? '<span class="otc-badge yes">Yes</span>' : '<span class="otc-badge no">No</span>'}</td>
             <td>${med.inventory}</td>
             <td>
@@ -1470,7 +1475,7 @@ function prescribeMedications() {
 // Initialize table when modal is shown
 document.addEventListener('shown.bs.modal', function (event) {
     if (event.target.id === 'prescriptionModal') {
-        renderTable();
+        loadMedications().then(() => renderTable());
     }
 });
 

@@ -31,7 +31,7 @@
                             </h2>
                             <p class="mb-0 opacity-75">
                                 Employee: {{ $employee->first_name }} {{ $employee->last_name }} 
-                                (ID: {{ $employee->employee_id }})
+                                (ID: {{ $employee->id }})
                             </p>
                         </div>
                         <a href="{{ route('employee.show', $employee->id) }}" id="back2employeeButton" class="btn">
@@ -511,7 +511,6 @@
                         <thead class="table-light sticky-top">
                             <tr>
                                 <th>Drug Name</th>
-                                <th>Strength</th>
                                 <th>OTC</th>
                                 <th>Inventory</th>
                                 <th style="width: 150px;">Quantity</th>

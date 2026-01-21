@@ -158,6 +158,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::get('/reports/pdf/{type}/{mode?}', [ReportController::class, 'generatePDF'])->name('reports.pdf');
 
     // Inventory
+    Route::get('/inventory/medications', [InventoryController::class, 'getMedications'])->name('admin.inventory.medications');
     Route::get('/inventory/ajax', [InventoryController::class, 'ajax'])->name('admin.inventory.ajax');
     Route::get('/inventory', [InventoryController::class, 'index'])->name('admin.inventory');
     Route::post('/inventory', [InventoryController::class, 'store'])->name('admin.inventory.store');
