@@ -18,6 +18,7 @@
   --ccp-dark-grey:                #353535;
   --ccp-light:                    #fffaea;
 
+    --off-white:                    #fafafa;
   --text-light: #fff;
   --text-dark: #333;
 }
@@ -27,6 +28,65 @@ main {
   min-height: 100vh;
   padding: 40px;
 }
+
+body {
+  background-image: url(../images/gallery/ccp-web-bg.png) !important;
+  font-family: 'Inter Tight', sans-serif;
+    font-size: 14px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: var(--dark-color);
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Georgia', serif;
+    color: var(--title-color);
+}
+
+html, body, .container-fluid {
+  height: 100%;
+  margin: 0;
+  padding: 0.5rem;
+}
+
+.content-box {
+    background-color: var(--off-white);
+    border: 1px solid var(--ccp-primary-color-maroon);
+    border-radius: 8px;
+    padding: 1rem;
+    transition: none !important;
+    transform: none !important;
+}
+
+.card {
+  border: var(--ccp-primary-color-maroon) 1px solid;
+}
+
+.card:hover,
+.content-box:hover {
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+/* Disable ALL card hover movement */
+.card,
+.card:hover,
+.content-box,
+.content-box:hover {
+    transform: none !important;
+    transition: none !important;
+    box-shadow: none !important;
+}
+
+.card img,
+.card img:hover {
+    transform: none !important;
+    transition: none !important;
+}
+
 
 .card, .table {
   background-color: #fff;
@@ -96,6 +156,31 @@ ul.autocomp_selected {
 body > ul[id^="completionOptions"] {
   z-index: 999999 !important;
   position: absolute !important;
+}
+
+.btn-primary {
+    background-color: var(--ccp-primary-color-maroon);
+    border-color: var(--ccp-primary-color-maroon);
+}
+
+.btn-primary:hover {
+    background-color: var(--ccp-m2);
+    border-color: var(--ccp-m2);
+}
+
+.form-control, .form-select{
+    background-color: var(--ccp-white) !important;
+}
+
+.form-control:hover, .form-select:hover, {
+    border-color: var(--ccp-primary-color-maroon);
+    box-shadow: 0 0 0 0.2rem rgba(125,29,55,0.25);}
+
+.form-control:active, 
+.form-control:focus, .form-select:active, 
+.form-select:focus {
+    border-color: var(--ccp-primary-color-maroon);
+    box-shadow: 0 0 0 0.2rem rgba(125,29,55,0.25);
 }
 
 /***** Prescription Modal Style *****/

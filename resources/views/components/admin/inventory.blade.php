@@ -1,28 +1,30 @@
 @extends('layout.admin')
 
 @section('inventory')
-<div class="card shadow-sm border-0 rounded-3">
+<div class="content-box shadow-sm mb-4 p-4">
     <div class="card-body">
-
-        <h4 class="fw-bold mb-4 text-center" style="color:#7c0020;">Inventory</h4>
+        <div>        
+        <h3 class="fw-bold" style="color:#7c0020;">Inventory</h3>
+        <p class="text-muted mb-4">Manage and view inventory items of the clinic</p>
+        </div>
 
         <!-- Search + Filter + Add -->
         <div class="d-flex align-items-center justify-content-between mb-3">
             <form id="inventoryFilterForm" method="GET" action="{{ route('admin.inventory') }}" class="d-flex gap-2 flex-grow-1">
                 <div class="input-group" style="max-width: 270px;">
-                    <span class="input-group-text bg-white border-end-0">
-                        <i class="ti ti-search"></i>
+                    <span class="input-group-text bg-gray-200 text-black border-end-0">
+                        <i class="bi bi-search"></i>
                     </span>
                     <input type="search" name="q" id="searchInput" value="{{ request('q') }}" class="form-control border-start-0" placeholder="Search item name or object id...">
                 </div>
 
             <select id="filterSupplyType" name="supply_type" class="form-select" style="max-width: 180px;">
                 <option value="">Filter...</option>
-                <option value="Clinic" {{ request('supply_type') == 'Clinic' ? 'selected' : '' }}>
-                    Clinic
+                <option value="Meds" {{ request('supply_type') == 'Meds' ? 'selected' : '' }}>
+                    Meds
                 </option>
-                <option value="Office" {{ request('supply_type') == 'Office' ? 'selected' : '' }}>
-                    Office
+                <option value="Non-Meds" {{ request('supply_type') == 'Non-Meds' ? 'selected' : '' }}>
+                    Non-Meds
                 </option>
             </select>
 
@@ -39,13 +41,15 @@
 
         <!-- Table -->
         <div class="table-responsive">
-            <table class="table table-bordered table-striped">
-                <thead style="background:#7c0020; color:white;">
-                    <tr>
+            <table class="table text-wrap align-middle mb-0">
+                <thead>
+                    <tr class="text-center">
                         <th class="text-center">Object ID</th>
                         <th class="text-center">Date of Purchase</th>
                         <th class="text-center">Supply Type</th>
                         <th class="text-center">Item Name & Brand</th>
+                        <th class="text-center">Strength</th>
+                        <th class="text-center">OTC</th>
                         <th class="text-center">Quantity</th>
                         <th class="text-center">Remarks</th>
                         <th class="text-center">Actions</th>
@@ -54,12 +58,14 @@
                 <tbody>
                     @foreach($items as $item)
                     <tr data-id="{{ $item->id }}">
-                        <td>{{ $item->object_id }}</td>
-                        <td>{{ \Carbon\Carbon::parse($item->date_purchased)->format('m/d/Y') }}</td>
-                        <td>{{ $item->supply_type }}</td>
-                        <td>{{ $item->item_name }}</td>
-                        <td>{{ $item->quantity }} {{ $item->unit }}</td>
-                        <td>{{ $item->remarks }}</td>
+                        <td class="text-center">{{ $item->object_id }}</td>
+                        <td class="text-center">{{ \Carbon\Carbon::parse($item->date_purchased)->format('m/d/Y') }}</td>
+                        <td class="text-center">{{ $item->supply_type }}</td>
+                        <td class="text-center">{{ $item->item_name }}</td>
+                        <td class="text-center">{{ $item->strength ?? '-' }}</td>
+                        <td class="text-center">{!! $item->is_otc ? '<span class="badge badge-rounded bg-success">Yes</span>' : '<span class="badge badge-rounded bg-warning">No</span>' !!}</td>
+                        <td class="text-center">{{ $item->quantity }} {{ $item->unit }}</td>
+                        <td class="text-center">{{ $item->remarks }}</td>
                             <td class="text-center">
                                 <a href="{{ route('admin.inventory.editPage', $item->id) }}" class="btn btn-sm btn-primary">Edit</a>
                                 <form action="{{ route('admin.inventory.destroy', $item->id) }}" method="POST" class="d-inline">
@@ -111,9 +117,17 @@
                         <label for="supply_type" class="form-label">Supply Type</label>
                         <select class="form-select" id="supply_type" name="supply_type" required>
                             <option value="">Select Type</option>
-                            <option value="Clinic">Clinic</option>
-                            <option value="Office">Office</option>
+                            <option value="Meds">Meds</option>
+                            <option value="Non-Meds">Non-Meds</option>
                         </select>
+                    </div>
+
+                    <div class="mb-3 form-check">
+                        <input type="hidden" name="is_otc" value="0">
+                        <input type="checkbox" class="form-check-input" id="is_otc" name="is_otc" value="1">
+                        <label class="form-check-label" id="otcLabel" for="is_otc">
+                            Over The Counter (OTC)
+                        </label>
                     </div>
 
                     <div class="mb-3">
@@ -214,6 +228,24 @@ document.addEventListener("DOMContentLoaded", () => {
         if (supplyFilter) supplyFilter.value = '';
         fetchData();
     });
+
+    // Show/hide strength field based on supply type
+    const supplyTypeSelect = document.getElementById('supply_type');
+    const strengthField = document.getElementById('strengthField');
+    if (supplyTypeSelect) {
+        supplyTypeSelect.addEventListener('change', function() {
+            if (this.value === 'Meds') {
+                strengthField.style.display = 'block';
+                document.getElementById('is_otc').style.display = 'block';
+                otcLabel.style.display = 'block';
+            } else {
+                strengthField.style.display = 'none';
+                otcLabel.style.display = 'none';
+                document.getElementById('is_otc').style.display = 'none';
+                document.getElementById('strength').value = '';
+            }
+        });
+    }
 
     // Initial load (in case user landed with query params)
     fetchData();

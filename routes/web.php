@@ -159,6 +159,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
 
     // Inventory
     Route::get('/inventory/medications', [InventoryController::class, 'getMedications'])->name('admin.inventory.medications');
+    Route::post('/inventory/dispense', [InventoryController::class, 'dispenseMedications'])->name('admin.inventory.dispense');
     Route::get('/inventory/ajax', [InventoryController::class, 'ajax'])->name('admin.inventory.ajax');
     Route::get('/inventory', [InventoryController::class, 'index'])->name('admin.inventory');
     Route::post('/inventory', [InventoryController::class, 'store'])->name('admin.inventory.store');

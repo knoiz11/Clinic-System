@@ -31,14 +31,27 @@
                     <label for="supply_type" class="form-label">Supply Type</label>
                     <select class="form-select" id="supply_type" name="supply_type">
                         <option value="">Select Type</option>
-                        <option value="Clinic" {{ old('supply_type', $inventory->supply_type) == 'Clinic' ? 'selected' : '' }}>Clinic</option>
-                        <option value="Office" {{ old('supply_type', $inventory->supply_type) == 'Office' ? 'selected' : '' }}>Office</option>
+                        <option value="Meds" {{ old('supply_type', $inventory->supply_type) == 'Meds' ? 'selected' : '' }}>Meds</option>
+                        <option value="Non-Meds" {{ old('supply_type', $inventory->supply_type) == 'Non-Meds' ? 'selected' : '' }}>Non-Meds</option>
                     </select>
+                </div>
+
+                <div class="mb-3 form-check">
+                    <input type="hidden" name="is_otc" value="0">
+                    <input type="checkbox" class="form-check-input" id="is_otc" name="is_otc" value="1" {{ old('is_otc', $inventory->is_otc) ? 'checked' : '' }}>
+                    <label class="form-check-label" for="is_otc">
+                        Over The Counter (OTC)
+                    </label>
                 </div>
 
                 <div class="mb-3">
                     <label for="item_name" class="form-label">Item Name & Brand</label>
                     <input type="text" class="form-control" id="item_name" name="item_name" value="{{ old('item_name', $inventory->item_name) }}" required>
+                </div>
+
+                <div class="mb-3" id="strengthField">
+                    <label for="strength" class="form-label">Strength</label>
+                    <input type="text" class="form-control" id="strength" name="strength" value="{{ old('strength', $inventory->strength) }}" placeholder="e.g., 500mg, 250ml">
                 </div>
 
                 <div class="mb-3">
@@ -61,6 +74,26 @@
                     <button type="submit" class="btn btn-warning">Save Changes</button>
                 </div>
             </form>
+
+            <script>
+                // Show/hide strength field based on supply type
+                const supplyTypeSelect = document.getElementById('supply_type');
+                const strengthField = document.getElementById('strengthField');
+                
+                function toggleStrengthField() {
+                    if (supplyTypeSelect.value === 'Meds') {
+                        strengthField.style.display = 'block';
+                    } else {
+                        strengthField.style.display = 'none';
+                    }
+                }
+                
+                // Set initial display state
+                toggleStrengthField();
+                
+                // Listen for changes
+                supplyTypeSelect.addEventListener('change', toggleStrengthField);
+            </script>
 
         </div>
     </div>

@@ -2,7 +2,7 @@
 
 @section('view')
 
-<div class="container-fluid py-4">
+<div class="container-fluid content-box py-2 p-2">
   <div class="card shadow-sm border-0 rounded-4">
     <div class="card-body">
       <div class="row">
@@ -49,18 +49,18 @@
 
       <!-- Action Buttons -->
       <div class="d-flex gap-2">
-        <a href="{{ route('employee.edit', $employee->id) }}" class="btn btn-warning btn-sm">Edit</a>
+        <a href="{{ route('employee.edit', $employee->id) }}" class="btn btn-warning btn-md">Edit</a>
 
         <form action="{{ route('employee.destroy', $employee->id) }}" method="POST" class="d-inline">
           @csrf
           @method('DELETE')
-          <button type="submit" class="btn btn-danger btn-sm"
+          <button type="submit" class="btn btn-danger btn-md"
           onclick="return confirm('Are you sure you want to delete this employee?')">
             Delete
           </button>
         </form>
 
-        <a href="{{ route('employee.index') }}" class="btn btn-secondary btn-sm">Back to List</a>
+        <a href="{{ route('employee.index') }}" class="btn btn-secondary btn-md">Back to List</a>
       </div>
 
     </div>

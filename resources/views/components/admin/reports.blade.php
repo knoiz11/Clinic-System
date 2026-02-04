@@ -22,8 +22,8 @@
         <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Inventory</a>
         <ul class="dropdown-menu">
             <li><a class="dropdown-item" data-bs-toggle="tab" href="#inventory-complete">Complete Inventory</a></li>
-            <li><a class="dropdown-item" data-bs-toggle="tab" href="#inventory-clinic">Clinic Supplies</a></li>
-            <li><a class="dropdown-item" data-bs-toggle="tab" href="#inventory-office">Office Supplies</a></li>
+            <li><a class="dropdown-item" data-bs-toggle="tab" href="#inventory-meds">Meds</a></li>
+            <li><a class="dropdown-item" data-bs-toggle="tab" href="#inventory-non-meds">Non-Meds</a></li>
             <li><a class="dropdown-item" data-bs-toggle="tab" href="#inventory-low-stock">Low Stock</a></li>
         </ul>
     </li>
@@ -151,13 +151,13 @@
         </div>
     </div>
 
-    <div class="tab-pane fade" id="inventory-clinic">
+    <div class="tab-pane fade" id="inventory-meds">
         <div class="d-flex justify-content-between align-items-center mb-3">
-        <h5 class="fw-bold">Clinic Supplies</h5>
+        <h5 class="fw-bold">Meds</h5>
         <button class="btn btn-danger" 
                                         data-bs-toggle="modal" 
                                         data-bs-target="#pdfPreviewModal" 
-                                        data-type="inventory-clinic">
+                                        data-type="inventory-meds">
                                 <i class="bi bi-file-earmark-pdf-fill me-1 text-white"></i> Generate PDF
                                 </button>
         </div>
@@ -171,7 +171,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($inventoryClinic as $item)
+                    @forelse ($inventoryMeds as $item)
                         <tr>
                             <td>{{ $item->item_name }}</td>
                             <td class="text-center">{{ $item->quantity }}</td>
@@ -179,7 +179,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="3" class="text-center text-muted">No clinic supplies.</td>
+                            <td colspan="3" class="text-center text-muted">No Meds.</td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -187,13 +187,13 @@
         </div>
     </div>
 
-    <div class="tab-pane fade" id="inventory-office">
+    <div class="tab-pane fade" id="inventory-non-meds">
         <div class="d-flex justify-content-between align-items-center mb-3">
-        <h5 class="fw-bold">Office Supplies</h5>
+        <h5 class="fw-bold">Non-Meds</h5>
         <button class="btn btn-danger" 
                                         data-bs-toggle="modal" 
                                         data-bs-target="#pdfPreviewModal" 
-                                        data-type="inventory-office">
+                                        data-type="inventory-non-meds">
                                 <i class="bi bi-file-earmark-pdf-fill me-1 text-white"></i> Generate PDF
                                 </button>
         </div>
@@ -207,7 +207,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($inventoryOffice as $item)
+                    @forelse ($inventoryNonMeds as $item)
                         <tr>
                             <td>{{ $item->item_name }}</td>
                             <td class="text-center">{{ $item->quantity }}</td>
@@ -215,7 +215,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="3" class="text-center text-muted">No office supplies.</td>
+                            <td colspan="3" class="text-center text-muted">No Non-Meds.</td>
                         </tr>
                     @endforelse
                 </tbody>

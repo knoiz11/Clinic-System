@@ -59,20 +59,22 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h5 class="card-title mb-0">Employee Records</h5>
+                        <br>
                         <div class="d-flex gap-2 align-items-center">
-                            <input type="text" id="employeeSearch" class="form-control" style="max-width: 250px;" placeholder="Search employee...">
+                            <input type="text" id="employeeSearch" class="form-control bg-white" style="max-width: 250px;" placeholder="Search employee...">
                             <a href="{{ route('employee.index') }}" class="btn btn-primary btn-sm text-nowrap p-2" style="width: 200px;">
                                 See More
                             </a>
                         </div>
                     </div>
+                    
 
                     <div class="table-responsive">
                         <table class="table text-nowrap align-middle mb-0">
                             <thead>
-                                <tr class="border-bottom border-primary">
-                                    <th class="ps-0">Name</th>
-                                    <th>Designation</th>
+                                <tr>
+                                    <th class="text-center">Name</th>
+                                    <th class="text-center">Designation</th>
                                     <th class="text-center">Department</th>
                                     <th class="text-center">Status</th>
                                 </tr>
@@ -87,10 +89,10 @@
                                     data-contact="{{ $emp->contact ?? 'N/A' }}"
                                     data-email="{{ $emp->email ?? 'N/A' }}"
                                     data-photo="{{ $emp->photo ? asset('storage/' . $emp->photo) : '' }}">
-                                    <td class="ps-0 fw-medium">{{ $emp->name }}</td>
-                                    <td>{{ $emp->designation ?? 'N/A' }}</td>
-                                    <td class="text-center fw-medium">{{ $emp->department ?? 'N/A' }}</td>
-                                    <td class="text-center fw-medium">{{ $emp->status ?? 'Active' }}</td>
+                                    <td class="text-center">{{ $emp->name }}</td>
+                                    <td class="text-center">{{ $emp->designation ?? 'N/A' }}</td>
+                                    <td class="text-center">{{ $emp->department ?? 'N/A' }}</td>
+                                    <td class="text-center">{{ $emp->status ?? 'Active' }}</td>
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -106,7 +108,7 @@
             <div class="card shadow-sm">
                 <div class="card-body">
                     <h5 class="card-title mb-3">Employee Details</h5>
-                    
+                    <br>
                     <!-- Photo Section -->
                     <div class="text-center mb-4">
                         <div class="border bg-light rounded-3 p-3 d-inline-block" style="min-width: 150px; min-height: 150px;">
@@ -136,27 +138,28 @@
 
     <!-- Upcoming Appointments -->
     <div class="row mt-4">
-        <div class="col-lg-8">
+        <div class="flex justify-content-between align-items-center mb-3">
             <div class="card shadow-sm">
                 <div class="card-body">
                     <h5 class="card-title mb-3">Upcoming Appointments</h5>
+                    <br>
                     <div class="table-responsive">
                         <table class="table text-nowrap align-middle mb-0">
-                            <thead>
+                            <thead class="table-light">
                                 <tr class="border-bottom border-primary">
-                                    <th>Employee</th>
-                                    <th>Date</th>
-                                    <th>Time</th>
-                                    <th>Reason</th>
+                                    <th class="text-center">Employee</th>
+                                    <th class="text-center">Date</th>
+                                    <th class="text-center">Time</th>
+                                    <th class="text-center">Reason</th>
                                 </tr>
                             </thead>
                             <tbody class="table-group-divider">
                                 @forelse ($upcomingAppointments as $appt)
                                 <tr>
-                                    <td class="fw-medium">{{ $appt->employee ? $appt->employee->name : $appt->employee_name }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($appt->date)->format('M d, Y') }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($appt->time)->format('h:i A') }}</td>
-                                    <td>{{ $appt->reason ?? '-' }}</td>
+                                    <td class="text-center">{{ $appt->employee ? $appt->employee->name : $appt->employee_name }}</td>
+                                    <td class="text-center">{{ \Carbon\Carbon::parse($appt->date)->format('M d, Y') }}</td>
+                                    <td class="text-center">{{ \Carbon\Carbon::parse($appt->time)->format('h:i A') }}</td>
+                                    <td class="text-center">{{ $appt->reason ?? '-' }}</td>
                                 </tr>
                                 @empty
                                 <tr>

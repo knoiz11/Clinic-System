@@ -15,13 +15,28 @@
             </button>
         </div>
 
-        <!-- Status Filters -->
-        <div class="d-flex flex-wrap gap-3 mb-3">
-            <button class="btn btn-outline-success active filter-btn" data-status="all">All</button>
-            <button class="btn btn-outline-warning filter-btn" data-status="scheduled">Scheduled</button>
-            <button class="btn btn-outline-primary filter-btn" data-status="completed">Completed</button>
-            <button class="btn btn-outline-danger filter-btn" data-status="cancelled">Cancelled</button>
-        </div>
+        <!-- Filter Form -->
+        <form action="{{ route('appointment.create') }}" method="GET" class="mb-4">
+            <div class="row g-3 align-items-center">
+                <div class="col-md-4">
+                    <input type="date" name="date" class="form-control" value="{{ $filters['date'] ?? '' }}">
+                </div>
+                <div class="col-md-4">
+                    <input type="text" name="employee_name" class="form-control" placeholder="Search by Employee Name" value="{{ $filters['employee_name'] ?? '' }}">
+                </div>
+                <div class="col-md-4 d-flex gap-2">
+                    <button type="submit" class="btn btn-primary w-100">Search</button>
+                    <a href="{{ route('appointment.create') }}" class="btn btn-secondary w-100">Clear</a>
+                </div>
+            </div>
+            <div class="d-flex flex-wrap gap-3 mt-3">
+                <input type="hidden" name="status" id="status_filter" value="{{ $filters['status'] ?? 'all' }}">
+                <button type="button" class="btn btn-outline-success filter-btn @if(($filters['status'] ?? 'all') == 'all') active @endif" data-status="all">All</button>
+                <button type="button" class="btn btn-outline-warning filter-btn @if(($filters['status'] ?? '') == 'scheduled') active @endif" data-status="scheduled">Scheduled</button>
+                <button type="button" class="btn btn-outline-primary filter-btn @if(($filters['status'] ?? '') == 'completed') active @endif" data-status="completed">Completed</button>
+                <button type="button" class="btn btn-outline-danger filter-btn @if(($filters['status'] ?? '') == 'cancelled') active @endif" data-status="cancelled">Cancelled</button>
+            </div>
+        </form>
 
         <!-- Success Message -->
         @if(session('success'))
@@ -35,11 +50,11 @@
             <div class="row gy-3" id="appointmentList">
                 @foreach($appointments as $appointment)
                     <div class="col-md-6 col-lg-4 appointment-card" data-status="{{ strtolower($appointment->status ?? 'scheduled') }}">
-                        <div class="card border-0 shadow-sm rounded-4 p-3" style="background-color:#f9fafc;">
+                        <div class="card border-1 shadow-sm rounded-4 p-3" style="background-color: var(--ccp-white);" >
                             <div class="d-flex justify-content-between align-items-center mb-2">
-                                <span class="badge px-3 py-2
+                                <span style="border-radius: 22px;" class="badge px-3 py-2
                                     @if(($appointment->status ?? 'Scheduled') == 'Completed') bg-primary
-                                    @elseif(($appointment->status ?? 'Scheduled') == 'Cancelled') bg-danger
+                                    @elseif(($appointment->status ?? 'Scheduled') == 'Cancelled') bg-danger 
                                     @elseif(($appointment->status ?? 'Scheduled') == 'Scheduled') bg-warning text-dark
                                     @else bg-success @endif">
                                     {{ ucfirst($appointment->status ?? 'Scheduled') }}
@@ -162,15 +177,9 @@
 <script>
 document.querySelectorAll('.filter-btn').forEach(btn => {
     btn.addEventListener('click', function() {
-        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-        this.classList.add('active');
-
-        const status = this.dataset.status;
-        document.querySelectorAll('.appointment-card').forEach(card => {
-            card.style.display = (status === 'all' || card.dataset.status === status)
-                ? ''
-                : 'none';
-        });
+        document.getElementById('status_filter').value = this.dataset.status;
+        // Find the closest form element and submit it
+        this.closest('form').submit();
     });
 });
 </script>

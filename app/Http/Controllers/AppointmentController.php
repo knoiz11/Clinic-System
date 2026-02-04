@@ -9,14 +9,34 @@ use Illuminate\Support\Facades\Auth;
 
 class AppointmentController extends Controller
 {
-    public function create()
+    public function create(Request $request)
     {
-        $appointments = Appointment::with('employee')
-            ->orderBy('date', 'asc')
-            ->get();
+        $query = Appointment::with('employee')->orderBy('date', 'asc');
 
-        // For AJAX-based searching we don't need to embed all employees upfront.
-        return view('admin.appointment', compact('appointments'));
+        // Filter by status
+        if ($request->filled('status') && $request->status != 'all') {
+            $query->where('status', $request->status);
+        }
+
+        // Filter by date
+        if ($request->filled('date')) {
+            $query->where('date', $request->date);
+        }
+
+        // Filter by employee name
+        if ($request->filled('employee_name')) {
+            $query->whereHas('employee', function ($q) use ($request) {
+                $q->where('first_name', 'like', '%' . $request->employee_name . '%')
+                  ->orWhere('last_name', 'like', '%' . $request->employee_name . '%');
+            });
+        }
+
+        $appointments = $query->get();
+
+        return view('admin.appointment', [
+            'appointments' => $appointments,
+            'filters' => $request->only(['status', 'date', 'employee_name']),
+        ]);
     }
 
     // 🔍 Employee Search (AJAX)

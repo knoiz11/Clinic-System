@@ -59,16 +59,13 @@ function initializeICD11Autocomplete() {
       
       if (input && !input.classList.contains('lhc-autocomplete')) {
         try {
-          // Set up mutation observer BEFORE initializing autocomplete
+          // Set up mutation observer to fix z-index on dropdown as it appears
           const observer = new MutationObserver((mutations) => {
             mutations.forEach((mutation) => {
               mutation.addedNodes.forEach((node) => {
-                if (node.tagName === 'UL' || node.tagName === 'DIV') {
-                  const style = window.getComputedStyle(node);
-                  if (style.position === 'absolute') {
-                    node.style.zIndex = '999999';
-                    console.log('MutationObserver fixed z-index for:', node);
-                  }
+                if (node && (node.classList?.contains('def_list') || node.tagName === 'UL' || node.tagName === 'DIV')) {
+                  node.style.zIndex = '10000';
+                  node.style.position = 'fixed';
                 }
               });
             });
@@ -88,7 +85,6 @@ function initializeICD11Autocomplete() {
               colHeaders: ['Code', 'Title', 'Type']
             }
           );
-          
           console.log('ICD-11 autocomplete initialized successfully');
         } catch (error) {
           console.error('Error initializing ICD-11 autocomplete:', error);
@@ -764,7 +760,7 @@ function loadDoctorOrders() {
           <p class="mb-0">${data.diagnosis || data.other_diagnosis || 'N/A'}</p>
         </div>
 
-        <div class="mb-2"><small class="text-muted">ICD-11:</small>
+        <div class="mb-2"><small class="text-muted">ICD-11 Code:</small>
           <p class="mb-0">${data.icd11_codes || 'N/A'}</p>
         </div>
 
@@ -805,41 +801,70 @@ function loadDoctorOrders() {
 }
 
 function editDoctorOrder(index) {
-  const data = doctorOrdersData[index];
-  const form = document.querySelector('#doctorOrderForm');
+  try {
+    const data = doctorOrdersData[index];
+    if (!data) {
+      console.error('Doctor order not found at index:', index);
+      return;
+    }
+    
+    const form = document.querySelector('#doctorOrderForm');
+    if (!form) {
+      console.error('Doctor order form not found');
+      return;
+    }
 
-  form.querySelector('[name="doctors_order"]').value = data.doctors_order || '';
-  form.querySelector('[name="prescription"]').value = data.prescription || '';
-  form.querySelector('[name="order_date"]').value = data.order_date || '';
-  form.querySelector('[name="diagnosis"]').value = data.diagnosis || '';
-  form.querySelector('[name="icd11_codes"]').value = data.icd11_codes || '';
-  form.querySelector('[name="treatment_plan"]').value = data.treatment_plan || '';
-  form.querySelector('[name="disposition"]').value = data.disposition || '';
-  form.querySelector('[name="reasons_for_discharge"]').value = data.reasons_for_discharge || '';
-  form.querySelector('[name="discharge_datetime"]').value = data.discharge_datetime || '';
-  form.querySelector('[name="order_remarks"]').value = data.order_remarks || '';
+    const setFieldValue = (selector, value) => {
+      const field = form.querySelector(selector);
+      if (field) field.value = value || '';
+    };
 
-  // Handle "Other" diagnosis
-  const otherDiagContainer = document.getElementById('otherDiagnosisContainer');
-  if (data.diagnosis === 'Other') {
-    otherDiagContainer.style.display = 'block';
-    form.querySelector('[name="other_diagnosis"]').value = data.other_diagnosis || '';
-  } else {
-    otherDiagContainer.style.display = 'none';
+    setFieldValue('[name="doctors_order"]', data.doctors_order);
+    setFieldValue('[name="prescription"]', data.prescription);
+    setFieldValue('[name="order_date"]', data.order_date);
+    setFieldValue('[name="diagnosis"]', data.diagnosis);
+    setFieldValue('[name="icd11_codes"]', data.icd11_codes);
+    setFieldValue('[name="medications_dispensed"]', data.medications_dispensed);
+    setFieldValue('[name="treatment_plan"]', data.treatment_plan);
+    setFieldValue('[name="disposition"]', data.disposition);
+    setFieldValue('[name="reasons_for_discharge"]', data.reasons_for_discharge);
+    setFieldValue('[name="discharge_datetime"]', data.discharge_datetime);
+    setFieldValue('[name="order_remarks"]', data.order_remarks);
+
+    // Handle "Other" diagnosis
+    const otherDiagContainer = document.getElementById('otherDiagnosisContainer');
+    if (otherDiagContainer) {
+      if (data.diagnosis === 'Other') {
+        otherDiagContainer.style.display = 'block';
+        setFieldValue('[name="other_diagnosis"]', data.other_diagnosis);
+      } else {
+        otherDiagContainer.style.display = 'none';
+      }
+    }
+
+    // Handle schedule next visit radio buttons
+    const scheduleYesBtn = form.querySelector('#schedule_yes_do');
+    const scheduleNoBtn = form.querySelector('#schedule_no_do');
+    if (scheduleYesBtn && scheduleNoBtn) {
+      if (data.schedule_next === 'yes') {
+        scheduleYesBtn.checked = true;
+        scheduleNoBtn.checked = false;
+      } else if (data.schedule_next === 'no') {
+        scheduleYesBtn.checked = false;
+        scheduleNoBtn.checked = true;
+      } else {
+        scheduleYesBtn.checked = false;
+        scheduleNoBtn.checked = false;
+      }
+    }
+
+    editingDoctorOrderIndex = index;
+    const modal = bootstrap.Modal.getInstance(document.getElementById('doctorOrderModal')) || new bootstrap.Modal(document.getElementById('doctorOrderModal'));
+    modal.show();
+    console.log('Doctor order edit modal opened for index:', index);
+  } catch (error) {
+    console.error('Error in editDoctorOrder:', error);
   }
-
-  // Handle schedule next visit radio buttons
-  if (data.schedule_next === 'yes') {
-    form.querySelector('#schedule_yes_do').checked = true;
-  } else if (data.schedule_next === 'no') {
-    form.querySelector('#schedule_no_do').checked = true;
-  } else {
-    form.querySelector('#schedule_yes_do').checked = false;
-    form.querySelector('#schedule_no_do').checked = false;
-  }
-
-  editingDoctorOrderIndex = index;
-  new bootstrap.Modal(document.getElementById('doctorOrderModal')).show();
 }
 
 async function deleteDoctorOrder(index) {
@@ -1354,6 +1379,7 @@ function renderTable() {
         const row = document.createElement('tr');
         row.innerHTML = `
             <td>${med.name}</td>
+            <td>${med.strength || '-'}</td>
             <td>${med.otc ? '<span class="otc-badge yes">Yes</span>' : '<span class="otc-badge no">No</span>'}</td>
             <td>${med.inventory}</td>
             <td>
@@ -1442,19 +1468,54 @@ function clearFilters() {
 
 function prescribeMedications() {
 
-    // your logic...
+    // Filter out medications with 0 quantity
     const selected = medications.filter(m => m.quantity > 0);
+    
+    // Don't proceed if no medications selected
+    if (selected.length === 0) {
+        alert('Please select at least one medication');
+        return;
+    }
+
     const prescriptionTextarea = document.querySelector('textarea[name="prescription"]');
+    const medicationsDispensedInput = document.querySelector('input[name="medications_dispensed"]');
 
     const prescriptionText = selected
-        .map(m => `${m.name} (${m.strength}) - Qty: ${m.quantity}`)
+        .map(m => `${m.name}${m.strength ? ` (${m.strength})` : ''} - Qty: ${m.quantity}`)
         .join('\n');
 
     if (prescriptionTextarea) {
         prescriptionTextarea.value = prescriptionText;
     }
 
-    alert(`Prescribed ${selected.length} medication(s):\n${selected.map(m => `${m.name} x${m.quantity}`).join('\n')}`);
+    // Store medications data for later use
+    if (medicationsDispensedInput) {
+        medicationsDispensedInput.value = JSON.stringify(selected);
+    }
+
+    // Call the dispense endpoint to reduce inventory
+    fetch('/admin/inventory/dispense', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+        },
+        body: JSON.stringify({
+            medications: selected.map(m => ({ id: m.id, quantity: m.quantity }))
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert(`Prescribed ${selected.length} medication(s):\n${selected.map(m => `${m.name} x${m.quantity}`).join('\n')}\n\nInventory has been updated.`);
+        } else {
+            alert(`Prescribed but inventory update failed: ${data.error}`);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Prescribed medications, but there was an error updating inventory. Please check the console.');
+    });
 
     medications.forEach(m => m.quantity = 0);
 

@@ -62,7 +62,9 @@ class InventoryController extends Controller
             'object_id' => 'nullable|string|max:50',
             'date_purchased' => 'nullable|date',
             'supply_type' => 'nullable|string|max:100',
+            'is_otc' => 'nullable|boolean',
             'item_name' => 'required|string|max:255',
+            'strength' => 'nullable|string|max:100',
             'quantity' => 'required|integer|min:0',
             'unit' => 'nullable|string|max:50',
             'price' => 'nullable|numeric|min:0',
@@ -99,7 +101,9 @@ class InventoryController extends Controller
             'object_id' => 'nullable|string|max:50',
             'date_purchased' => 'nullable|date',
             'supply_type' => 'nullable|string|max:100',
+            'is_otc' => 'nullable|boolean',
             'item_name' => 'required|string|max:255',
+            'strength' => 'nullable|string|max:100',
             'quantity' => 'required|integer|min:0',
             'unit' => 'nullable|string|max:50',
             'price' => 'nullable|numeric|min:0',
@@ -121,24 +125,54 @@ class InventoryController extends Controller
     }
 
     /**
-     * Get medications from inventory (items categorized as 'clinic')
+     * Dispense medications and reduce inventory
+     */
+    public function dispenseMedications(Request $request)
+    {
+        try {
+            $medications = $request->validate([
+                'medications' => 'required|array',
+                'medications.*.id' => 'required|integer|exists:inventories,id',
+                'medications.*.quantity' => 'required|integer|min:1',
+            ]);
+
+            foreach ($medications['medications'] as $med) {
+                $inventory = Inventory::findOrFail($med['id']);
+                $inventory->quantity -= $med['quantity'];
+                $inventory->save();
+            }
+
+            return response()->json(['success' => true, 'message' => 'Medications dispensed successfully']);
+        } catch (\Exception $e) {
+            \Log::error('dispenseMedications error: ' . $e->getMessage());
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    /**
+     * Get medications from inventory (items categorized as 'Meds')
      */
     public function getMedications()
     {
-        $medications = Inventory::where('supply_type', 'clinic')
-            ->select('id', 'item_name as name', 'quantity as inventory')
-            ->get()
-            ->map(function ($item) {
-                return [
-                    'id' => $item->id,
-                    'name' => $item->name,
-                    'strength' => '',
-                    'otc' => true,
-                    'inventory' => $item->inventory,
-                    'quantity' => 0
-                ];
-            });
+        try {
+            $medications = Inventory::where('supply_type', 'Meds')
+                ->select('id', 'item_name as name', 'strength', 'is_otc', 'quantity as inventory')
+                ->get()
+                ->map(function ($item) {
+                    return [
+                        'id' => $item->id,
+                        'name' => $item->name,
+                        'strength' => $item->strength ?? '',
+                        'otc' => (bool) $item->is_otc,
+                        'inventory' => $item->inventory,
+                        'quantity' => 0
+                    ];
+                });
 
-        return response()->json($medications);
+            return response()->json($medications);
+        } catch (\Exception $e) {
+            \Log::error('getMedications error: ' . $e->getMessage());
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 }

@@ -4,6 +4,8 @@
     <td>{{ \Carbon\Carbon::parse($item->date_purchased)->format('m/d/Y') }}</td>
     <td>{{ $item->supply_type }}</td>
     <td>{{ $item->item_name }}</td>
+    <td>{{ $item->strength ?? '-' }}</td>
+    <td>{!! $item->is_otc ? '<span class="badge bg-success">Yes</span>' : '<span class="badge bg-warning">No</span>' !!}</td>
     <td>{{ $item->quantity }} {{ $item->unit }}</td>
     <td>{{ $item->remarks }}</td>
     <td class="text-center">

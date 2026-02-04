@@ -74,12 +74,12 @@
                 <strong>{{ $totalItems }}</strong>
             </div>
             <div class="summary-row">
-                <span>Clinic Supplies:</span>
-                <strong>{{ $totalClinic }}</strong>
+                <span>Meds:</span>
+                <strong>{{ $totalMeds }}</strong>
             </div>
             <div class="summary-row">
-                <span>Office Supplies:</span>
-                <strong>{{ $totalOffice }}</strong>
+                <span>Non-Meds:</span>
+                <strong>{{ $totalNonMeds }}</strong>
             </div>
             <div class="summary-row">
                 <span>Low Stock Items (≤10):</span>
@@ -120,7 +120,7 @@
             </tbody>
         </table>
 
-    @elseif (in_array($type, ['inventory-clinic', 'inventory-office', 'inventory-low-stock']))
+    @elseif (in_array($type, ['inventory-meds', 'inventory-non-meds', 'inventory-low-stock']))
         <h2>{{ $supplyType }} Inventory Report</h2>
         <div class="header-info">
             Generated on {{ now()->format('F d, Y h:i A') }}

@@ -8,14 +8,14 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::table('inventories', function (Blueprint $table) {
-            $table->string('strength')->nullable()->after('item_name');
+            $table->boolean('is_otc')->default(false)->after('supply_type')->comment('Over The Counter');
         });
     }
 
     public function down(): void
     {
         Schema::table('inventories', function (Blueprint $table) {
-            $table->dropColumn('strength');
+            $table->dropColumn('is_otc');
         });
     }
 };

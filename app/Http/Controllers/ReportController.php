@@ -16,8 +16,8 @@ class ReportController extends Controller
         $visits = Appointment::with('employee')->orderBy('date', 'desc')->get();
         
         // Get inventory data grouped by supply type
-        $inventoryClinic = Inventory::where('supply_type', 'Clinic')->get();
-        $inventoryOffice = Inventory::where('supply_type', 'Office')->get();
+        $inventoryMeds = Inventory::where('supply_type', 'Meds')->get();
+        $inventoryNonMeds = Inventory::where('supply_type', 'Non-Meds')->get();
         $inventoryAll = Inventory::all();
         
         // Get low stock items (quantity <= 10)
@@ -26,8 +26,8 @@ class ReportController extends Controller
         return view('components.admin.reports', compact(
             'employees', 
             'visits',
-            'inventoryClinic',
-            'inventoryOffice',
+            'inventoryMeds',
+            'inventoryNonMeds',
             'inventoryAll',
             'lowStockItems'
         ));
@@ -48,22 +48,22 @@ class ReportController extends Controller
 
             case 'inventory':
                 $data['items'] = Inventory::orderBy('supply_type')->orderBy('item_name')->get();
-                $data['totalClinic'] = Inventory::where('supply_type', 'Clinic')->count();
-                $data['totalOffice'] = Inventory::where('supply_type', 'Office')->count();
+                $data['totalMeds'] = Inventory::where('supply_type', 'Meds')->count();
+                $data['totalNonMeds'] = Inventory::where('supply_type', 'Non-Meds')->count();
                 $data['totalItems'] = Inventory::count();
                 $data['lowStockCount'] = Inventory::where('quantity', '<=', 10)->count();
                 break;
 
-            case 'inventory-clinic':
-                $data['items'] = Inventory::where('supply_type', 'Clinic')
+            case 'inventory-meds':
+                $data['items'] = Inventory::where('supply_type', 'Meds')
                                          ->orderBy('item_name')->get();
-                $data['supplyType'] = 'Clinic';
+                $data['supplyType'] = 'Meds';
                 break;
 
-            case 'inventory-office':
-                $data['items'] = Inventory::where('supply_type', 'Office')
+            case 'inventory-non-meds':
+                $data['items'] = Inventory::where('supply_type', 'Non-Meds')
                                          ->orderBy('item_name')->get();
-                $data['supplyType'] = 'Office';
+                $data['supplyType'] = 'Non-Meds';
                 break;
 
             case 'inventory-low-stock':

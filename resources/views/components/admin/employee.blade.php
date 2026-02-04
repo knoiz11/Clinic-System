@@ -3,9 +3,13 @@
 @section('employee')
 <div class="container-fluid mt-4">
 
+    <div class="content-box" style="gap: 10px; flex-wrap: wrap; padding: 2rem; border-radius: 8px;">
     <!-- Header + Add Employee Button + Search -->
     <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
         <h3>Employees</h3>
+        <p class="text-muted mb-0">Manage and view employee information</p>
+        </div>
         <div class="d-flex gap-2">
             <div class="d-flex gap-2 align-items-center">
 
@@ -20,7 +24,7 @@
     <!-- Search Input -->
     <div class="input-group" style="width: 300px;">
         <span class="input-group-text">
-            <i class="bi bi-search"></i>
+            <i class="bi bi-search text-black"></i>
         </span>
         <input type="text" 
                id="employeeTableSearch" 
@@ -32,56 +36,48 @@
             <a href="{{ route('employee.create') }}" class="btn btn-primary"><i class="bi bi-plus-circle"></i> Add Employee</a>
         </div>
     </div>
-    
+    <br>
     <!-- Employee Table -->
     <div class="table-responsive">
-        <table class="table table-bordered align-middle mb-0">
-            <thead class="table-light">
+        <table class="table text-wrap align-middle mb-0">
+            <thead>
                 <tr class="text-center">
                     <th></th>
-                    <th>Last Name</th>
-                    <th>First Name</th>
-                    <th>Middle Name</th>
-                    <th>Sex</th>
-                    <th>Birthdate</th>
-                    <th>Age</th>
-                    <th>Civil Status</th>
-                    <th>Religion</th>
-                    <th>Blood Type</th>
-                    <th>Employee ID</th>
-                    <th>PHILHEALTH No.</th>
-                    <th>Status</th>
-                    <th>Designation</th>
-                    <th>Division</th>
-                    <th>Department</th>
+                    <th class="text-center">Employee ID</th>
+                    <th class="text-center">Last Name</th>
+                    <th class="text-center">First Name</th>
+                    <th class="text-center">Middle Name</th>
+                    <th class="text-center">Sex</th>
+                    <th class="text-center">Birthdate</th>
+                    <th class="text-center">Age</th>
+                    <th class="text-center">Status</th>
+                    <th class="text-center">Designation</th>
+                    <th class="text-center">Division</th>
+                    <th class="text-center">Department</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach($employees as $employee)
                 <tr data-bs-toggle="collapse"data-bs-target="#employee-{{ $employee->id }}"class="accordion-toggle employee-row"data-status="{{ $employee->status }}">
                     <td></td>
-                    <td>{{ $employee->last_name ?? '-' }}</td>
-                    <td>{{ $employee->first_name ?? '-' }}</td>
-                    <td>{{ $employee->middle_name ?? '-' }}</td>
-                    <td>{{ $employee->sex ?? '-' }}</td>
-                    <td>{{ optional($employee->birthdate)->format('m/d/Y') ?? '-' }}</td>
-                    <td>{{ $employee->age ?? '-' }}</td>
-                    <td>{{ $employee->civil_status ?? '-' }}</td>
-                    <td>{{ $employee->religion ?? '-' }}</td>
-                    <td>{{ $employee->blood_type ?? '-' }}</td>
-                    <td>{{ $employee->employee_id ?? '-' }}</td>
-                    <td>{{ $employee->philhealth_no ?? '-' }}</td>
-                    <td>{{ $employee->status ?? '-' }}</td>
-                    <td>{{ $employee->designation ?? '-' }}</td>
-                    <td>{{ $employee->division ?? '-' }}</td>
-                    <td>{{ $employee->department ?? '-' }}</td>
+                    <td class="text-center">{{ $employee->employee_id ?? '-' }}</td>
+                    <td class="text-center">{{ $employee->last_name ?? '-' }}</td>
+                    <td class="text-center">{{ $employee->first_name ?? '-' }}</td>
+                    <td class="text-center">{{ $employee->middle_name ?? '-' }}</td>
+                    <td class="text-center">{{ $employee->sex ?? '-' }}</td>
+                    <td class="text-center">{{ optional($employee->birthdate)->format('m/d/Y') ?? '-' }}</td>
+                    <td class="text-center">{{ $employee->age ?? '-' }}</td>
+                    <td class="text-center">{{ $employee->status ?? '-' }}</td>
+                    <td class="text-center">{{ $employee->designation ?? '-' }}</td>
+                    <td class="text-center">{{ $employee->division ?? '-' }}</td>
+                    <td class="text-center">{{ $employee->department ?? '-' }}</td>
                 </tr>
                 <tr>
-                    <td colspan="16" class="hiddenRow p-0">
+                    <td colspan="12" class="hiddenRow p-0">
                         <div class="collapse" id="employee-{{ $employee->id }}">
-                            <div class="p-3 bg-light border d-flex gap-2">
-                                <a href="{{ route('employee.show', $employee->id) }}" class="btn btn-info btn-sm">View</a>
-                                <a href="{{ route('consultation.show', $employee->id) }}" class="btn btn-secondary btn-sm">Consultation</a>
+                            <div class="p-3 border d-flex gap-2" style="background-color: #EFF0F2;">
+                                <a href="{{ route('employee.show', $employee->id) }}" class="btn btn-info btn-md">View</a>
+                                <a href="{{ route('consultation.show', $employee->id) }}" class="btn btn-secondary btn-md">Consultation</a>
                             </div>
                         </div>
                     </td>
@@ -90,7 +86,7 @@
             </tbody>
         </table>
     </div>
-
+</div>
 </div>
 
 <!-- Add the search script -->

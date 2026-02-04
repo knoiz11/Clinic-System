@@ -424,6 +424,23 @@ document.querySelectorAll('.service-btn').forEach(btn => {
                         valueCols: [0],
                         colHeaders: ['Code', 'Title', 'Type']
                     });
+
+                    // Add change listener to capture both code and title
+                    icd.addEventListener('change', function() {
+                        const selectedValue = icd.value;
+                        const titleInput = document.getElementById('icd11_titles') || document.querySelector('input[name="icd11_titles"]');
+                        
+                        if (selectedValue && titleInput) {
+                            // Extract title from the autocompleter's data
+                            const listItems = document.querySelectorAll('.autocomp_selected');
+                            if (listItems.length > 0) {
+                                const selectedItem = listItems[listItems.length - 1];
+                                const title = selectedItem.getAttribute('data-title') || selectedItem.textContent.split('\n')[1] || '';
+                                titleInput.value = title;
+                                console.log('Code:', selectedValue, 'Title:', title);
+                            }
+                        }
+                    });
                 } catch (err) {
                     console.warn('ICD autocompleter init failed', err);
                 }

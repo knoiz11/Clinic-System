@@ -134,17 +134,8 @@
         </div>
       </div>
     </div>
-
-    @include('components.admin.footer')
   </div>
 </div>
-
-<!-- Include all modals -->
-@include('modals.vital-signs-modal')
-@include('modals.physical-exam-modal')
-@include('modals.consultation-modal')
-@include('modals.doctor-order-modal')
-@include('modals.laboratory-modal')
 
 <!-- Include the external JavaScript file -->
 <script src="{{ asset('js/consultation-record.js') }}"></script>

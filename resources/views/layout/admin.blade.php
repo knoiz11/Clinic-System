@@ -36,7 +36,7 @@
             <!-- Sidebar -->
             @include('components.admin.sidebar')
 
-            <div class="body-wrapper">
+            <div class="body-wrapper" id="dashboard">
                 <!-- Header -->
                 @include('components.admin.header')
 

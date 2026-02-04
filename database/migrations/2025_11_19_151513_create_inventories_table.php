@@ -11,7 +11,7 @@ return new class extends Migration {
             $table->id();
             $table->string('object_id')->unique()->nullable(); // e.g. C-001
             $table->date('date_purchased')->nullable();
-            $table->string('supply_type')->nullable(); // Clinic / Office
+            $table->string('supply_type')->nullable(); // Meds / Non-Meds
             $table->string('item_name');
             $table->integer('quantity')->default(0);
             $table->string('unit')->nullable(); // tablets, units, bottles
